@@ -29,9 +29,9 @@ export function MayorCorner({
     const { ref: leftRef, inView: leftInView } = useInView<HTMLDivElement>();
     const { ref: rightRef, inView: rightInView } = useInView<HTMLDivElement>();
 
-    const featuredMessage = messages.find(
+    const featuredMessage = messages.filter(
         (message) => message.type === messageTypes[activeTab],
-    );
+    )[0];
 
     return (
         <Section className="overflow-hidden bg-paper">
@@ -49,11 +49,15 @@ export function MayorCorner({
 
                         <div className="flex h-full flex-col overflow-hidden rounded-[24px] border border-line-soft bg-white/85 shadow-k-card backdrop-blur-[14px] backdrop-saturate-150">
                             <img
-                                src={featuredMessage?.image_url ?? '/images/kib.png'}
+                                src={
+                                    featuredMessage?.image_url ??
+                                    '/images/mayor/mayor.jpg'
+                                }
                                 alt={featuredMessage?.title ?? "Mayor's Corner"}
-                                className="h-[480px] w-full object-cover object-top"
+                                className="h-[480px] w-full bg-cream object-contain"
                                 onError={(event) => {
-                                    event.currentTarget.src = '/images/kib.png';
+                                    event.currentTarget.src =
+                                        '/images/mayor/mayor.jpg';
                                 }}
                             />
 

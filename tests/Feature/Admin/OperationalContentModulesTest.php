@@ -236,7 +236,7 @@ it('updates public settings shown in shared layout props and the home page', fun
     $this->put(route('admin.settings.update'), [
         'site_name' => 'Kiblawan Municipal Government',
         'tagline' => 'Serving every community',
-        'address' => 'Municipal Hall, Poblacion',
+        'address' => 'Dagohoy Street, Barangay Poblacion, Kiblawan, Davao del Sur, Philippines',
         'phone' => '(082) 555-0123',
         'email' => 'hello@example.gov.ph',
         'office_hours' => 'Monday to Friday, 8 AM to 5 PM',
@@ -256,6 +256,7 @@ it('updates public settings shown in shared layout props and the home page', fun
             ->component('public/home')
             ->where('siteSettings.site_name', 'Kiblawan Municipal Government')
             ->where('siteSettings.tagline', 'Serving every community')
+            ->where('siteSettings.address', 'Dagohoy Street, Barangay Poblacion, Kiblawan, Davao del Sur, Philippines')
             ->where('settings.site_name', 'Kiblawan Municipal Government'));
 });
 

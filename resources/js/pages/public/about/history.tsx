@@ -1,28 +1,60 @@
-import { CalendarDays } from 'lucide-react';
+import { CalendarDays, Landmark, Sparkles } from 'lucide-react';
+import { AboutRevealRow } from '@/components/kiblawan/ui/about-reveal-row';
 import { AboutReadNext } from '@/components/kiblawan/ui/about-read-next';
 import { Container } from '@/components/kiblawan/ui/container';
 import { PageHeader } from '@/components/kiblawan/ui/page-header';
 import { Section } from '@/components/kiblawan/ui/section';
 import PublicLayout from '@/layouts/public/public-layout';
 
-const milestones = [
+const stories = [
     {
-        year: '1939',
-        title: 'Communities Take Root',
-        description:
-            'Families and communities cultivated the land and built a shared identity in the foothills of Mount Apo.',
+        eyebrow: 'Overview',
+        image: '/images/about/kiblawan-thriving-municiplality.png',
+        imageAlt: 'Kiblawan, a thriving municipality',
+        title: 'From Tribal Lands to a Thriving Municipality',
+        subtitle:
+            'Honoring Indigenous Traditions While Moving Toward Progress',
+        body: "Historically, Kiblawan was inhabited by the B'laan indigenous tribe, who lived off the land through hunting, farming, and trading.",
+        icon: Landmark,
     },
     {
-        year: '1959',
-        title: 'A Municipality Takes Shape',
-        description:
-            'Kiblawan was established as a municipality, bringing together communities across the region.',
+        eyebrow: 'History',
+        image: '/images/about/kiblawan-agri.png',
+        imageAlt: 'Agriculture and community life in Kiblawan',
+        title: 'A Municipality Shaped by Change',
+        subtitle: 'Agriculture, Mining, and a Growing Community',
+        body: 'With the arrival of Christian settlers, the town expanded its agricultural and mining industries. Today, Kiblawan remains a culturally rich and economically growing municipality, balancing its indigenous heritage with modern development.',
+        icon: CalendarDays,
     },
     {
-        year: 'Today',
-        title: 'A Connected, Forward-Looking Municipality',
+        eyebrow: 'Culture',
+        image: '/images/about/kiblawan-tradition.png',
+        imageAlt: "B'laan traditions and culture in Kiblawan",
+        title: "A Stronghold of B'laan Indigenous Traditions",
+        subtitle: 'Preserving Ancestral Ways While Embracing Development',
+        body: "Kiblawan's culture is deeply influenced by its B'laan roots, with many locals continuing to practice traditional weaving, beadwork, and music. Festivals and community gatherings highlight tribal dances, rituals, and storytelling, showcasing the rich cultural heritage of the town.",
+        icon: Sparkles,
+    },
+];
+
+const festivals = [
+    {
+        image: '/images/about/araw-kiblawan.png',
+        title: 'Araw ng Kiblawan',
         description:
-            'Kiblawan continues to invest in public services, local enterprise, and opportunities for its people.',
+            "The municipality's foundation day, featuring trade fairs, cultural performances, and sports competitions.",
+    },
+    {
+        image: '/images/about/kaduwaan-festival.png',
+        title: 'Kaduwaan Festival',
+        description:
+            "A vibrant B'laan festival showcasing tribal traditions, music, and dance.",
+    },
+    {
+        image: '/images/about/Kiblawan---Harvest-Festival.png',
+        title: 'Harvest Festival',
+        description:
+            'A thanksgiving celebration for farmers and their agricultural contributions.',
     },
 ];
 
@@ -31,65 +63,106 @@ export default function AboutHistory() {
         <PublicLayout title="History | About Kiblawan">
             <PageHeader
                 title="History of Kiblawan"
-                breadcrumbParent="About Kiblawan"
-                breadcrumbParentHref="/about"
-                breadcrumbSuffix="History"
                 subtitle="Discover the rich heritage and timeline of our municipality."
             />
             <Section className="bg-cream py-16 md:py-24">
                 <Container>
-                    <div>
-                        <div className="rounded-[24px] border border-line-soft bg-white/80 p-8 shadow-k-card backdrop-blur-[14px] md:p-12">
-                            <header>
-                                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-3 py-1 text-xs font-extrabold tracking-[0.12em] text-forest uppercase">
-                                    <CalendarDays className="size-3.5 text-gold" />
-                                    Our story
-                                </div>
-                                <h2 className="font-display text-[clamp(1.7rem,3vw,2.4rem)] leading-tight font-bold text-forest">
-                                    A heritage shaped by community
-                                </h2>
-                                <p className="mt-3 max-w-2xl leading-7 text-ink-muted">
-                                    From its early beginnings to the present
-                                    day, Kiblawan’s story is one of resilience,
-                                    shared purpose, and growth.
-                                </p>
-                            </header>
-                            <div className="relative mt-10 space-y-6 before:absolute before:top-4 before:bottom-4 before:left-[0.6875rem] before:w-0.5 before:bg-gold/30 sm:before:left-1/2">
-                                {milestones.map((milestone, index) => (
-                                    <article
-                                        key={milestone.year}
-                                        className="relative grid gap-4 pl-10 sm:grid-cols-2 sm:items-center sm:gap-12 sm:pl-0"
-                                    >
-                                        <span
-                                            aria-hidden="true"
-                                            className="absolute top-6 left-2 size-3 rounded-full border-[3px] border-white bg-gold shadow-[0_0_0_3px_rgba(201,162,39,0.2)] sm:left-1/2 sm:-translate-x-1/2"
+                    <div className="space-y-20 md:space-y-28">
+                        {stories.map((story, index) => {
+                            const Icon = story.icon;
+
+                            return (
+                                <AboutRevealRow
+                                    key={story.eyebrow}
+                                    reverse={index % 2 === 1}
+                                    left={
+                                        <img
+                                            src={story.image}
+                                            alt={story.imageAlt}
+                                            loading="lazy"
+                                            className="aspect-[4/3] w-full rounded-[24px] object-cover shadow-k-card transition-transform duration-700 hover:scale-[1.015]"
                                         />
-                                        <div
-                                            className={`rounded-[24px] border border-line-soft bg-white/80 p-6 shadow-k-card backdrop-blur-[14px] transition-all duration-300 hover:-translate-y-1 hover:shadow-k-glow sm:p-7 ${
-                                                index % 2 === 0
-                                                    ? 'sm:col-start-1 sm:text-right'
-                                                    : 'sm:col-start-2'
-                                            }`}
-                                        >
-                                            <span className="inline-flex rounded-full bg-gold px-4 py-1.5 font-display text-base font-bold text-forest shadow-k-soft">
-                                                {milestone.year}
+                                    }
+                                    right={
+                                        <>
+                                            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-2 text-xs font-extrabold tracking-[0.12em] text-forest uppercase">
+                                                {story.eyebrow === 'Culture' ? (
+                                                    <img
+                                                        src="/images/culture-icon.png"
+                                                        alt=""
+                                                        aria-hidden="true"
+                                                        className="size-4 object-contain"
+                                                    />
+                                                ) : (
+                                                    <Icon
+                                                        className="size-4 text-gold"
+                                                        aria-hidden="true"
+                                                    />
+                                                )}
+                                                {story.eyebrow}
                                             </span>
-                                            <h3 className="mt-4 font-display text-xl font-bold text-forest">
-                                                {milestone.title}
+                                            <h2 className="text-3xl leading-tight font-display font-bold text-forest">
+                                                {story.title}
+                                            </h2>
+                                            <p className="mt-4 text-lg font-semibold leading-relaxed text-gold">
+                                                {story.subtitle}
+                                            </p>
+                                            <p className="mt-5 text-lg leading-relaxed text-ink-muted">
+                                                {story.body}
+                                            </p>
+                                        </>
+                                    }
+                                />
+                            );
+                        })}
+
+                        <section aria-labelledby="kiblawan-festivals">
+                            <header className="mb-8 flex flex-wrap items-end justify-between gap-5">
+                                <div>
+                                    <span className="mb-3 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-2 text-xs font-extrabold tracking-[0.12em] text-forest uppercase">
+                                        <img
+                                            src="/images/culture-icon.png"
+                                            alt=""
+                                            aria-hidden="true"
+                                            className="size-4 object-contain"
+                                        />
+                                        Culture & celebration
+                                    </span>
+                                    <h2
+                                        id="kiblawan-festivals"
+                                        className="text-3xl font-display font-bold text-forest md:text-4xl"
+                                    >
+                                        Festivals of Kiblawan
+                                    </h2>
+                                </div>
+                            </header>
+                            <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+                                {festivals.map((festival) => (
+                                    <article
+                                        key={festival.title}
+                                        className="group overflow-hidden rounded-[24px] border border-line-soft bg-white/80 shadow-k-card backdrop-blur-[14px] transition-all duration-300 hover:-translate-y-2 hover:shadow-k-glow"
+                                    >
+                                        <div className="overflow-hidden">
+                                            <img
+                                                src={festival.image}
+                                                alt={festival.title}
+                                                loading="lazy"
+                                                className="aspect-square w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                            />
+                                        </div>
+                                        <div className="p-6 md:p-8">
+                                            <h3 className="font-display text-xl font-bold text-forest">
+                                                {festival.title}
                                             </h3>
-                                            <p className="mt-2 leading-7 text-ink-muted">
-                                                {milestone.description}
+                                            <p className="mt-3 leading-relaxed text-ink-muted">
+                                                {festival.description}
                                             </p>
                                         </div>
                                     </article>
                                 ))}
                             </div>
-                            <p className="mt-8 rounded-xl border border-gold/20 bg-gold/10 px-4 py-3 text-xs leading-5 text-ink-muted">
-                                Historical highlights are illustrative demo
-                                content pending verification against official
-                                municipal records.
-                            </p>
-                        </div>
+                        </section>
+
                         <AboutReadNext currentSection="history" />
                     </div>
                 </Container>

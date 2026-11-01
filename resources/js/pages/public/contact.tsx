@@ -8,7 +8,9 @@ export default function Contact({
 }: {
     settings: Record<string, string | null>;
 }) {
-    const address = settings.address ?? 'Municipal Hall, Poblacion, Kiblawan';
+    const address =
+        settings.address ??
+        'Dagohoy Street, Barangay Poblacion, Kiblawan, Davao del Sur, Philippines';
     const phone = settings.phone ?? '';
     const email = settings.email ?? '';
     const officeHours = settings.office_hours ?? '';

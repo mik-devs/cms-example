@@ -1,77 +1,31 @@
-import { Link } from '@inertiajs/react';
-import { ChevronRight } from 'lucide-react';
 import { Container } from '@/components/kiblawan/ui/container';
 
 export function PageHeader({
     title,
     subtitle,
-    breadcrumbParent,
-    breadcrumbParentHref,
-    breadcrumbSuffix,
 }: {
     title: string;
     subtitle?: string;
-    breadcrumbParent?: string;
-    breadcrumbParentHref?: string;
-    breadcrumbSuffix?: string;
 }) {
     return (
-        <div className="relative overflow-hidden border-b border-line-soft bg-gradient-to-br from-cream via-cream to-green-soft/30">
+        <div
+            className="relative overflow-hidden border-b border-line-soft bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: 'url(/images/kib.png)' }}
+        >
             <div
                 aria-hidden="true"
-                className="pointer-events-none absolute -top-24 right-[-4rem] size-72 rounded-full bg-gold/10 blur-3xl"
+                className="pointer-events-none absolute inset-0 bg-gradient-to-r from-forest/90 via-forest/80 to-forest/70"
             />
-            <Container className="py-12 md:py-16">
-                <nav
-                    aria-label="Breadcrumb"
-                    className="relative mb-4 flex flex-wrap items-center gap-2 text-sm tracking-wider uppercase"
-                >
-                    <Link
-                        href="/"
-                        className="text-ink-muted transition-colors hover:text-gold"
-                    >
-                        Home
-                    </Link>
-                    <ChevronRight
-                        aria-hidden="true"
-                        className="size-3.5 text-gold/70"
-                    />
-                    {breadcrumbParent ? (
-                        <>
-                            {breadcrumbParentHref ? (
-                                <Link
-                                    href={breadcrumbParentHref}
-                                    className="text-ink-muted transition-colors hover:text-gold"
-                                >
-                                    {breadcrumbParent}
-                                </Link>
-                            ) : (
-                                <span className="text-ink-muted">
-                                    {breadcrumbParent}
-                                </span>
-                            )}
-                        </>
-                    ) : null}
-                    {breadcrumbSuffix && (
-                        <>
-                            <ChevronRight
-                                aria-hidden="true"
-                                className="size-3.5 text-gold/70"
-                            />
-                            <span
-                                aria-current="page"
-                                className="font-bold text-forest"
-                            >
-                                {breadcrumbSuffix}
-                            </span>
-                        </>
-                    )}
-                </nav>
-                <h1 className="relative font-display text-[clamp(2rem,4vw,3rem)] leading-tight font-bold text-forest">
+            <Container className="relative z-10 py-16 text-center md:py-24">
+                <div
+                    aria-hidden="true"
+                    className="mx-auto mb-6 h-1 w-16 rounded-full bg-gold"
+                />
+                <h1 className="font-display text-4xl leading-tight font-bold text-white md:text-5xl lg:text-6xl">
                     {title}
                 </h1>
                 {subtitle && (
-                    <p className="relative mt-3 max-w-2xl leading-7 text-ink-muted">
+                    <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-white/90 md:text-xl">
                         {subtitle}
                     </p>
                 )}

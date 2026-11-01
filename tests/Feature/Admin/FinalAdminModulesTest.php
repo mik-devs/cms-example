@@ -320,6 +320,57 @@ it('shows officials and transparency files publicly and features the latest mayo
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
             ->component('public/home')
-            ->has('mayorMessages', 3)
+            ->has('mayorMessages', 4)
             ->where('mayorMessages.0.title', 'Newest'));
+});
+
+it('shows only the ten latest published mayor messages on the home page', function () {
+    foreach (range(1, 11) as $messageNumber) {
+        MayorMessage::query()->create([
+            'title' => "Message {$messageNumber}",
+            'content' => 'A public message.',
+            'type' => 'speech',
+            'published_at' => now()->subDays(12 - $messageNumber),
+        ]);
+    }
+
+    MayorMessage::query()->create([
+        'title' => 'Scheduled Message',
+        'content' => 'This message is not public yet.',
+        'type' => 'speech',
+        'published_at' => now()->addDay(),
+    ]);
+
+    $this->get(route('home'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('public/home')
+            ->has('mayorMessages', 10)
+            ->where('mayorMessages.0.title', 'Message 11')
+            ->where('mayorMessages.9.title', 'Message 2'));
+});
+
+it('publishes a mayor message created in the CMS to the home page', function () {
+    Storage::fake('public');
+    $this->actingAs(User::factory()->create());
+
+    $this->post(route('admin.mayor-messages.store'), [
+        'title' => 'Community Update',
+        'content' => 'A message for residents.',
+        'image' => UploadedFile::fake()->image('community.png'),
+        'type' => 'photo_release',
+        'published_at' => now()->subMinute()->toDateTimeString(),
+    ])->assertRedirect(route('admin.mayor-messages.index'));
+
+    $message = MayorMessage::query()->firstOrFail();
+    Storage::disk('public')->assertExists($message->image);
+
+    $this->get(route('home'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('public/home')
+            ->has('mayorMessages', 1)
+            ->where('mayorMessages.0.title', 'Community Update')
+            ->where('mayorMessages.0.type', 'photo_release')
+            ->where('mayorMessages.0.image_url', Storage::disk('public')->url($message->image)));
 });

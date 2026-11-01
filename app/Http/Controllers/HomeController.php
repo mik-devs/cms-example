@@ -75,8 +75,10 @@ class HomeController extends Controller
                 ->take(4)
                 ->get(),
             'mayorMessages' => MayorMessage::query()
+                ->published()
                 ->orderByDesc('published_at')
-                ->take(3)
+                ->orderByDesc('id')
+                ->take(10)
                 ->get(),
         ]);
     }

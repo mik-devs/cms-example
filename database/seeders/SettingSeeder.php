@@ -13,7 +13,7 @@ class SettingSeeder extends Seeder
             'site_name' => 'Municipality of Kiblawan',
             'tagline' => 'Davao del Sur, Philippines',
             'description' => 'Serbisyong Mabilis, Bayang Maasahan. Ang opisyal na portal ng Pamahalaang Bayan ng Kiblawan.',
-            'address' => 'Municipal Hall, Poblacion, Kiblawan, Davao del Sur',
+            'address' => 'Dagohoy Street, Barangay Poblacion, Kiblawan, Davao del Sur, Philippines',
             'phone' => '(082) 000-0000',
             'email' => 'info@kiblawan.gov.ph',
             'office_hours' => 'Mon – Fri · 8:00 AM – 5:00 PM',
