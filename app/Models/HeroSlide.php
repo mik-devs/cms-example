@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class HeroSlide extends Model
 {
@@ -30,6 +31,8 @@ class HeroSlide extends Model
 
     public function getImageUrlAttribute(): string
     {
-        return $this->image;
+        return str_starts_with($this->image, 'hero/')
+            ? Storage::disk('public')->url($this->image)
+            : $this->image;
     }
 }

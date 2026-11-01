@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -41,6 +42,17 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'siteSettings' => Setting::query()
+                ->whereIn('key', [
+                    'site_name',
+                    'tagline',
+                    'address',
+                    'phone',
+                    'email',
+                    'office_hours',
+                ])
+                ->pluck('value', 'key')
+                ->toArray(),
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
         ];
     }

@@ -10,11 +10,10 @@ it('renders each public navigation route', function (string $path, string $compo
 })->with([
     'home' => ['/', 'public/home'],
     'starter welcome' => ['/welcome', 'welcome'],
-    'about' => ['/about', 'public/about'],
-    'about history' => ['/about/history', 'public/about'],
-    'about demographic profile' => ['/about/demographic', 'public/about'],
-    'about socio-economic profile' => ['/about/socio-economic', 'public/about'],
-    'about geography' => ['/about/geography', 'public/about'],
+    'about history' => ['/about/history', 'public/about/history'],
+    'about demographic profile' => ['/about/demographic', 'public/about/demographic'],
+    'about socio-economic profile' => ['/about/socio-economic', 'public/about/socio-economic'],
+    'about geography' => ['/about/geography', 'public/about/geography'],
     'government' => ['/government', 'public/government'],
     'government vision and mission' => ['/government/vision-mission', 'public/government'],
     'government officials' => ['/government/officials', 'public/government'],
@@ -32,6 +31,11 @@ it('renders each public navigation route', function (string $path, string $compo
     'achievements placeholder' => ['/achievements', 'public/coming-soon'],
     'barangays placeholder' => ['/barangays', 'public/coming-soon'],
 ]);
+
+it('redirects the About overview to the history page', function () {
+    $this->get(route('about'))
+        ->assertRedirect(route('about.history'));
+});
 
 it('paginates published news and excludes drafts and unpublished records', function () {
     foreach (range(0, 9) as $index) {

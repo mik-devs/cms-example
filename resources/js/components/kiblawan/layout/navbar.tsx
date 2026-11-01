@@ -62,7 +62,8 @@ const mobileChild =
     'block px-3 py-2 rounded-[12px] text-[0.88rem] font-medium text-forest transition-all hover:bg-green-soft hover:text-green-600';
 
 export default function Navbar() {
-    const { url } = usePage();
+    const { url, props } = usePage();
+    const siteSettings = props.siteSettings;
     const pathname = url.split('?')[0];
     const [mobileOpen, setMobileOpen] = useState(false);
     const [expanded, setExpanded] = useState<Set<string>>(new Set());
@@ -119,10 +120,11 @@ export default function Navbar() {
                         />
                         <div className="leading-[1.1]">
                             <div className="font-display text-[1.15rem] font-bold text-forest">
-                                Kiblawan
+                                {siteSettings.site_name ?? 'Kiblawan'}
                             </div>
                             <div className="text-[0.72rem] font-semibold tracking-[0.1em] text-ink-muted uppercase">
-                                Davao del Sur, Philippines
+                                {siteSettings.tagline ??
+                                    'Davao del Sur, Philippines'}
                             </div>
                         </div>
                     </Link>

@@ -66,8 +66,8 @@ export interface Achievement {
     id: number;
     title: string;
     description: string;
-    image: string;
-    image_url: string;
+    image: string | null;
+    image_url: string | null;
     badge_year: string;
     order: number;
     is_active: boolean;

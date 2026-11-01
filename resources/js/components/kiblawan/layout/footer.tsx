@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { Clock, Mail, MapPin, Phone } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
@@ -38,47 +38,41 @@ const footerLink =
 interface ContactItem {
     icon: LucideIcon;
     label: string;
-    value: React.ReactNode;
+    value: string | null;
+    href?: string;
 }
 
-const contacts: ContactItem[] = [
-    {
-        icon: MapPin,
-        label: 'Address',
-        value: 'Municipal Hall, Poblacion, Kiblawan, Davao del Sur',
-    },
-    {
-        icon: Phone,
-        label: 'Phone',
-        value: (
-            <a
-                href="tel:+63820000000"
-                className="text-white/85 hover:text-gold"
-            >
-                (082) 000-0000
-            </a>
-        ),
-    },
-    {
-        icon: Mail,
-        label: 'Email',
-        value: (
-            <a
-                href="mailto:info@kiblawan.gov.ph"
-                className="text-white/85 hover:text-gold"
-            >
-                info@kiblawan.gov.ph
-            </a>
-        ),
-    },
-    {
-        icon: Clock,
-        label: 'Office Hours',
-        value: 'Mon – Fri · 8:00 AM – 5:00 PM',
-    },
-];
-
 export default function Footer() {
+    const { siteSettings } = usePage().props;
+    const contacts: ContactItem[] = [
+        {
+            icon: MapPin,
+            label: 'Address',
+            value: siteSettings.address,
+        },
+        {
+            icon: Phone,
+            label: 'Phone',
+            value: siteSettings.phone,
+            href: siteSettings.phone
+                ? `tel:${siteSettings.phone.replace(/[^\d+]/g, '')}`
+                : undefined,
+        },
+        {
+            icon: Mail,
+            label: 'Email',
+            value: siteSettings.email,
+            href: siteSettings.email
+                ? `mailto:${siteSettings.email}`
+                : undefined,
+        },
+        {
+            icon: Clock,
+            label: 'Office Hours',
+            value: siteSettings.office_hours,
+        },
+    ].filter((contact) => contact.value);
+
     return (
         <footer className="relative border-t-4 border-gold bg-[linear-gradient(135deg,#06271C_0%,#030c08_100%)] text-white/70">
             <div className="absolute top-0 right-0 left-0 h-1 bg-gradient-to-r from-maroon via-gold to-maroon" />
@@ -93,14 +87,18 @@ export default function Footer() {
                                 className="mb-5 size-20 drop-shadow-[0_4px_12px_rgba(0,0,0,0.4)]"
                             />
                             <h3 className="mb-2 font-display text-[1.4rem] font-bold tracking-[0.5px] text-white">
-                                Municipality of Kiblawan
+                                {siteSettings.site_name ??
+                                    'Municipality of Kiblawan'}
                             </h3>
                             <span className="mb-4 block text-[0.85rem] font-semibold tracking-[1px] text-gold-soft uppercase">
-                                Davao del Sur, Philippines
+                                {siteSettings.tagline ??
+                                    'Davao del Sur, Philippines'}
                             </span>
                             <p className="max-w-[30ch] text-[0.9rem] leading-relaxed">
-                                Serbisyong Mabilis, Bayang Maasahan. Ang opisyal
-                                na portal ng Pamahalaang Bayan ng Kiblawan.
+                                Official website of{' '}
+                                {siteSettings.site_name ??
+                                    'the Municipality of Kiblawan'}
+                                .
                             </p>
                         </div>
 
@@ -155,7 +153,16 @@ export default function Footer() {
                                             <span className="mb-0.5 block text-[0.75rem] tracking-wide text-white/50 uppercase">
                                                 {contact.label}
                                             </span>
-                                            {contact.value}
+                                            {contact.href ? (
+                                                <a
+                                                    href={contact.href}
+                                                    className="text-white/85 hover:text-gold"
+                                                >
+                                                    {contact.value}
+                                                </a>
+                                            ) : (
+                                                contact.value
+                                            )}
                                         </div>
                                     </li>
                                 ))}
@@ -168,7 +175,9 @@ export default function Footer() {
             <div className="border-t border-white/5 bg-black/25 py-6 text-[0.8rem]">
                 <div className="mx-auto flex max-w-[1320px] flex-col flex-wrap items-center justify-center gap-4 px-4 text-center md:flex-row md:justify-between md:text-left">
                     <p className="m-0 text-white/45">
-                        © 2026 Municipality of Kiblawan. All rights reserved.
+                        © 2026{' '}
+                        {siteSettings.site_name ?? 'Municipality of Kiblawan'}.
+                        All rights reserved.
                     </p>
                     <div className="flex gap-6">
                         {bottomLinks.map((link) => (

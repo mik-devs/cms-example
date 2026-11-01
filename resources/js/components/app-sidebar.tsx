@@ -1,5 +1,21 @@
 import { Link } from '@inertiajs/react';
-import { BookOpen, FolderGit2, LayoutGrid } from 'lucide-react';
+import {
+    Award,
+    BarChart3,
+    BookOpen,
+    Briefcase,
+    BriefcaseBusiness,
+    FolderGit2,
+    Image,
+    LayoutGrid,
+    MapPin,
+    Newspaper,
+    Settings,
+} from 'lucide-react';
+import { index as barangaysIndex } from '@/actions/App/Http/Controllers/Admin/BarangayController';
+import { index as heroSlidesIndex } from '@/actions/App/Http/Controllers/Admin/HeroSlideController';
+import { index as settingsIndex } from '@/actions/App/Http/Controllers/Admin/SettingController';
+import { index as statsIndex } from '@/actions/App/Http/Controllers/Admin/StatController';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -21,6 +37,46 @@ const mainNavItems: NavItem[] = [
         title: 'Dashboard',
         href: dashboard(),
         icon: LayoutGrid,
+    },
+    {
+        title: 'News',
+        href: '/admin/news',
+        icon: Newspaper,
+    },
+    {
+        title: 'Services',
+        href: '/admin/services',
+        icon: Briefcase,
+    },
+    {
+        title: 'Achievements',
+        href: '/admin/achievements',
+        icon: Award,
+    },
+    {
+        title: 'Jobs',
+        href: '/admin/jobs',
+        icon: BriefcaseBusiness,
+    },
+    {
+        title: 'Barangays',
+        href: barangaysIndex(),
+        icon: MapPin,
+    },
+    {
+        title: 'Hero Slides',
+        href: heroSlidesIndex(),
+        icon: Image,
+    },
+    {
+        title: 'Stats',
+        href: statsIndex(),
+        icon: BarChart3,
+    },
+    {
+        title: 'Settings',
+        href: settingsIndex(),
+        icon: Settings,
     },
 ];
 

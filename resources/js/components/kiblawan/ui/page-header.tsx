@@ -4,9 +4,11 @@ import { Container } from '@/components/kiblawan/ui/container';
 export function PageHeader({
     title,
     subtitle,
+    breadcrumbSuffix,
 }: {
     title: string;
     subtitle?: string;
+    breadcrumbSuffix?: string;
 }) {
     return (
         <div className="border-b border-line-soft bg-cream">
@@ -20,6 +22,14 @@ export function PageHeader({
                     </Link>
                     <span className="text-line-soft">/</span>
                     <span className="font-semibold text-forest">{title}</span>
+                    {breadcrumbSuffix && (
+                        <>
+                            <span className="text-line-soft">/</span>
+                            <span className="font-semibold text-forest">
+                                {breadcrumbSuffix}
+                            </span>
+                        </>
+                    )}
                 </nav>
                 <h1 className="font-display text-[clamp(2rem,4vw,3rem)] leading-tight font-bold text-forest">
                     {title}

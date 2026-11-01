@@ -1,9 +1,16 @@
 <?php
 
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\Admin\AchievementController;
+use App\Http\Controllers\Admin\BarangayController;
+use App\Http\Controllers\Admin\HeroSlideController;
+use App\Http\Controllers\Admin\JobController;
+use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\StatController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GovernmentController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\TransparencyController;
@@ -13,19 +20,11 @@ use Inertia\Inertia;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::inertia('/welcome', 'welcome')->name('welcome');
 
-Route::get('/about', [AboutController::class, 'index'])->name('about');
-Route::get('/about/history', [AboutController::class, 'index'])
-    ->defaults('section', 'history')
-    ->name('about.history');
-Route::get('/about/demographic', [AboutController::class, 'index'])
-    ->defaults('section', 'demographic')
-    ->name('about.demographic');
-Route::get('/about/socio-economic', [AboutController::class, 'index'])
-    ->defaults('section', 'socio-economic')
-    ->name('about.socio-economic');
-Route::get('/about/geography', [AboutController::class, 'index'])
-    ->defaults('section', 'geography')
-    ->name('about.geography');
+Route::redirect('/about', '/about/history')->name('about');
+Route::get('/about/history', [AboutController::class, 'history'])->name('about.history');
+Route::get('/about/demographic', [AboutController::class, 'demographic'])->name('about.demographic');
+Route::get('/about/socio-economic', [AboutController::class, 'socioEconomic'])->name('about.socio-economic');
+Route::get('/about/geography', [AboutController::class, 'geography'])->name('about.geography');
 
 Route::get('/government', [GovernmentController::class, 'index'])->name('government');
 Route::get('/government/vision-mission', [GovernmentController::class, 'index'])
@@ -68,5 +67,29 @@ Route::get('/barangays', fn () => Inertia::render('public/coming-soon', ['title'
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
 });
+
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware(['auth', 'verified'])
+    ->group(function () {
+        Route::resource('news', App\Http\Controllers\Admin\NewsController::class)
+            ->except('show');
+        Route::resource('services', ServiceController::class)
+            ->except('show');
+        Route::resource('achievements', AchievementController::class)
+            ->except('show');
+        Route::resource('jobs', JobController::class)
+            ->except('show');
+        Route::resource('barangays', BarangayController::class)
+            ->except('show');
+        Route::resource('hero-slides', HeroSlideController::class)
+            ->except('show');
+        Route::resource('stats', StatController::class)
+            ->except('show');
+        Route::get('settings', [SettingController::class, 'index'])
+            ->name('settings.index');
+        Route::put('settings', [SettingController::class, 'update'])
+            ->name('settings.update');
+    });
 
 require __DIR__.'/settings.php';
