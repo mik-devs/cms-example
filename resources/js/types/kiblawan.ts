@@ -1,0 +1,180 @@
+// Mirrors App\Models\Setting
+export interface Setting {
+    key: string;
+    value: string | null;
+    type: string;
+    group: string;
+}
+
+// Mirrors App\Models\HeroSlide
+export interface HeroSlide {
+    id: number;
+    kicker: string | null;
+    title: string;
+    title_emphasis: string | null;
+    subtitle: string | null;
+    image: string;
+    image_url: string;
+    cta_text: string | null;
+    cta_link: string | null;
+    order: number;
+    is_active: boolean;
+}
+
+// Mirrors App\Models\Stat
+export interface Stat {
+    id: number;
+    label: string;
+    value: number;
+    suffix: string | null;
+    icon: string | null;
+    order: number;
+    is_active: boolean;
+}
+
+// Mirrors App\Models\Service
+export interface Service {
+    id: number;
+    title: string;
+    description: string;
+    icon: string;
+    link: string | null;
+    order: number;
+    is_active: boolean;
+}
+
+// Mirrors App\Models\News
+export interface News {
+    id: number;
+    title: string;
+    slug: string;
+    excerpt: string | null;
+    content: string;
+    image: string | null;
+    image_url: string | null;
+    category: 'news' | 'announcement';
+    is_featured: boolean;
+    status: 'draft' | 'published';
+    published_at: string | null;
+    user_id: number | null;
+    created_at: string;
+    updated_at: string;
+}
+
+// Mirrors App\Models\Achievement
+export interface Achievement {
+    id: number;
+    title: string;
+    description: string;
+    image: string;
+    image_url: string;
+    badge_year: string;
+    order: number;
+    is_active: boolean;
+}
+
+// Mirrors App\Models\Barangay
+export interface Barangay {
+    id: number;
+    name: string;
+    slug: string;
+    population: number | null;
+    captain: string | null;
+    contact: string | null;
+    latitude: string | null;
+    longitude: string | null;
+    order: number;
+}
+
+// Mirrors App\Models\TourismSpot
+export interface TourismSpot {
+    id: number;
+    name: string;
+    slug: string;
+    description: string;
+    image: string;
+    image_url: string;
+    category: string | null;
+    order: number;
+    is_active: boolean;
+}
+
+// Mirrors App\Models\JobPosting
+export interface JobPosting {
+    id: number;
+    title: string;
+    description: string;
+    department: string;
+    deadline: string | null;
+    status: 'open' | 'closed';
+    created_at: string;
+    updated_at: string;
+}
+
+// Mirrors App\Models\EmergencyContact
+export interface EmergencyContact {
+    id: number;
+    name: string;
+    phone: string;
+    icon: string;
+    description: string | null;
+    order: number;
+    is_active: boolean;
+}
+
+// Mirrors App\Models\Bid
+export interface Bid {
+    id: number;
+    title: string;
+    pdf_path: string | null;
+    date_posted: string;
+    status: 'open' | 'closed';
+}
+
+// Mirrors App\Models\AnnualReport
+export interface AnnualReport {
+    id: number;
+    title: string;
+    category: string | null;
+    pdf_path: string;
+    year: number;
+    date_posted: string;
+}
+
+// Mirrors App\Models\Official
+export interface Official {
+    id: number;
+    name: string;
+    position: string;
+    photo: string | null;
+    photo_url: string | null;
+    order: number;
+}
+
+// Mirrors App\Models\MayorMessage
+export interface MayorMessage {
+    id: number;
+    title: string;
+    content: string;
+    image: string | null;
+    image_url: string | null;
+    type: 'photo_release' | 'speech' | 'achievement' | 'gallery';
+    published_at: string | null;
+}
+
+// Mirrors App\Http\Controllers\Public\HomeController::index() props
+export interface HomePageProps {
+    settings: Record<string, string>;
+    heroSlides: HeroSlide[];
+    stats: Stat[];
+    services: Service[];
+    latestNews: News[];
+    achievements: Achievement[];
+    barangays: Barangay[];
+    tourismSpots: TourismSpot[];
+    latestJobs: JobPosting[];
+    emergencyContacts: EmergencyContact[];
+    bids: Bid[];
+    annualReports: AnnualReport[];
+    mayorMessages: MayorMessage[];
+}
