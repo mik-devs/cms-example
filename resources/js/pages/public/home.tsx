@@ -59,9 +59,7 @@ export default function Home({
     const mapEmbedUrl = settings.map_embed ?? '';
 
     return (
-        <PublicLayout
-            title={settings.site_name ?? 'Municipality of Kiblawan'}
-        >
+        <PublicLayout title="Municipality of Kiblawan">
             <HeroSlider slides={heroSlides} />
             <QuickStats stats={stats} />
             <CitizenServices services={services} />

@@ -24,7 +24,7 @@ export function BarangayMap({
     }, [barangays, query]);
 
     return (
-        <Section className="bg-paper">
+        <Section id="barangay-directory" className="bg-paper">
             <Container>
                 <Headline
                     title="Barangay Directory & Map"

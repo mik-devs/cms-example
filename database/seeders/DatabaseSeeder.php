@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             SettingSeeder::class,
+            OfficialSeeder::class,
             HeroSlideSeeder::class,
             StatSeeder::class,
             ServiceSeeder::class,

@@ -1,6 +1,7 @@
 import { Link, usePage } from '@inertiajs/react';
 import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useLanguage } from '@/context/language-context';
 import { cn } from '@/lib/utils';
 
 interface NavLink {
@@ -9,13 +10,21 @@ interface NavLink {
 }
 
 interface NavItem extends NavLink {
+    translationKey?:
+        | 'nav_home'
+        | 'nav_about'
+        | 'nav_gov'
+        | 'nav_services'
+        | 'nav_transparency'
+        | 'nav_contact';
     children?: NavLink[];
 }
 
 const navItems: NavItem[] = [
-    { label: 'Home', href: '/' },
+    { label: 'Home', translationKey: 'nav_home', href: '/' },
     {
         label: 'About Kiblawan',
+        translationKey: 'nav_about',
         href: '/about',
         children: [
             { label: 'History of Kiblawan', href: '/about/history' },
@@ -29,6 +38,7 @@ const navItems: NavItem[] = [
     },
     {
         label: 'Government',
+        translationKey: 'nav_gov',
         href: '/government',
         children: [
             { label: 'Vision & Mission', href: '/government/vision-mission' },
@@ -44,9 +54,13 @@ const navItems: NavItem[] = [
             { label: 'Office Directories', href: '/government/directories' },
         ],
     },
-    { label: 'Services', href: '/services' },
-    { label: 'Transparency', href: '/transparency' },
-    { label: 'Contact Us', href: '/contact' },
+    { label: 'Services', translationKey: 'nav_services', href: '/services' },
+    {
+        label: 'Transparency',
+        translationKey: 'nav_transparency',
+        href: '/transparency',
+    },
+    { label: 'Contact Us', translationKey: 'nav_contact', href: '/contact' },
 ];
 
 const itemBase =
@@ -63,10 +77,13 @@ const mobileChild =
 
 export default function Navbar() {
     const { url, props } = usePage();
+    const { t } = useLanguage();
     const siteSettings = props.siteSettings;
     const pathname = url.split('?')[0];
     const [mobileOpen, setMobileOpen] = useState(false);
     const [expanded, setExpanded] = useState<Set<string>>(new Set());
+    const getLabel = (item: NavItem): string =>
+        item.translationKey ? t[item.translationKey] : item.label;
 
     const isActive = (href: string): boolean =>
         href === '/'
@@ -139,7 +156,7 @@ export default function Navbar() {
 
                                 if (!item.children) {
                                     return (
-                                        <li key={item.label}>
+                                        <li key={item.href}>
                                             <Link
                                                 href={item.href}
                                                 aria-current={
@@ -152,14 +169,14 @@ export default function Navbar() {
                                                         : itemIdle,
                                                 )}
                                             >
-                                                {item.label}
+                                                {getLabel(item)}
                                             </Link>
                                         </li>
                                     );
                                 }
 
                                 return (
-                                    <li key={item.label}>
+                                    <li key={item.href}>
                                         <div className="group relative">
                                             <Link
                                                 href={item.href}
@@ -173,7 +190,7 @@ export default function Navbar() {
                                                         : itemIdle,
                                                 )}
                                             >
-                                                {item.label}
+                                                {getLabel(item)}
                                                 <span className="ml-0.5 inline-block size-2 -translate-y-0.5 rotate-45 border-r-2 border-b-2 border-current transition-transform duration-300 group-hover:-rotate-[135deg]" />
                                             </Link>
 
@@ -255,7 +272,7 @@ export default function Navbar() {
                         const isExpanded = expanded.has(item.href);
 
                         return (
-                            <li key={item.label}>
+                            <li key={item.href}>
                                 {item.children ? (
                                     <>
                                         <button
@@ -272,7 +289,7 @@ export default function Navbar() {
                                                     : mobileIdle,
                                             )}
                                         >
-                                            {item.label}
+                                            {getLabel(item)}
                                             <span
                                                 className={cn(
                                                     'inline-block size-2 -translate-y-0.5 rotate-45 border-r-2 border-b-2 border-current transition-transform duration-300',
@@ -297,7 +314,7 @@ export default function Navbar() {
                                                                 'bg-green-soft text-green-600',
                                                         )}
                                                     >
-                                                        {item.label} overview
+                                                        {getLabel(item)} overview
                                                     </Link>
                                                 </li>
                                                 {item.children.map((child) => (
@@ -336,7 +353,7 @@ export default function Navbar() {
                                             active ? itemActive : mobileIdle,
                                         )}
                                     >
-                                        {item.label}
+                                        {getLabel(item)}
                                     </Link>
                                 )}
                             </li>

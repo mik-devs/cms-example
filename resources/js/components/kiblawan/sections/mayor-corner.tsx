@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Facebook, Instagram } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useInView } from '@/hooks/use-in-view';
 import { Container } from '@/components/kiblawan/ui/container';
@@ -48,18 +49,43 @@ export function MayorCorner({
                         <Headline title={"Mayor's Corner"} />
 
                         <div className="flex h-full flex-col overflow-hidden rounded-[24px] border border-line-soft bg-white/85 shadow-k-card backdrop-blur-[14px] backdrop-saturate-150">
-                            <img
-                                src={
-                                    featuredMessage?.image_url ??
-                                    '/images/mayor/mayor.jpg'
-                                }
-                                alt={featuredMessage?.title ?? "Mayor's Corner"}
-                                className="h-[480px] w-full bg-cream object-contain"
-                                onError={(event) => {
-                                    event.currentTarget.src =
-                                        '/images/mayor/mayor.jpg';
-                                }}
-                            />
+                            <div className="relative">
+                                <img
+                                    src={
+                                        featuredMessage?.image_url ??
+                                        '/images/mayor/mayor.jpg'
+                                    }
+                                    alt={
+                                        featuredMessage?.title ??
+                                        "Mayor's Corner"
+                                    }
+                                    className="h-[400px] w-full bg-cream object-contain"
+                                    onError={(event) => {
+                                        event.currentTarget.src =
+                                            '/images/mayor/mayor.jpg';
+                                    }}
+                                />
+                                <div className="absolute top-4 right-4 z-10 flex gap-2">
+                                    <a
+                                        href="https://www.facebook.com/p/Carl-Jason-Rama-61570573016071/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex size-10 items-center justify-center rounded-full bg-white/80 text-forest shadow-k-card backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-gold hover:text-maroon-dark"
+                                        aria-label="Mayor's Facebook"
+                                    >
+                                        <Facebook className="size-5" />
+                                    </a>
+                                    <a
+                                        href="https://www.instagram.com/carljasonrama/"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex size-10 items-center justify-center rounded-full bg-white/80 text-forest shadow-k-card backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-gold hover:text-maroon-dark"
+                                        aria-label="Mayor's Instagram"
+                                    >
+                                        <Instagram className="size-5" />
+                                    </a>
+                                </div>
+                            </div>
 
                             <div className="p-5">
                                 {featuredMessage ? (

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Barangay;
 use App\Models\News;
 use Inertia\Testing\AssertableInertia as Assert;
 
@@ -97,5 +98,28 @@ it('renders a published news article and hides draft articles', function () {
             ->where('news.title', 'Published article'));
 
     $this->get(route('news.show', 'draft-article'))
+        ->assertNotFound();
+});
+
+it('renders a barangay profile by slug and returns 404 for unknown slugs', function () {
+    $barangay = Barangay::query()->create([
+        'name' => 'Molopolo',
+        'slug' => 'molopolo',
+        'population' => 3200,
+        'captain' => 'Juan Dela Cruz',
+        'contact' => '0917 000 0000',
+        'latitude' => '6.7500000',
+        'longitude' => '125.2500000',
+        'order' => 1,
+    ]);
+
+    $this->get(route('barangays.show', $barangay->slug))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('public/barangays/show')
+            ->where('barangay.name', 'Molopolo')
+            ->where('barangay.slug', 'molopolo'));
+
+    $this->get(route('barangays.show', 'unknown-barangay'))
         ->assertNotFound();
 });

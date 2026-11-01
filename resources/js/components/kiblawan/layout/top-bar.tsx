@@ -1,8 +1,7 @@
 import { Contrast } from 'lucide-react';
-import { useState } from 'react';
 import type { A11ySize } from '@/hooks/use-a11y';
-
-type Language = 'EN' | 'FIL' | 'CEB';
+import { useLanguage } from '@/context/language-context';
+import type { Language } from '@/lib/translations';
 
 interface TopBarProps {
     size: A11ySize;
@@ -17,10 +16,10 @@ const sizeOptions: { label: string; value: A11ySize; ariaLabel: string }[] = [
     { label: 'A+', value: 'lg', ariaLabel: 'Increase text size' },
 ];
 
-const languages: { code: Language; ariaLabel: string }[] = [
-    { code: 'EN', ariaLabel: 'English' },
-    { code: 'FIL', ariaLabel: 'Filipino' },
-    { code: 'CEB', ariaLabel: 'Cebuano' },
+const languages: { code: Language; label: string; ariaLabel: string }[] = [
+    { code: 'en', label: 'EN', ariaLabel: 'English' },
+    { code: 'fil', label: 'FIL', ariaLabel: 'Filipino' },
+    { code: 'ceb', label: 'CEB', ariaLabel: 'Cebuano' },
 ];
 
 export default function TopBar({
@@ -29,7 +28,7 @@ export default function TopBar({
     contrast,
     onToggleContrast,
 }: TopBarProps) {
-    const [language, setLanguage] = useState<Language>('EN');
+    const { lang, setLang } = useLanguage();
 
     const buttonClass =
         'border border-white/20 bg-white/10 px-1.5 py-0.5 rounded text-[0.7rem] text-white transition-all hover:border-gold hover:bg-gold hover:text-maroon-dark';
@@ -77,21 +76,21 @@ export default function TopBar({
                         </button>
                     </div>
 
-                    <div className="hidden gap-0.5 sm:flex">
+                    <div className="flex gap-0.5">
                         {languages.map((item) => (
                             <button
                                 key={item.code}
                                 type="button"
-                                onClick={() => setLanguage(item.code)}
+                                onClick={() => setLang(item.code)}
                                 aria-label={item.ariaLabel}
-                                aria-pressed={language === item.code}
+                                aria-pressed={lang === item.code}
                                 className={
-                                    language === item.code
+                                    lang === item.code
                                         ? 'px-1 py-0.5 text-[0.7rem] font-bold text-gold'
                                         : 'px-1 py-0.5 text-[0.7rem] text-white/60'
                                 }
                             >
-                                {item.code}
+                                {item.label}
                             </button>
                         ))}
                     </div>

@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\OfficialController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\StatController;
+use App\Http\Controllers\BarangayController as PublicBarangayController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GovernmentController;
 use App\Http\Controllers\HomeController;
@@ -67,6 +68,8 @@ Route::get('/achievements', fn () => Inertia::render('public/coming-soon', ['tit
     ->name('achievements');
 Route::get('/barangays', fn () => Inertia::render('public/coming-soon', ['title' => 'Barangays']))
     ->name('barangays');
+Route::get('/barangays/{slug}', [PublicBarangayController::class, 'show'])
+    ->name('barangays.show');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');

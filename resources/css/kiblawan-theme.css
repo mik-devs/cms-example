@@ -210,6 +210,18 @@
     }
 }
 
+@keyframes wave {
+    0%,
+    60%,
+    100% {
+        transform: translateY(0);
+    }
+
+    30% {
+        transform: translateY(-5px);
+    }
+}
+
 .high-contrast {
     --color-cream: #000000;
     --color-paper: #111111;

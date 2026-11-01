@@ -1,17 +1,24 @@
 import { Link, usePage } from '@inertiajs/react';
 import { Clock, Mail, MapPin, Phone } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import { useLanguage } from '@/context/language-context';
+import type { TranslationKey } from '@/lib/translations';
 
 interface FooterLink {
     label: string;
     href: string;
+    translationKey?: TranslationKey;
 }
 
 const quickLinks: FooterLink[] = [
-    { label: 'Home', href: '/' },
-    { label: 'About Kiblawan', href: '/about' },
-    { label: 'Government', href: '/government' },
-    { label: 'Services', href: '/services' },
+    { label: 'Home', translationKey: 'nav_home', href: '/' },
+    {
+        label: 'About Kiblawan',
+        translationKey: 'nav_about',
+        href: '/about',
+    },
+    { label: 'Government', translationKey: 'nav_gov', href: '/government' },
+    { label: 'Services', translationKey: 'nav_services', href: '/services' },
     { label: 'Careers', href: '/careers' },
 ];
 
@@ -44,6 +51,7 @@ interface ContactItem {
 
 export default function Footer() {
     const { siteSettings } = usePage().props;
+    const { t } = useLanguage();
     const contacts: ContactItem[] = [
         {
             icon: MapPin,
@@ -91,8 +99,7 @@ export default function Footer() {
                                     'Municipality of Kiblawan'}
                             </h3>
                             <span className="mb-4 block text-[0.85rem] font-semibold tracking-[1px] text-gold-soft uppercase">
-                                {siteSettings.tagline ??
-                                    'Davao del Sur, Philippines'}
+                                {t.footer_tagline}
                             </span>
                             <p className="max-w-[30ch] text-[0.9rem] leading-relaxed">
                                 Official website of{' '}
@@ -103,7 +110,9 @@ export default function Footer() {
                         </div>
 
                         <div>
-                            <h4 className={widgetHeading}>Quick Links</h4>
+                            <h4 className={widgetHeading}>
+                                {t.footer_quicklinks}
+                            </h4>
                             <ul className="m-0 list-none space-y-2.5 p-0">
                                 {quickLinks.map((link) => (
                                     <li key={link.href}>
@@ -114,7 +123,9 @@ export default function Footer() {
                                             <span className="mr-2 text-lg leading-none text-gold transition-transform group-hover:translate-x-[3px]">
                                                 ›
                                             </span>
-                                            {link.label}
+                                            {link.translationKey
+                                                ? t[link.translationKey]
+                                                : link.label}
                                         </Link>
                                     </li>
                                 ))}
@@ -122,7 +133,9 @@ export default function Footer() {
                         </div>
 
                         <div>
-                            <h4 className={widgetHeading}>Transparency</h4>
+                            <h4 className={widgetHeading}>
+                                {t.footer_transparency}
+                            </h4>
                             <ul className="m-0 list-none space-y-2.5 p-0">
                                 {transparencyLinks.map((link) => (
                                     <li key={link.label}>
@@ -141,7 +154,9 @@ export default function Footer() {
                         </div>
 
                         <div>
-                            <h4 className={widgetHeading}>Contact Us</h4>
+                            <h4 className={widgetHeading}>
+                                {t.footer_contact}
+                            </h4>
                             <ul className="space-y-4">
                                 {contacts.map((contact) => (
                                     <li
