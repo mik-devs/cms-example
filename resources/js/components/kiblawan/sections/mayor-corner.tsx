@@ -11,6 +11,13 @@ const tabs = ['Photo Release', 'Speeches', 'Achievements', 'Gallery'] as const;
 
 type MayorTab = (typeof tabs)[number];
 
+const messageTypes: Record<MayorTab, MayorMessage['type']> = {
+    'Photo Release': 'photo_release',
+    Speeches: 'speech',
+    Achievements: 'achievement',
+    Gallery: 'gallery',
+};
+
 export function MayorCorner({
     messages,
     jobs,
@@ -22,7 +29,9 @@ export function MayorCorner({
     const { ref: leftRef, inView: leftInView } = useInView<HTMLDivElement>();
     const { ref: rightRef, inView: rightInView } = useInView<HTMLDivElement>();
 
-    const featuredMessage = messages[0];
+    const featuredMessage = messages.find(
+        (message) => message.type === messageTypes[activeTab],
+    );
 
     return (
         <Section className="overflow-hidden bg-paper">
@@ -40,15 +49,24 @@ export function MayorCorner({
 
                         <div className="flex h-full flex-col overflow-hidden rounded-[24px] border border-line-soft bg-white/85 shadow-k-card backdrop-blur-[14px] backdrop-saturate-150">
                             <img
-                                src={featuredMessage?.image_url ?? '/images/kiblawan-mayor.jpg'}
-                                alt="Mayor's Corner"
+                                src={featuredMessage?.image_url ?? '/images/kib.png'}
+                                alt={featuredMessage?.title ?? "Mayor's Corner"}
                                 className="h-[480px] w-full object-cover object-top"
                                 onError={(event) => {
-                                    event.currentTarget.src = '/images/image.png';
+                                    event.currentTarget.src = '/images/kib.png';
                                 }}
                             />
 
-                            <div className="p-3">
+                            <div className="p-5">
+                                {featuredMessage ? (
+                                    <h3 className="mb-4 font-display text-xl font-bold text-forest">
+                                        {featuredMessage.title}
+                                    </h3>
+                                ) : (
+                                    <p className="mb-4 text-sm text-ink-muted">
+                                        No {activeTab.toLowerCase()} are available yet.
+                                    </p>
+                                )}
                                 <div className="flex border-b border-line-soft">
                                     {tabs.map((tab) => (
                                         <button

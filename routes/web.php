@@ -2,9 +2,13 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\Admin\AchievementController;
+use App\Http\Controllers\Admin\AnnualReportController;
 use App\Http\Controllers\Admin\BarangayController;
+use App\Http\Controllers\Admin\BidController;
 use App\Http\Controllers\Admin\HeroSlideController;
 use App\Http\Controllers\Admin\JobController;
+use App\Http\Controllers\Admin\MayorMessageController;
+use App\Http\Controllers\Admin\OfficialController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\StatController;
@@ -79,6 +83,14 @@ Route::prefix('admin')
         Route::resource('achievements', AchievementController::class)
             ->except('show');
         Route::resource('jobs', JobController::class)
+            ->except('show');
+        Route::resource('bids', BidController::class)
+            ->except('show');
+        Route::resource('annual-reports', AnnualReportController::class)
+            ->except('show');
+        Route::resource('officials', OfficialController::class)
+            ->except('show');
+        Route::resource('mayor-messages', MayorMessageController::class)
             ->except('show');
         Route::resource('barangays', BarangayController::class)
             ->except('show');

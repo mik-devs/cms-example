@@ -127,6 +127,7 @@ export interface Bid {
     id: number;
     title: string;
     pdf_path: string | null;
+    pdf_url: string | null;
     date_posted: string;
     status: 'open' | 'closed';
 }
@@ -137,6 +138,7 @@ export interface AnnualReport {
     title: string;
     category: string | null;
     pdf_path: string;
+    pdf_url: string | null;
     year: number;
     date_posted: string;
 }

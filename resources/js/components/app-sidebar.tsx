@@ -6,14 +6,22 @@ import {
     Briefcase,
     BriefcaseBusiness,
     FolderGit2,
+    FileText,
+    Gavel,
     Image,
     LayoutGrid,
     MapPin,
+    Mic,
     Newspaper,
     Settings,
+    Users,
 } from 'lucide-react';
+import { index as annualReportsIndex } from '@/actions/App/Http/Controllers/Admin/AnnualReportController';
+import { index as bidsIndex } from '@/actions/App/Http/Controllers/Admin/BidController';
 import { index as barangaysIndex } from '@/actions/App/Http/Controllers/Admin/BarangayController';
 import { index as heroSlidesIndex } from '@/actions/App/Http/Controllers/Admin/HeroSlideController';
+import { index as mayorMessagesIndex } from '@/actions/App/Http/Controllers/Admin/MayorMessageController';
+import { index as officialsIndex } from '@/actions/App/Http/Controllers/Admin/OfficialController';
 import { index as settingsIndex } from '@/actions/App/Http/Controllers/Admin/SettingController';
 import { index as statsIndex } from '@/actions/App/Http/Controllers/Admin/StatController';
 import AppLogo from '@/components/app-logo';
@@ -77,6 +85,26 @@ const mainNavItems: NavItem[] = [
         title: 'Settings',
         href: settingsIndex(),
         icon: Settings,
+    },
+    {
+        title: 'Bids & Awards',
+        href: bidsIndex(),
+        icon: Gavel,
+    },
+    {
+        title: 'Annual Reports',
+        href: annualReportsIndex(),
+        icon: FileText,
+    },
+    {
+        title: 'Officials',
+        href: officialsIndex(),
+        icon: Users,
+    },
+    {
+        title: "Mayor's Corner",
+        href: mayorMessagesIndex(),
+        icon: Mic,
     },
 ];
 

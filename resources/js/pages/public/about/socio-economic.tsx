@@ -1,5 +1,5 @@
-import { Briefcase, Droplets, Leaf, Sprout } from 'lucide-react';
-import { AboutSidebar } from '@/components/kiblawan/ui/about-sidebar';
+import { Fish, Map, Sprout, Store } from 'lucide-react';
+import { AboutReadNext } from '@/components/kiblawan/ui/about-read-next';
 import { Container } from '@/components/kiblawan/ui/container';
 import { PageHeader } from '@/components/kiblawan/ui/page-header';
 import { Section } from '@/components/kiblawan/ui/section';
@@ -9,23 +9,26 @@ const sectors = [
     {
         title: 'Agriculture',
         description:
-            'Fertile uplands and a favorable climate support crops including corn, rice, coffee, and high-value vegetables.',
-        icon: Leaf,
-        accent: 'bg-green-soft text-forest',
+            'Farming remains central to local livelihoods, with crops and produce connecting rural communities to regional markets.',
+        icon: Sprout,
     },
     {
         title: 'Trade & Industry',
         description:
             'Small businesses, local markets, and growing enterprises connect producers with neighboring communities.',
-        icon: Briefcase,
-        accent: 'bg-gold/15 text-forest',
+        icon: Store,
     },
     {
-        title: 'Fisheries',
+        title: 'Fisheries & Aquaculture',
         description:
             'Freshwater resources and community-based production contribute to local food supply and household livelihoods.',
-        icon: Droplets,
-        accent: 'bg-sky-100 text-sky-800',
+        icon: Fish,
+    },
+    {
+        title: 'Tourism',
+        description:
+            'Natural scenery, local culture, and community destinations offer opportunities for responsible visitor experiences.',
+        icon: Map,
     },
 ];
 
@@ -33,14 +36,15 @@ export default function AboutSocioEconomic() {
     return (
         <PublicLayout title="Socio-Economic Profile | About Kiblawan">
             <PageHeader
-                title="About Kiblawan"
+                title="Socio-Economic Profile"
+                breadcrumbParent="About Kiblawan"
+                breadcrumbParentHref="/about"
                 breadcrumbSuffix="Socio-Economic"
-                subtitle="Discover the history, people, livelihoods, and landscapes of our municipality."
+                subtitle="Insights into the livelihoods, industries, and economy of Kiblawan."
             />
-            <Section className="bg-cream">
+            <Section className="bg-cream py-16 md:py-24">
                 <Container>
-                    <div className="grid grid-cols-1 gap-10 lg:grid-cols-[280px_1fr]">
-                        <AboutSidebar currentSection="socio-economic" />
+                    <div>
                         <div className="rounded-[24px] border border-line-soft bg-white/80 p-8 shadow-k-card backdrop-blur-[14px] md:p-12">
                             <header>
                                 <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-3 py-1 text-xs font-extrabold tracking-[0.12em] text-forest uppercase">
@@ -56,30 +60,29 @@ export default function AboutSocioEconomic() {
                                     of local enterprise.
                                 </p>
                             </header>
-                            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+                            <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
                                 {sectors.map(
                                     ({
                                         title,
                                         description,
                                         icon: Icon,
-                                        accent,
                                     }) => (
                                         <article
                                             key={title}
-                                            className="group rounded-2xl border border-line-soft/80 bg-white/75 p-6 shadow-k-soft backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-gold/50 hover:shadow-k-card"
+                                            className="group min-h-64 rounded-[24px] border border-line-soft bg-white/80 p-8 shadow-k-card backdrop-blur-[14px] transition-all duration-300 hover:-translate-y-1 hover:border-gold/50 hover:shadow-k-glow"
                                         >
                                             <div
-                                                className={`mb-5 flex size-12 items-center justify-center rounded-2xl ${accent}`}
+                                                className="mb-6 flex size-16 items-center justify-center rounded-full bg-green-soft text-green-600 transition-colors group-hover:bg-green/10"
                                             >
                                                 <Icon
-                                                    className="size-5"
+                                                    className="size-7"
                                                     aria-hidden="true"
                                                 />
                                             </div>
                                             <h3 className="font-display text-xl font-bold text-forest">
                                                 {title}
                                             </h3>
-                                            <p className="mt-2 leading-7 text-ink-muted">
+                                            <p className="mt-3 leading-7 text-ink-muted">
                                                 {description}
                                             </p>
                                         </article>
@@ -92,6 +95,7 @@ export default function AboutSocioEconomic() {
                                 economic data.
                             </p>
                         </div>
+                        <AboutReadNext currentSection="socio-economic" />
                     </div>
                 </Container>
             </Section>

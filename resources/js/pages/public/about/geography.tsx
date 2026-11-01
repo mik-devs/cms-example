@@ -1,5 +1,5 @@
 import { MapPin, Mountain, Waves, Wind } from 'lucide-react';
-import { AboutSidebar } from '@/components/kiblawan/ui/about-sidebar';
+import { AboutReadNext } from '@/components/kiblawan/ui/about-read-next';
 import { Container } from '@/components/kiblawan/ui/container';
 import { PageHeader } from '@/components/kiblawan/ui/page-header';
 import { Section } from '@/components/kiblawan/ui/section';
@@ -7,26 +7,23 @@ import PublicLayout from '@/layouts/public/public-layout';
 
 const facts = [
     {
-        label: 'Location',
-        description: 'A landlocked municipality in Davao del Sur, Mindanao.',
+        label: 'Total Land Area',
+        description: 'Approximately 480 km² (demonstration figure).',
         icon: MapPin,
     },
     {
         label: 'Climate',
-        description:
-            'A tropical climate with seasonal rainfall and warm temperatures.',
+        description: 'Tropical conditions with warm temperatures year-round.',
         icon: Wind,
     },
     {
         label: 'Topography',
-        description:
-            'Rolling plains rise into foothills near the Mount Apo range.',
+        description: 'A varied landscape of plains, hills, and upland areas.',
         icon: Mountain,
     },
     {
-        label: 'Natural character',
-        description:
-            'Agricultural valleys, upland communities, and diverse landscapes.',
+        label: 'Major Rivers',
+        description: 'Local river systems support communities and agriculture.',
         icon: Waves,
     },
 ];
@@ -35,14 +32,15 @@ export default function AboutGeography() {
     return (
         <PublicLayout title="Geography | About Kiblawan">
             <PageHeader
-                title="About Kiblawan"
+                title="Physical / Geographical Profile"
+                breadcrumbParent="About Kiblawan"
+                breadcrumbParentHref="/about"
                 breadcrumbSuffix="Geography"
-                subtitle="Discover the history, people, livelihoods, and landscapes of our municipality."
+                subtitle="Explore the landscapes, topography, and natural features of our town."
             />
-            <Section className="bg-cream">
+            <Section className="bg-cream py-16 md:py-24">
                 <Container>
-                    <div className="grid grid-cols-1 gap-10 lg:grid-cols-[280px_1fr]">
-                        <AboutSidebar currentSection="geography" />
+                    <div>
                         <div className="rounded-[24px] border border-line-soft bg-white/80 p-8 shadow-k-card backdrop-blur-[14px] md:p-12">
                             <header>
                                 <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-3 py-1 text-xs font-extrabold tracking-[0.12em] text-forest uppercase">
@@ -53,17 +51,17 @@ export default function AboutGeography() {
                                     At the foothills of Mount Apo
                                 </h2>
                                 <p className="mt-3 max-w-2xl leading-7 text-ink-muted">
-                                    Kiblawan’s landscape brings together
-                                    fertile lowlands, rolling terrain, and
-                                    upland communities.
+                                    Kiblawan’s landscape brings together fertile
+                                    lowlands, rolling terrain, and upland
+                                    communities.
                                 </p>
                             </header>
-                            <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_0.9fr]">
-                                <article className="rounded-2xl border border-line-soft/80 bg-white/75 p-6 shadow-k-soft backdrop-blur-xl">
+                            <div className="mt-8 grid items-stretch gap-8 lg:grid-cols-2">
+                                <article className="rounded-[24px] border border-line-soft bg-white/80 p-8 shadow-k-card backdrop-blur-[14px] md:p-12">
                                     <h3 className="font-display text-xl font-bold text-forest">
                                         At a glance
                                     </h3>
-                                    <ul className="mt-5 space-y-5">
+                                    <ul className="mt-5 divide-y divide-line-soft">
                                         {facts.map(
                                             ({
                                                 label,
@@ -72,17 +70,17 @@ export default function AboutGeography() {
                                             }) => (
                                                 <li
                                                     key={label}
-                                                    className="flex gap-3"
+                                                    className="flex gap-4 py-5 first:pt-0 last:pb-0"
                                                 >
                                                     <Icon
-                                                        className="mt-1 size-4 shrink-0 text-gold"
+                                                        className="mt-0.5 size-5 shrink-0 text-gold"
                                                         aria-hidden="true"
                                                     />
                                                     <span>
-                                                        <strong className="block text-sm text-forest">
+                                                        <strong className="block font-display text-base font-bold text-forest">
                                                             {label}
                                                         </strong>
-                                                        <span className="mt-1 block text-sm leading-6 text-ink-muted">
+                                                        <span className="mt-1 block leading-6 text-ink-muted">
                                                             {description}
                                                         </span>
                                                     </span>
@@ -91,13 +89,13 @@ export default function AboutGeography() {
                                         )}
                                     </ul>
                                 </article>
-                                <figure className="relative m-0 min-h-72 overflow-hidden rounded-2xl border border-white/80 bg-forest/10 shadow-k-card">
+                                <figure className="group relative m-0 min-h-[26rem] overflow-hidden rounded-[24px] border border-line-soft bg-forest/10 shadow-k-deep lg:min-h-full">
                                     <img
                                         src="/images/kib.png"
                                         alt="Illustrative map representing Kiblawan"
-                                        className="absolute inset-0 size-full object-cover"
+                                        className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-105"
                                     />
-                                    <figcaption className="absolute right-3 bottom-3 left-3 rounded-xl border border-white/30 bg-forest/80 px-4 py-3 text-sm font-semibold text-white shadow-k-card backdrop-blur-md">
+                                    <figcaption className="absolute right-4 bottom-4 left-4 rounded-2xl border border-white/30 bg-forest/80 px-5 py-4 text-sm font-semibold text-white shadow-k-card backdrop-blur-md">
                                         Kiblawan, Davao del Sur
                                         <span className="mt-0.5 block text-xs font-normal text-white/75">
                                             Map image for illustration
@@ -106,10 +104,11 @@ export default function AboutGeography() {
                                 </figure>
                             </div>
                             <p className="mt-6 text-xs text-ink-muted">
-                                Geographic facts are illustrative and should
-                                be confirmed against official municipal sources.
+                                Geographic facts are illustrative and should be
+                                confirmed against official municipal sources.
                             </p>
                         </div>
+                        <AboutReadNext currentSection="geography" />
                     </div>
                 </Container>
             </Section>

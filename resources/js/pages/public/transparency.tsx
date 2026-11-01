@@ -41,9 +41,11 @@ export default function Transparency({
                                     >
                                         <FileText className="mt-1 size-5 shrink-0 text-pdf-red" />
                                         <div className="min-w-0 flex-1">
-                                            {bid.pdf_path ? (
+                                            {bid.pdf_url ? (
                                                 <a
-                                                    href={bid.pdf_path}
+                                                    href={bid.pdf_url}
+                                                    target="_blank"
+                                                    rel="noreferrer"
                                                     className="font-bold text-forest hover:text-green-600"
                                                 >
                                                     {bid.title}
@@ -95,9 +97,11 @@ export default function Transparency({
                                     >
                                         <FileText className="mt-1 size-5 shrink-0 text-pdf-red" />
                                         <div className="min-w-0 flex-1">
-                                            {report.pdf_path ? (
+                                            {report.pdf_url ? (
                                                 <a
-                                                    href={report.pdf_path}
+                                                    href={report.pdf_url}
+                                                    target="_blank"
+                                                    rel="noreferrer"
                                                     className="font-bold text-forest hover:text-green-600"
                                                 >
                                                     {report.title}

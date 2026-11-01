@@ -9,6 +9,7 @@ use App\Models\Bid;
 use App\Models\EmergencyContact;
 use App\Models\HeroSlide;
 use App\Models\JobPosting;
+use App\Models\MayorMessage;
 use App\Models\News;
 use App\Models\Service;
 use App\Models\Setting;
@@ -73,7 +74,10 @@ class HomeController extends Controller
                 ->orderByDesc('date_posted')
                 ->take(4)
                 ->get(),
-            'mayorMessages' => [],
+            'mayorMessages' => MayorMessage::query()
+                ->orderByDesc('published_at')
+                ->take(3)
+                ->get(),
         ]);
     }
 }

@@ -64,10 +64,10 @@ export default function Government({
                             {officials.map((official) => (
                                 <article
                                     key={official.id}
-                                    className="overflow-hidden rounded-[20px] border border-line-soft bg-white/80 shadow-k-card"
+                                    className="overflow-hidden rounded-[20px] border border-white/80 bg-white/75 shadow-k-card backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-gold/40 hover:shadow-k-card"
                                 >
                                     <KImage
-                                        src={official.photo_url}
+                                        src={official.photo_url ?? '/images/image.png'}
                                         alt={official.name}
                                         className="aspect-[4/3] w-full object-cover"
                                     />
