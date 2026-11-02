@@ -5,6 +5,7 @@ namespace App\Providers;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL; // <-- IDINAGDAG ITO
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 
@@ -23,6 +24,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Force HTTPS kung galing sa Ngrok ang request
+        if (str_contains(request()->url(), 'ngrok-free.dev')) {
+            URL::forceScheme('https');
+        }
+
         $this->configureDefaults();
     }
 

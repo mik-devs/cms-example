@@ -2,6 +2,7 @@
 
 use App\Models\Barangay;
 use App\Models\News;
+use App\Models\Official;
 use App\Models\TourismSpot;
 use Inertia\Testing\AssertableInertia as Assert;
 
@@ -18,8 +19,8 @@ it('renders each public navigation route', function (string $path, string $compo
     'about geography' => ['/about/geography', 'public/about/geography'],
     'government' => ['/government', 'public/government'],
     'government vision and mission' => ['/government/vision-mission', 'public/government'],
-    'government officials' => ['/government/officials', 'public/government'],
-    'sangguniang bayan' => ['/government/sangguniang-bayan', 'public/government'],
+    'government officials' => ['/government/officials', 'public/elected-officials'],
+    'sangguniang bayan' => ['/government/sangguniang-bayan', 'public/sangguniang-bayan'],
     'citizens charter' => ['/government/citizens-charter', 'public/government'],
     'directories' => ['/government/directories', 'public/government'],
     'services' => ['/services', 'public/services'],
@@ -33,6 +34,77 @@ it('renders each public navigation route', function (string $path, string $compo
     'achievements placeholder' => ['/achievements', 'public/coming-soon'],
     'barangays placeholder' => ['/barangays', 'public/coming-soon'],
 ]);
+
+it('groups elected officials by position on the elected officials page', function () {
+    Official::query()->create([
+        'name' => 'Maria Mayor',
+        'position' => 'Municipal Mayor',
+        'order' => 1,
+    ]);
+
+    Official::query()->create([
+        'name' => 'Vicente Vice',
+        'position' => 'Vice Mayor',
+        'order' => 2,
+    ]);
+
+    Official::query()->create([
+        'name' => 'SB Member',
+        'position' => 'Sangguniang Bayan Member',
+        'order' => 3,
+    ]);
+
+    Official::query()->create([
+        'name' => 'Councilor',
+        'position' => 'councilor',
+        'order' => 4,
+    ]);
+
+    Official::query()->create([
+        'name' => 'Treasurer',
+        'position' => 'Municipal Treasurer',
+        'order' => 5,
+    ]);
+
+    $this->get(route('government.officials'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('public/elected-officials')
+            ->where('mayor.name', 'Maria Mayor')
+            ->where('viceMayor.name', 'Vicente Vice')
+            ->has('members', 2)
+            ->where('members.0.name', 'SB Member')
+            ->where('members.1.name', 'Councilor'));
+});
+
+it('shows only the vice mayor and legislative members on the Sangguniang Bayan page', function () {
+    Official::query()->create([
+        'name' => 'Municipal Mayor',
+        'position' => 'Municipal Mayor',
+        'order' => 1,
+    ]);
+
+    Official::query()->create([
+        'name' => 'Presiding Vice Mayor',
+        'position' => 'Vice Mayor',
+        'order' => 2,
+    ]);
+
+    Official::query()->create([
+        'name' => 'Council Member',
+        'position' => 'Sangguniang Bayan Member',
+        'order' => 3,
+    ]);
+
+    $this->get(route('government.sangguniang-bayan'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('public/sangguniang-bayan')
+            ->where('viceMayor.name', 'Presiding Vice Mayor')
+            ->has('members', 1)
+            ->where('members.0.name', 'Council Member')
+            ->missing('mayor'));
+});
 
 it('redirects the About overview to the history page', function () {
     $this->get(route('about'))

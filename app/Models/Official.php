@@ -11,6 +11,8 @@ class Official extends Model
         'name',
         'position',
         'photo',
+        'facebook_url',
+        'instagram_url',
         'order',
     ];
 

@@ -41,8 +41,7 @@ Route::get('/government/vision-mission', [GovernmentController::class, 'index'])
     ->name('government.vision-mission');
 Route::get('/government/officials', [GovernmentController::class, 'officials'])
     ->name('government.officials');
-Route::get('/government/sangguniang-bayan', [GovernmentController::class, 'index'])
-    ->defaults('tab', 'sangguniang-bayan')
+Route::get('/government/sangguniang-bayan', [GovernmentController::class, 'sanggunianBayan'])
     ->name('government.sangguniang-bayan');
 Route::get('/government/citizens-charter', [GovernmentController::class, 'index'])
     ->defaults('tab', 'citizens-charter')

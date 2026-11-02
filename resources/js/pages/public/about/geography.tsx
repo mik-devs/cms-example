@@ -1,4 +1,4 @@
-import { BusFront, CloudSun, Mountain } from 'lucide-react';
+import { BusFront, CloudSun, Globe } from 'lucide-react';
 import { AboutRevealRow } from '@/components/kiblawan/ui/about-reveal-row';
 import { AboutReadNext } from '@/components/kiblawan/ui/about-read-next';
 import { Container } from '@/components/kiblawan/ui/container';
@@ -39,8 +39,8 @@ export default function AboutGeography() {
                             left={
                                 <div className="flex flex-col justify-center">
                                     <span className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-2 text-xs font-extrabold tracking-[0.12em] text-forest uppercase">
-                                        <Mountain
-                                            className="size-4 text-gold"
+                                        <Globe
+                                            className="w-4 h-4 text-gold"
                                             aria-hidden="true"
                                         />
                                         Place & landscape
@@ -84,8 +84,8 @@ export default function AboutGeography() {
                         <section aria-labelledby="geography-travel">
                             <header className="mb-8 max-w-3xl">
                                 <span className="mb-3 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-2 text-xs font-extrabold tracking-[0.12em] text-forest uppercase">
-                                    <CloudSun
-                                        className="size-4 text-gold"
+                                    <Globe
+                                        className="w-4 h-4 text-gold"
                                         aria-hidden="true"
                                     />
                                     Getting here & getting around

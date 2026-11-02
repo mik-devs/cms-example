@@ -61,7 +61,11 @@ export default function AboutDemographic() {
                             }
                             right={
                                 <div className="flex flex-col justify-center">
-                                    <span className="mb-5 inline-flex w-fit items-center rounded-full border border-gold/30 bg-gold/10 px-4 py-2 text-xs font-extrabold tracking-[0.12em] text-forest uppercase">
+                                    <span className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-2 text-xs font-extrabold tracking-[0.12em] text-forest uppercase">
+                                        <Users
+                                            className="w-4 h-4 text-gold"
+                                            aria-hidden="true"
+                                        />
                                         People & community
                                     </span>
                                     <h2 className="font-display text-[clamp(1.8rem,3vw,2.6rem)] leading-tight font-bold text-forest">

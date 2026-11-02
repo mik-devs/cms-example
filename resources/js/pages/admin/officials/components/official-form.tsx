@@ -9,6 +9,8 @@ import { Label } from '@/components/ui/label';
 export interface OfficialFormData {
     name: string;
     position: string;
+    facebook_url: string;
+    instagram_url: string;
     photo: File | null;
     order: number;
 }
@@ -25,6 +27,8 @@ export default function OfficialForm({
     const form = useForm<OfficialFormData>({
         name: initialValues?.name ?? '',
         position: initialValues?.position ?? '',
+        facebook_url: initialValues?.facebook_url ?? '',
+        instagram_url: initialValues?.instagram_url ?? '',
         photo: null,
         order: initialValues?.order ?? 0,
     });
@@ -74,6 +78,34 @@ export default function OfficialForm({
                     aria-invalid={Boolean(form.errors.position)}
                 />
                 <InputError message={form.errors.position} />
+            </div>
+            <div className="grid gap-2">
+                <Label htmlFor="facebook_url">Facebook URL</Label>
+                <Input
+                    id="facebook_url"
+                    type="url"
+                    placeholder="https://facebook.com/..."
+                    value={form.data.facebook_url}
+                    onChange={(event) =>
+                        form.setData('facebook_url', event.target.value)
+                    }
+                    aria-invalid={Boolean(form.errors.facebook_url)}
+                />
+                <InputError message={form.errors.facebook_url} />
+            </div>
+            <div className="grid gap-2">
+                <Label htmlFor="instagram_url">Instagram URL</Label>
+                <Input
+                    id="instagram_url"
+                    type="url"
+                    placeholder="https://instagram.com/..."
+                    value={form.data.instagram_url}
+                    onChange={(event) =>
+                        form.setData('instagram_url', event.target.value)
+                    }
+                    aria-invalid={Boolean(form.errors.instagram_url)}
+                />
+                <InputError message={form.errors.instagram_url} />
             </div>
             <div className="grid gap-2">
                 <Label htmlFor="photo">Photo</Label>

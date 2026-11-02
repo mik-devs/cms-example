@@ -69,7 +69,7 @@ export default function AboutSocioEconomic() {
                                 eyebrow="Local economy"
                                 title="Livelihoods rooted in land and enterprise"
                                 description="Agriculture, natural resources, and local producers support Kiblawan’s economy and connect the municipality with markets across Mindanao."
-                                icon={<Sprout className="size-5" />}
+                                icon={<Sprout className="w-4 h-4 text-gold" />}
                             />
                             <div className="grid gap-8 md:grid-cols-2">
                                 {economy.map((item) => (
@@ -84,7 +84,7 @@ export default function AboutSocioEconomic() {
                                 eyebrow="Places & experiences"
                                 title="Discover Kiblawan"
                                 description="Mountain scenery, cultural heritage, and natural attractions create memorable ways to experience the municipality."
-                                icon={<Compass className="size-5" />}
+                                icon={<Compass className="w-4 h-4 text-gold" />}
                             />
                             <div className="grid gap-8 md:grid-cols-3">
                                 {tourism.map((item) => (

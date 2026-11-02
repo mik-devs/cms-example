@@ -1,0 +1,181 @@
+import { Facebook, Instagram } from 'lucide-react';
+import { GovernmentNavigation } from '@/components/kiblawan/government-navigation';
+import { Container } from '@/components/kiblawan/ui/container';
+import { KImage } from '@/components/kiblawan/ui/k-image';
+import { PageHeader } from '@/components/kiblawan/ui/page-header';
+import PublicLayout from '@/layouts/public/public-layout';
+import type { Official } from '@/types';
+
+const committeeChairmanships = [
+    'Committee on Finance',
+    'Committee on Education',
+    'Committee on Health',
+    'Committee on Agriculture',
+    'Committee on Infrastructure',
+    'Committee on Peace and Order',
+];
+
+export default function SangguniangBayan({
+    viceMayor,
+    members,
+}: {
+    viceMayor: Official | null;
+    members: Official[];
+}) {
+    return (
+        <PublicLayout title="Sangguniang Bayan">
+            <PageHeader
+                title="Sangguniang Bayan"
+                subtitle="The legislative council of the Municipality of Kiblawan."
+            />
+            <Container className="py-12 md:py-16">
+                <GovernmentNavigation activeTab="sangguniang-bayan" />
+
+                <section
+                    aria-labelledby="presiding-officer-heading"
+                    className="mb-16"
+                >
+                    <h2
+                        id="presiding-officer-heading"
+                        className="mb-6 font-display text-3xl font-bold text-forest"
+                    >
+                        Presiding Officer
+                    </h2>
+                    <article className="grid overflow-hidden rounded-[24px] border border-line-soft bg-white/85 shadow-k-card md:grid-cols-[minmax(16rem,0.8fr)_1.2fr]">
+                        <KImage
+                            src={viceMayor?.photo_url}
+                            alt={viceMayor?.name ?? 'Vice Mayor'}
+                            className="aspect-[4/3] w-full bg-cream object-contain object-top md:aspect-auto md:min-h-80"
+                        />
+                        <div className="flex flex-col justify-center gap-3 p-6 md:p-10">
+                            <p className="m-0 text-sm font-bold tracking-wide text-gold uppercase">
+                                Vice Mayor
+                            </p>
+                            <h3 className="m-0 font-display text-3xl font-bold text-forest md:text-4xl">
+                                {viceMayor?.name ?? 'Not listed yet'}
+                            </h3>
+                            {viceMayor && (
+                                <>
+                                    <p className="m-0 text-ink-muted">
+                                        {viceMayor.position}
+                                    </p>
+                                    <div className="mt-1 flex gap-3">
+                                        {viceMayor.facebook_url && (
+                                            <a
+                                                href={viceMayor.facebook_url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                aria-label={`${viceMayor.name} on Facebook`}
+                                                className="text-forest transition-colors hover:text-gold"
+                                            >
+                                                <Facebook className="h-5 w-5" />
+                                            </a>
+                                        )}
+                                        {viceMayor.instagram_url && (
+                                            <a
+                                                href={viceMayor.instagram_url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                aria-label={`${viceMayor.name} on Instagram`}
+                                                className="text-forest transition-colors hover:text-gold"
+                                            >
+                                                <Instagram className="h-5 w-5" />
+                                            </a>
+                                        )}
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    </article>
+                </section>
+
+                <section aria-labelledby="councilors-heading" className="mb-16">
+                    <h2
+                        id="councilors-heading"
+                        className="mb-6 font-display text-3xl font-bold text-forest"
+                    >
+                        The Councilors
+                    </h2>
+                    {members.length > 0 ? (
+                        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                            {members.map((member, index) => (
+                                <article
+                                    key={member.id}
+                                    className="overflow-hidden rounded-[20px] border border-line-soft bg-white/85 shadow-k-card"
+                                >
+                                    <KImage
+                                        src={member.photo_url}
+                                        alt={member.name}
+                                        className="aspect-[4/3] w-full bg-cream object-contain object-top"
+                                    />
+                                    <div className="p-5">
+                                        <h3 className="m-0 font-display text-xl font-bold text-forest">
+                                            {member.name}
+                                        </h3>
+                                        <p className="mt-1 mb-3 text-sm text-ink-muted">
+                                            Sangguniang Bayan Member
+                                        </p>
+                                        <div className="mb-3 flex gap-3">
+                                            {member.facebook_url && (
+                                                <a
+                                                    href={member.facebook_url}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    aria-label={`${member.name} on Facebook`}
+                                                    className="text-forest transition-colors hover:text-gold"
+                                                >
+                                                    <Facebook className="h-5 w-5" />
+                                                </a>
+                                            )}
+                                            {member.instagram_url && (
+                                                <a
+                                                    href={member.instagram_url}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    aria-label={`${member.name} on Instagram`}
+                                                    className="text-forest transition-colors hover:text-gold"
+                                                >
+                                                    <Instagram className="h-5 w-5" />
+                                                </a>
+                                            )}
+                                        </div>
+                                        <p className="m-0 text-sm font-semibold text-forest">
+                                            Committee Chairmanship
+                                        </p>
+                                        <p className="mt-1 mb-0 text-sm text-ink-muted">
+                                            {
+                                                committeeChairmanships[
+                                                    index %
+                                                        committeeChairmanships.length
+                                                ]
+                                            }
+                                        </p>
+                                    </div>
+                                </article>
+                            ))}
+                        </div>
+                    ) : (
+                        <p className="rounded-[20px] border border-line-soft bg-white/80 p-8 text-ink-muted">
+                            Councilors will be listed here soon.
+                        </p>
+                    )}
+                </section>
+
+                <section aria-labelledby="session-heading">
+                    <h2
+                        id="session-heading"
+                        className="mb-6 font-display text-3xl font-bold text-forest"
+                    >
+                        Legislative Session
+                    </h2>
+                    <article className="rounded-[20px] border border-line-soft bg-white/85 p-6 shadow-k-card md:p-8">
+                        <p className="m-0 text-lg font-semibold text-forest">
+                            Regular Session: Every Tuesday at 9:00 AM | SB
+                            Session Hall
+                        </p>
+                    </article>
+                </section>
+            </Container>
+        </PublicLayout>
+    );
+}

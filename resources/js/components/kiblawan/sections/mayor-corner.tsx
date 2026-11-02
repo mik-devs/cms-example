@@ -35,7 +35,7 @@ export function MayorCorner({
     )[0];
 
     return (
-        <Section className="overflow-hidden bg-paper">
+        <Section id="mayor-corner" className="overflow-hidden bg-paper">
             <Container>
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
                     <div

@@ -150,6 +150,8 @@ export interface Official {
     position: string;
     photo: string | null;
     photo_url: string | null;
+    facebook_url: string | null;
+    instagram_url: string | null;
     order: number;
 }
 

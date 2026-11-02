@@ -167,10 +167,14 @@ it('stores and cleans up uploaded files across all final CMS modules', function 
         'name' => 'Alex Santos',
         'position' => 'Mayor',
         'photo' => UploadedFile::fake()->image('official.png'),
+        'facebook_url' => 'https://facebook.com/alexsantos',
+        'instagram_url' => 'https://instagram.com/alexsantos',
         'order' => 1,
     ])->assertRedirect(route('admin.officials.index'));
 
     $official = Official::query()->firstOrFail();
+    expect($official->facebook_url)->toBe('https://facebook.com/alexsantos')
+        ->and($official->instagram_url)->toBe('https://instagram.com/alexsantos');
     $originalPhoto = $official->photo;
     Storage::disk('public')->assertExists($originalPhoto);
     $this->put(route('admin.officials.update', $official), [
@@ -305,9 +309,9 @@ it('shows officials and transparency files publicly and features the latest mayo
     $this->get(route('government.officials'))
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
-            ->component('public/government')
-            ->where('officials.0.name', 'Alex Santos')
-            ->where('officials.1.name', 'Jordan Reyes'));
+            ->component('public/elected-officials')
+            ->where('mayor.name', 'Alex Santos')
+            ->where('members.0.name', 'Jordan Reyes'));
 
     $this->get(route('transparency'))
         ->assertOk()

@@ -1,4 +1,4 @@
-import { CalendarDays, Landmark, Sparkles } from 'lucide-react';
+import { Globe, History, Palette } from 'lucide-react';
 import { AboutRevealRow } from '@/components/kiblawan/ui/about-reveal-row';
 import { AboutReadNext } from '@/components/kiblawan/ui/about-read-next';
 import { Container } from '@/components/kiblawan/ui/container';
@@ -14,7 +14,7 @@ const stories = [
         title: 'From Tribal Lands to a Thriving Municipality',
         subtitle: 'Honoring Indigenous Traditions While Moving Toward Progress',
         body: "Historically, Kiblawan was inhabited by the B'laan indigenous tribe, who lived off the land through hunting, farming, and trading.",
-        icon: Landmark,
+        icon: Globe,
     },
     {
         eyebrow: 'History',
@@ -23,7 +23,7 @@ const stories = [
         title: 'A Municipality Shaped by Change',
         subtitle: 'Agriculture, Mining, and a Growing Community',
         body: 'With the arrival of Christian settlers, the town expanded its agricultural and mining industries. Today, Kiblawan remains a culturally rich and economically growing municipality, balancing its indigenous heritage with modern development.',
-        icon: CalendarDays,
+        icon: History,
     },
     {
         eyebrow: 'Culture',
@@ -32,7 +32,7 @@ const stories = [
         title: "A Stronghold of B'laan Indigenous Traditions",
         subtitle: 'Preserving Ancestral Ways While Embracing Development',
         body: "Kiblawan's culture is deeply influenced by its B'laan roots, with many locals continuing to practice traditional weaving, beadwork, and music. Festivals and community gatherings highlight tribal dances, rituals, and storytelling, showcasing the rich cultural heritage of the town.",
-        icon: Sparkles,
+        icon: Palette,
     },
 ];
 
@@ -85,19 +85,10 @@ export default function AboutHistory() {
                                     right={
                                         <>
                                             <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-2 text-xs font-extrabold tracking-[0.12em] text-forest uppercase">
-                                                {story.eyebrow === 'Culture' ? (
-                                                    <img
-                                                        src="/images/culture-icon.png"
-                                                        alt=""
-                                                        aria-hidden="true"
-                                                        className="size-4 object-contain"
-                                                    />
-                                                ) : (
-                                                    <Icon
-                                                        className="size-4 text-gold"
-                                                        aria-hidden="true"
-                                                    />
-                                                )}
+                                                <Icon
+                                                    className="w-4 h-4 text-gold"
+                                                    aria-hidden="true"
+                                                />
                                                 {story.eyebrow}
                                             </span>
                                             <h2 className="font-display text-3xl leading-tight font-bold text-forest">
@@ -119,11 +110,9 @@ export default function AboutHistory() {
                             <header className="mb-8 flex flex-wrap items-end justify-between gap-5">
                                 <div>
                                     <span className="mb-3 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-2 text-xs font-extrabold tracking-[0.12em] text-forest uppercase">
-                                        <img
-                                            src="/images/culture-icon.png"
-                                            alt=""
+                                        <Palette
+                                            className="w-4 h-4 text-gold"
                                             aria-hidden="true"
-                                            className="size-4 object-contain"
                                         />
                                         Culture & celebration
                                     </span>
