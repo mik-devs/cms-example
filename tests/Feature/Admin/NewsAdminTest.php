@@ -18,7 +18,7 @@ it('requires email verification before accessing news management', function () {
 });
 
 it('renders the news management pages', function () {
-    $user = User::factory()->create();
+    $user = superAdminUser();
     $news = News::query()->create([
         'title' => 'Admin news',
         'slug' => 'admin-news',
@@ -48,7 +48,7 @@ it('renders the news management pages', function () {
 
 it('creates, replaces, and deletes a news image with its record', function () {
     Storage::fake('public');
-    $user = User::factory()->create();
+    $user = superAdminUser();
     $this->actingAs($user);
 
     $this->post(route('admin.news.store'), [
@@ -94,7 +94,7 @@ it('creates, replaces, and deletes a news image with its record', function () {
 });
 
 it('rejects news with an unsupported category', function () {
-    $this->actingAs(User::factory()->create())
+    $this->actingAs(superAdminUser())
         ->post(route('admin.news.store'), [
             'title' => 'Invalid news',
             'content' => 'News content',
@@ -109,7 +109,7 @@ it('rejects news with an unsupported category', function () {
 });
 
 it('rejects a featured value that is not boolean', function () {
-    $this->actingAs(User::factory()->create())
+    $this->actingAs(superAdminUser())
         ->post(route('admin.news.store'), [
             'title' => 'Invalid featured value',
             'content' => 'News content',

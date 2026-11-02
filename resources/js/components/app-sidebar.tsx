@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import {
     Award,
     BarChart3,
@@ -40,7 +40,11 @@ import {
 import { dashboard } from '@/routes';
 import type { NavItem } from '@/types';
 
-const mainNavItems: NavItem[] = [
+type PermissionNavItem = NavItem & {
+    permission?: string;
+};
+
+const mainNavItems: PermissionNavItem[] = [
     {
         title: 'Dashboard',
         href: dashboard(),
@@ -50,61 +54,73 @@ const mainNavItems: NavItem[] = [
         title: 'News',
         href: '/admin/news',
         icon: Newspaper,
+        permission: 'manage news',
     },
     {
         title: 'Services',
         href: '/admin/services',
         icon: Briefcase,
+        permission: 'manage services',
     },
     {
         title: 'Achievements',
         href: '/admin/achievements',
         icon: Award,
+        permission: 'manage achievements',
     },
     {
         title: 'Jobs',
         href: '/admin/jobs',
         icon: BriefcaseBusiness,
+        permission: 'manage jobs',
     },
     {
         title: 'Barangays',
         href: barangaysIndex(),
         icon: MapPin,
+        permission: 'manage settings',
     },
     {
         title: 'Hero Slides',
         href: heroSlidesIndex(),
         icon: Image,
+        permission: 'manage hero',
     },
     {
         title: 'Stats',
         href: statsIndex(),
         icon: BarChart3,
+        permission: 'manage stats',
     },
     {
         title: 'Settings',
         href: settingsIndex(),
         icon: Settings,
+        permission: 'manage settings',
     },
     {
         title: 'Bids & Awards',
         href: bidsIndex(),
         icon: Gavel,
+        permission: 'manage bids',
     },
     {
         title: 'Annual Reports',
         href: annualReportsIndex(),
         icon: FileText,
+        permission: 'manage reports',
     },
     {
         title: 'Officials',
         href: officialsIndex(),
         icon: Users,
+        permission: 'manage officials',
     },
     {
         title: "Mayor's Corner",
         href: mayorMessagesIndex(),
         icon: Mic,
+        permission: 'manage officials',
     },
 ];
 
@@ -122,6 +138,12 @@ const footerNavItems: NavItem[] = [
 ];
 
 export function AppSidebar() {
+    const { auth } = usePage().props;
+    const permissions = auth.user?.permissions ?? [];
+    const visibleMainNavItems = mainNavItems.filter(
+        ({ permission }) => !permission || permissions.includes(permission),
+    );
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
@@ -137,7 +159,7 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems} />
+                <NavMain items={visibleMainNavItems} />
             </SidebarContent>
 
             <SidebarFooter>

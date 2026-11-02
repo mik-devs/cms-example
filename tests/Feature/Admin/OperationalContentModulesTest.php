@@ -23,7 +23,7 @@ it('requires authentication and verification for each new admin module', functio
 ]);
 
 it('renders each new admin module page', function () {
-    $this->actingAs(User::factory()->create());
+    $this->actingAs(superAdminUser());
     $barangay = Barangay::query()->create([
         'name' => 'Poblacion',
         'slug' => 'poblacion',
@@ -79,7 +79,7 @@ it('renders each new admin module page', function () {
 });
 
 it('creates and updates barangays reflected on the home page', function () {
-    $this->actingAs(User::factory()->create());
+    $this->actingAs(superAdminUser());
 
     $this->post(route('admin.barangays.store'), [
         'name' => 'Poblacion',
@@ -129,7 +129,7 @@ it('creates and updates barangays reflected on the home page', function () {
 
 it('stores and manages hero slide images used by the home page', function () {
     Storage::fake('public');
-    $this->actingAs(User::factory()->create());
+    $this->actingAs(superAdminUser());
 
     $this->post(route('admin.hero-slides.store'), [
         'kicker' => 'Community',
@@ -184,7 +184,7 @@ it('stores and manages hero slide images used by the home page', function () {
 });
 
 it('creates and updates stats reflected on the home page', function () {
-    $this->actingAs(User::factory()->create());
+    $this->actingAs(superAdminUser());
 
     $this->post(route('admin.stats.store'), [
         'label' => 'Population',
@@ -229,7 +229,7 @@ it('creates and updates stats reflected on the home page', function () {
 });
 
 it('updates public settings shown in shared layout props and the home page', function () {
-    $this->actingAs(User::factory()->create());
+    $this->actingAs(superAdminUser());
     Setting::query()->create(['key' => 'site_name', 'value' => 'Old Site Name']);
     Setting::query()->create(['key' => 'tagline', 'value' => 'Old tagline']);
 
@@ -261,7 +261,7 @@ it('updates public settings shown in shared layout props and the home page', fun
 });
 
 it('rejects a barangay when its generated slug already exists', function () {
-    $this->actingAs(User::factory()->create());
+    $this->actingAs(superAdminUser());
 
     Barangay::query()->create([
         'name' => 'Poblacion',
@@ -280,7 +280,7 @@ it('rejects a barangay when its generated slug already exists', function () {
 });
 
 it('requires an image when creating a hero slide', function () {
-    $this->actingAs(User::factory()->create())
+    $this->actingAs(superAdminUser())
         ->post(route('admin.hero-slides.store'), [
             'title' => 'Missing image',
             'order' => 1,
@@ -293,7 +293,7 @@ it('requires an image when creating a hero slide', function () {
 });
 
 it('rejects invalid settings email and map embed URLs', function () {
-    $this->actingAs(User::factory()->create())
+    $this->actingAs(superAdminUser())
         ->put(route('admin.settings.update'), [
             'site_name' => 'Kiblawan',
             'tagline' => 'Serving the community',
@@ -309,7 +309,7 @@ it('rejects invalid settings email and map embed URLs', function () {
 });
 
 it('rejects map embeds hosted outside Google Maps', function () {
-    $this->actingAs(User::factory()->create())
+    $this->actingAs(superAdminUser())
         ->put(route('admin.settings.update'), [
             'site_name' => 'Kiblawan',
             'tagline' => 'Serving the community',

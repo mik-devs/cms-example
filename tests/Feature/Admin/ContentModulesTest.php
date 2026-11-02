@@ -21,7 +21,7 @@ it('requires authentication and verification for each content module', function 
 ]);
 
 it('renders each content module management page', function () {
-    $this->actingAs(User::factory()->create());
+    $this->actingAs(superAdminUser());
 
     $service = Service::query()->create([
         'title' => 'Permit Assistance',
@@ -76,7 +76,7 @@ it('renders each content module management page', function () {
 });
 
 it('creates and updates services that are reflected on the public page', function () {
-    $this->actingAs(User::factory()->create());
+    $this->actingAs(superAdminUser());
 
     $this->post(route('admin.services.store'), [
         'title' => 'Permit Assistance',
@@ -122,7 +122,7 @@ it('creates and updates services that are reflected on the public page', functio
 
 it('stores optional achievement images and replaces or deletes uploaded images', function () {
     Storage::fake('public');
-    $this->actingAs(User::factory()->create());
+    $this->actingAs(superAdminUser());
 
     $this->post(route('admin.achievements.store'), [
         'title' => 'Regional Award',
@@ -170,7 +170,7 @@ it('stores optional achievement images and replaces or deletes uploaded images',
 });
 
 it('creates updates and deletes job postings reflected on the home page', function () {
-    $this->actingAs(User::factory()->create());
+    $this->actingAs(superAdminUser());
 
     $this->post(route('admin.jobs.store'), [
         'title' => 'Planning Officer',
@@ -213,7 +213,7 @@ it('rejects invalid service order and job status values', function (
     string $field,
     string $message,
 ) {
-    $this->actingAs(User::factory()->create())
+    $this->actingAs(superAdminUser())
         ->post($route, $attributes)
         ->assertSessionHasErrors([$field => $message]);
 })->with([

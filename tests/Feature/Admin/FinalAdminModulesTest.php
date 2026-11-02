@@ -23,7 +23,7 @@ it('requires authentication and verification for each final CMS module', functio
 ]);
 
 it('renders index create and edit pages for each final CMS module', function () {
-    $this->actingAs(User::factory()->create());
+    $this->actingAs(superAdminUser());
 
     $bid = Bid::query()->create([
         'title' => 'Road Rehabilitation',
@@ -92,7 +92,7 @@ it('renders index create and edit pages for each final CMS module', function () 
 
 it('stores and cleans up uploaded files across all final CMS modules', function () {
     Storage::fake('public');
-    $this->actingAs(User::factory()->create());
+    $this->actingAs(superAdminUser());
 
     $this->post(route('admin.bids.store'), [
         'title' => 'Road Rehabilitation',
@@ -234,7 +234,7 @@ it('stores and cleans up uploaded files across all final CMS modules', function 
 });
 
 it('rejects invalid bid and mayor message types and requires annual report documents', function () {
-    $this->actingAs(User::factory()->create());
+    $this->actingAs(superAdminUser());
 
     $this->post(route('admin.bids.store'), [
         'title' => 'Road Rehabilitation',
@@ -263,7 +263,7 @@ it('shows officials and transparency files publicly and features the latest mayo
     Storage::fake('public');
     Storage::disk('public')->put('bids/open.pdf', '%PDF-1.4');
     Storage::disk('public')->put('reports/annual.pdf', '%PDF-1.4');
-    $this->actingAs(User::factory()->create());
+    $this->actingAs(superAdminUser());
 
     Official::query()->create([
         'name' => 'Jordan Reyes',
@@ -352,7 +352,7 @@ it('shows only the ten latest published mayor messages on the home page', functi
 
 it('publishes a mayor message created in the CMS to the home page', function () {
     Storage::fake('public');
-    $this->actingAs(User::factory()->create());
+    $this->actingAs(superAdminUser());
 
     $this->post(route('admin.mayor-messages.store'), [
         'title' => 'Community Update',

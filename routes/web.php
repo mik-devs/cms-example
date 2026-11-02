@@ -82,32 +82,52 @@ Route::prefix('admin')
     ->name('admin.')
     ->middleware(['auth', 'verified'])
     ->group(function () {
-        Route::resource('news', App\Http\Controllers\Admin\NewsController::class)
-            ->except('show');
-        Route::resource('services', ServiceController::class)
-            ->except('show');
-        Route::resource('achievements', AchievementController::class)
-            ->except('show');
-        Route::resource('jobs', JobController::class)
-            ->except('show');
-        Route::resource('bids', BidController::class)
-            ->except('show');
-        Route::resource('annual-reports', AnnualReportController::class)
-            ->except('show');
-        Route::resource('officials', OfficialController::class)
-            ->except('show');
-        Route::resource('mayor-messages', MayorMessageController::class)
-            ->except('show');
-        Route::resource('barangays', BarangayController::class)
-            ->except('show');
-        Route::resource('hero-slides', HeroSlideController::class)
-            ->except('show');
-        Route::resource('stats', StatController::class)
-            ->except('show');
-        Route::get('settings', [SettingController::class, 'index'])
-            ->name('settings.index');
-        Route::put('settings', [SettingController::class, 'update'])
-            ->name('settings.update');
+        Route::middleware('can:manage news')->group(function () {
+            Route::resource('news', App\Http\Controllers\Admin\NewsController::class)
+                ->except('show');
+        });
+        Route::middleware('can:manage services')->group(function () {
+            Route::resource('services', ServiceController::class)
+                ->except('show');
+        });
+        Route::middleware('can:manage achievements')->group(function () {
+            Route::resource('achievements', AchievementController::class)
+                ->except('show');
+        });
+        Route::middleware('can:manage jobs')->group(function () {
+            Route::resource('jobs', JobController::class)
+                ->except('show');
+        });
+        Route::middleware('can:manage bids')->group(function () {
+            Route::resource('bids', BidController::class)
+                ->except('show');
+        });
+        Route::middleware('can:manage reports')->group(function () {
+            Route::resource('annual-reports', AnnualReportController::class)
+                ->except('show');
+        });
+        Route::middleware('can:manage officials')->group(function () {
+            Route::resource('officials', OfficialController::class)
+                ->except('show');
+            Route::resource('mayor-messages', MayorMessageController::class)
+                ->except('show');
+        });
+        Route::middleware('can:manage settings')->group(function () {
+            Route::resource('barangays', BarangayController::class)
+                ->except('show');
+            Route::get('settings', [SettingController::class, 'index'])
+                ->name('settings.index');
+            Route::put('settings', [SettingController::class, 'update'])
+                ->name('settings.update');
+        });
+        Route::middleware('can:manage hero')->group(function () {
+            Route::resource('hero-slides', HeroSlideController::class)
+                ->except('show');
+        });
+        Route::middleware('can:manage stats')->group(function () {
+            Route::resource('stats', StatController::class)
+                ->except('show');
+        });
     });
 
 require __DIR__.'/settings.php';

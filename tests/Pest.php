@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\User;
+use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -47,4 +49,14 @@ expect()->extend('toBeOne', function () {
 function something()
 {
     // ..
+}
+
+function superAdminUser(): User
+{
+    app(RolePermissionSeeder::class)->run();
+
+    $user = User::factory()->create();
+    $user->assignRole('super_admin');
+
+    return $user;
 }
