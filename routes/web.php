@@ -18,6 +18,7 @@ use App\Http\Controllers\GovernmentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ServicesController;
+use App\Http\Controllers\TourismController;
 use App\Http\Controllers\TransparencyController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -64,6 +65,8 @@ Route::get('/careers', fn () => Inertia::render('public/coming-soon', ['title' =
     ->name('careers');
 Route::get('/tourism', fn () => Inertia::render('public/coming-soon', ['title' => 'Tourism']))
     ->name('tourism');
+Route::get('/tourism/{slug}', [TourismController::class, 'show'])
+    ->name('tourism.show');
 Route::get('/achievements', fn () => Inertia::render('public/coming-soon', ['title' => 'Achievements']))
     ->name('achievements');
 Route::get('/barangays', fn () => Inertia::render('public/coming-soon', ['title' => 'Barangays']))

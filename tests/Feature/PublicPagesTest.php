@@ -2,6 +2,7 @@
 
 use App\Models\Barangay;
 use App\Models\News;
+use App\Models\TourismSpot;
 use Inertia\Testing\AssertableInertia as Assert;
 
 it('renders each public navigation route', function (string $path, string $component) {
@@ -121,5 +122,40 @@ it('renders a barangay profile by slug and returns 404 for unknown slugs', funct
             ->where('barangay.slug', 'molopolo'));
 
     $this->get(route('barangays.show', 'unknown-barangay'))
+        ->assertNotFound();
+});
+
+it('renders active tourism details and hides inactive or unknown spots', function () {
+    $activeSpot = TourismSpot::query()->create([
+        'name' => 'Lawayan Falls',
+        'slug' => 'lawayan-falls',
+        'description' => 'A natural waterfall in Kiblawan.',
+        'image' => '/tourism/lawayan.jpg',
+        'category' => 'Waterfalls',
+        'order' => 1,
+        'is_active' => true,
+    ]);
+
+    TourismSpot::query()->create([
+        'name' => 'Hidden Falls',
+        'slug' => 'hidden-falls',
+        'description' => 'An inactive tourism spot.',
+        'image' => '/tourism/hidden.jpg',
+        'category' => 'Waterfalls',
+        'order' => 2,
+        'is_active' => false,
+    ]);
+
+    $this->get(route('tourism.show', $activeSpot->slug))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('public/tourism/show')
+            ->where('spot.name', 'Lawayan Falls')
+            ->where('spot.slug', 'lawayan-falls'));
+
+    $this->get(route('tourism.show', 'hidden-falls'))
+        ->assertNotFound();
+
+    $this->get(route('tourism.show', 'unknown-spot'))
         ->assertNotFound();
 });

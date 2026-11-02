@@ -11,9 +11,10 @@ class TourismSpotSeeder extends Seeder
     public function run(): void
     {
         $spots = [
-            ['name' => 'Majestic Waterfalls', 'description' => 'Experience the cool waters and lush forests.', 'image' => '/tourism/spot.png', 'category' => 'Nature'],
-            ['name' => 'Mt. Apo Foothills', 'description' => 'Breathtaking trails and panoramic views.', 'image' => '/images/kib.png', 'category' => 'Adventure'],
-            ['name' => 'Rich Culture', 'description' => 'Vibrant festivals and warm hospitality.', 'image' => '/images/araw.png', 'category' => 'Culture'],
+            ['name' => 'Lawayan Falls', 'description' => 'A quiet, natural waterfall spot in Barangay Kisulan, open 24 hours for nature lovers.', 'image' => '/tourism/lawayan2.jpg', 'category' => 'Waterfalls'],
+            ['name' => 'Pandong Bato Peak & Trail', 'description' => 'Located in Brgy. Waterfall, featuring the Bito Waterfall, Sigpit River moss garden, and Amakanin rock-wall rappelling.', 'image' => '/tourism/waterfall.jpg', 'category' => 'Eco-Adventure'],
+            ['name' => 'Lorenza Amando Farm Resort', 'description' => 'A well-visited family and leisure farm in New Sibunga, offering a relaxing countryside experience.', 'image' => '/tourism/LA1.jpg', 'category' => 'Agri-Tourism'],
+            ['name' => 'The Farm Inland Resort', 'description' => 'A popular inland resort in New Sibunga featuring swimming pools, outdoor dining, and farm-to-table experiences.', 'image' => '/images/kib.png', 'category' => 'Agri-Tourism'],
         ];
 
         foreach ($spots as $index => $spot) {
