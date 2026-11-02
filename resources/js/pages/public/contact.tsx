@@ -1,13 +1,25 @@
+import { useState, type FormEvent } from 'react';
 import { Clock, Mail, MapPin, Phone } from 'lucide-react';
 import { Container } from '@/components/kiblawan/ui/container';
 import { PageHeader } from '@/components/kiblawan/ui/page-header';
 import PublicLayout from '@/layouts/public/public-layout';
+
+interface ContactFormData {
+    name: string;
+    email: string;
+    message: string;
+}
 
 export default function Contact({
     settings,
 }: {
     settings: Record<string, string | null>;
 }) {
+    const [formData, setFormData] = useState<ContactFormData>({
+        name: '',
+        email: '',
+        message: '',
+    });
     const address =
         settings.address ??
         'Dagohoy Street, Barangay Poblacion, Kiblawan, Davao del Sur, Philippines';
@@ -15,6 +27,19 @@ export default function Contact({
     const email = settings.email ?? '';
     const officeHours = settings.office_hours ?? '';
     const phoneHref = phone.replace(/[^\d+]/g, '');
+
+    function handleSubmit(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+
+        const subject = encodeURIComponent(
+            `Contact message from ${formData.name}`,
+        );
+        const body = encodeURIComponent(
+            `Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`,
+        );
+
+        window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+    }
 
     return (
         <PublicLayout title="Contact Us">
@@ -25,7 +50,7 @@ export default function Contact({
             <Container className="py-12 md:py-16">
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
                     <div className="flex flex-col gap-8">
-                        <section className="rounded-[20px] border border-line-soft bg-white/80 p-6 shadow-k-soft md:p-8">
+                        <section className="relative z-10 rounded-[20px] border border-line-soft bg-white/80 p-6 shadow-k-soft md:p-8">
                             <h2 className="mb-6 font-display text-2xl font-bold text-forest">
                                 Contact Information
                             </h2>
@@ -93,36 +118,63 @@ export default function Contact({
                             <h2 className="mb-5 font-display text-2xl font-bold text-forest">
                                 Send a Message
                             </h2>
-                            <form className="flex flex-col gap-4">
+                            <form
+                                className="flex flex-col gap-4"
+                                onSubmit={handleSubmit}
+                            >
                                 <label className="flex flex-col gap-1.5 text-sm font-semibold text-forest">
                                     Name
                                     <input
                                         type="text"
-                                        disabled
-                                        className="rounded-xl border border-line-soft bg-cream/60 px-4 py-3 text-ink-muted"
+                                        name="name"
+                                        autoComplete="name"
+                                        required
+                                        value={formData.name}
+                                        onChange={(event) =>
+                                            setFormData({
+                                                ...formData,
+                                                name: event.target.value,
+                                            })
+                                        }
+                                        className="w-full rounded-xl border border-line-soft bg-white/50 px-4 py-3 text-ink outline-none transition-all focus:border-gold focus:ring-2 focus:ring-gold/20"
                                     />
                                 </label>
                                 <label className="flex flex-col gap-1.5 text-sm font-semibold text-forest">
                                     Email
                                     <input
                                         type="email"
-                                        disabled
-                                        className="rounded-xl border border-line-soft bg-cream/60 px-4 py-3 text-ink-muted"
+                                        name="email"
+                                        autoComplete="email"
+                                        required
+                                        value={formData.email}
+                                        onChange={(event) =>
+                                            setFormData({
+                                                ...formData,
+                                                email: event.target.value,
+                                            })
+                                        }
+                                        className="w-full rounded-xl border border-line-soft bg-white/50 px-4 py-3 text-ink outline-none transition-all focus:border-gold focus:ring-2 focus:ring-gold/20"
                                     />
                                 </label>
                                 <label className="flex flex-col gap-1.5 text-sm font-semibold text-forest">
                                     Message
                                     <textarea
+                                        name="message"
                                         rows={4}
-                                        disabled
-                                        className="resize-y rounded-xl border border-line-soft bg-cream/60 px-4 py-3 text-ink-muted"
+                                        required
+                                        value={formData.message}
+                                        onChange={(event) =>
+                                            setFormData({
+                                                ...formData,
+                                                message: event.target.value,
+                                            })
+                                        }
+                                        className="w-full resize-y rounded-xl border border-line-soft bg-white/50 px-4 py-3 text-ink outline-none transition-all focus:border-gold focus:ring-2 focus:ring-gold/20"
                                     />
                                 </label>
                                 <button
-                                    type="button"
-                                    disabled
-                                    title="Form coming soon"
-                                    className="w-fit rounded-full bg-forest px-6 py-3 font-bold text-white opacity-60"
+                                    type="submit"
+                                    className="w-fit rounded-full bg-forest px-6 py-3 font-bold text-white transition-colors hover:bg-green-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
                                 >
                                     Send
                                 </button>
