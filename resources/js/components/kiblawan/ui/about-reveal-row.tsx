@@ -26,7 +26,7 @@ export function AboutRevealRow({
         >
             <div
                 className={cn(
-                    reverse ? 'lg:order-2 slide-in-right' : 'slide-in-left',
+                    reverse ? 'slide-in-right lg:order-2' : 'slide-in-left',
                     visibilityClass,
                 )}
             >
@@ -34,7 +34,7 @@ export function AboutRevealRow({
             </div>
             <div
                 className={cn(
-                    reverse ? 'lg:order-1 slide-in-left' : 'slide-in-right',
+                    reverse ? 'slide-in-left lg:order-1' : 'slide-in-right',
                     visibilityClass,
                 )}
             >

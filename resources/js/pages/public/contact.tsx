@@ -136,7 +136,7 @@ export default function Contact({
                                                 name: event.target.value,
                                             })
                                         }
-                                        className="w-full rounded-xl border border-line-soft bg-white/50 px-4 py-3 text-ink outline-none transition-all focus:border-gold focus:ring-2 focus:ring-gold/20"
+                                        className="w-full rounded-xl border border-line-soft bg-white/50 px-4 py-3 text-ink transition-all outline-none focus:border-gold focus:ring-2 focus:ring-gold/20"
                                     />
                                 </label>
                                 <label className="flex flex-col gap-1.5 text-sm font-semibold text-forest">
@@ -153,7 +153,7 @@ export default function Contact({
                                                 email: event.target.value,
                                             })
                                         }
-                                        className="w-full rounded-xl border border-line-soft bg-white/50 px-4 py-3 text-ink outline-none transition-all focus:border-gold focus:ring-2 focus:ring-gold/20"
+                                        className="w-full rounded-xl border border-line-soft bg-white/50 px-4 py-3 text-ink transition-all outline-none focus:border-gold focus:ring-2 focus:ring-gold/20"
                                     />
                                 </label>
                                 <label className="flex flex-col gap-1.5 text-sm font-semibold text-forest">
@@ -169,7 +169,7 @@ export default function Contact({
                                                 message: event.target.value,
                                             })
                                         }
-                                        className="w-full resize-y rounded-xl border border-line-soft bg-white/50 px-4 py-3 text-ink outline-none transition-all focus:border-gold focus:ring-2 focus:ring-gold/20"
+                                        className="w-full resize-y rounded-xl border border-line-soft bg-white/50 px-4 py-3 text-ink transition-all outline-none focus:border-gold focus:ring-2 focus:ring-gold/20"
                                     />
                                 </label>
                                 <button

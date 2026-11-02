@@ -23,7 +23,7 @@ export default function NewsShow({ news }: { news: News }) {
                         />
                     )}
                     <div className="rounded-[20px] border border-line-soft bg-white/80 p-6 shadow-k-soft md:p-10">
-                        <p className="whitespace-pre-line leading-relaxed text-ink">
+                        <p className="leading-relaxed whitespace-pre-line text-ink">
                             {news.content}
                         </p>
                     </div>

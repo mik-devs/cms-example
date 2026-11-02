@@ -1,30 +1,25 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import MayorMessageController from '@/actions/App/Http/Controllers/Admin/MayorMessageController';
-import Heading from '@/components/heading';
+import AdminFormPage from '@/components/kiblawan/admin/admin-form-page';
 import MayorMessageForm from '@/pages/admin/mayor-messages/components/mayor-message-form';
 
 export default function CreateMayorMessage() {
     return (
         <>
             <Head title="Create Mayor Message" />
-            <div className="space-y-6">
-                <div className="flex flex-wrap items-center justify-between gap-4">
-                    <Heading
-                        title="Create Mayor Message"
-                        description="Add content to the Mayor's Corner."
-                    />
-                    <Link
-                        href={MayorMessageController.index.url()}
-                        className="text-sm text-muted-foreground underline-offset-4 hover:underline"
-                    >
-                        Back to Mayor's Corner
-                    </Link>
-                </div>
+            <AdminFormPage
+                title="Create Mayor Message"
+                description="Add content to the Mayor's Corner."
+                backHref={MayorMessageController.index.url()}
+                backLabel="Mayor's Corner"
+            >
                 <MayorMessageForm
-                    onSubmit={(form) => form.post(MayorMessageController.store.url())}
+                    onSubmit={(form) =>
+                        form.post(MayorMessageController.store.url())
+                    }
                     submitLabel="Create Message"
                 />
-            </div>
+            </AdminFormPage>
         </>
     );
 }

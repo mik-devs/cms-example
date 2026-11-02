@@ -49,7 +49,7 @@ export default function AboutGeography() {
                                         A Land of Valleys, Mountains, and
                                         Agricultural Prosperity
                                     </h2>
-                                    <p className="mt-4 text-lg font-semibold leading-7 text-gold">
+                                    <p className="mt-4 text-lg leading-7 font-semibold text-gold">
                                         Spanning Over 258 Square Kilometers of
                                         Diverse Terrain
                                     </p>
@@ -57,11 +57,12 @@ export default function AboutGeography() {
                                         Kiblawan covers 258 square kilometers,
                                         featuring fertile lowlands for farming,
                                         rugged hills for livestock, and
-                                        mineral-rich mountains. The Digos-Malalag
-                                        Mountain Range provides essential
-                                        resources for agriculture, mining, and
-                                        eco-tourism, making it a vital part of
-                                        Davao del Sur&apos;s economy.
+                                        mineral-rich mountains. The
+                                        Digos-Malalag Mountain Range provides
+                                        essential resources for agriculture,
+                                        mining, and eco-tourism, making it a
+                                        vital part of Davao del Sur&apos;s
+                                        economy.
                                     </p>
                                 </div>
                             }
@@ -115,7 +116,9 @@ export default function AboutGeography() {
                                                     alt={imageAlt}
                                                     loading="lazy"
                                                     className={`absolute inset-0 size-full transition-transform duration-700 group-hover:scale-105 ${
-                                                        title.startsWith('Transportation')
+                                                        title.startsWith(
+                                                            'Transportation',
+                                                        )
                                                             ? 'object-contain p-8'
                                                             : 'object-cover'
                                                     }`}

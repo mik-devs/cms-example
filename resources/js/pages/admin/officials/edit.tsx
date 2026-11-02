@@ -1,6 +1,6 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import OfficialController from '@/actions/App/Http/Controllers/Admin/OfficialController';
-import Heading from '@/components/heading';
+import AdminFormPage from '@/components/kiblawan/admin/admin-form-page';
 import OfficialForm from '@/pages/admin/officials/components/official-form';
 import type { Official } from '@/types';
 
@@ -8,19 +8,12 @@ export default function EditOfficial({ official }: { official: Official }) {
     return (
         <>
             <Head title={`Edit ${official.name}`} />
-            <div className="space-y-6">
-                <div className="flex flex-wrap items-center justify-between gap-4">
-                    <Heading
-                        title="Edit Official"
-                        description={`Update “${official.name}”.`}
-                    />
-                    <Link
-                        href={OfficialController.index.url()}
-                        className="text-sm text-muted-foreground underline-offset-4 hover:underline"
-                    >
-                        Back to Officials
-                    </Link>
-                </div>
+            <AdminFormPage
+                title="Edit Official"
+                description={`Update “${official.name}”.`}
+                backHref={OfficialController.index.url()}
+                backLabel="Officials"
+            >
                 <OfficialForm
                     initialValues={official}
                     onSubmit={(form) =>
@@ -28,7 +21,7 @@ export default function EditOfficial({ official }: { official: Official }) {
                     }
                     submitLabel="Save Changes"
                 />
-            </div>
+            </AdminFormPage>
         </>
     );
 }

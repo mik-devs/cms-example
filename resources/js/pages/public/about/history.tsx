@@ -12,8 +12,7 @@ const stories = [
         image: '/images/about/kiblawan-thriving-municiplality.png',
         imageAlt: 'Kiblawan, a thriving municipality',
         title: 'From Tribal Lands to a Thriving Municipality',
-        subtitle:
-            'Honoring Indigenous Traditions While Moving Toward Progress',
+        subtitle: 'Honoring Indigenous Traditions While Moving Toward Progress',
         body: "Historically, Kiblawan was inhabited by the B'laan indigenous tribe, who lived off the land through hunting, farming, and trading.",
         icon: Landmark,
     },
@@ -101,10 +100,10 @@ export default function AboutHistory() {
                                                 )}
                                                 {story.eyebrow}
                                             </span>
-                                            <h2 className="text-3xl leading-tight font-display font-bold text-forest">
+                                            <h2 className="font-display text-3xl leading-tight font-bold text-forest">
                                                 {story.title}
                                             </h2>
-                                            <p className="mt-4 text-lg font-semibold leading-relaxed text-gold">
+                                            <p className="mt-4 text-lg leading-relaxed font-semibold text-gold">
                                                 {story.subtitle}
                                             </p>
                                             <p className="mt-5 text-lg leading-relaxed text-ink-muted">
@@ -130,7 +129,7 @@ export default function AboutHistory() {
                                     </span>
                                     <h2
                                         id="kiblawan-festivals"
-                                        className="text-3xl font-display font-bold text-forest md:text-4xl"
+                                        className="font-display text-3xl font-bold text-forest md:text-4xl"
                                     >
                                         Festivals of Kiblawan
                                     </h2>

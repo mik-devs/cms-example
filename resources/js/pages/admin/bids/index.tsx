@@ -19,7 +19,12 @@ export default function BidsIndex({ bids }: { bids: PaginatedBids }) {
             label: 'Document',
             render: (bid) =>
                 bid.pdf_url ? (
-                    <a href={bid.pdf_url} target="_blank" rel="noreferrer" className="underline">
+                    <a
+                        href={bid.pdf_url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="underline"
+                    >
                         View PDF
                     </a>
                 ) : (

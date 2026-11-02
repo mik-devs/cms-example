@@ -1,10 +1,10 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import {
     index,
     update,
 } from '@/actions/App/Http/Controllers/Admin/AchievementController';
 import type { Achievement } from '@/types';
-import Heading from '@/components/heading';
+import AdminFormPage from '@/components/kiblawan/admin/admin-form-page';
 import AchievementForm from '@/pages/admin/achievements/components/achievement-form';
 
 export default function EditAchievement({
@@ -15,19 +15,12 @@ export default function EditAchievement({
     return (
         <>
             <Head title={`Edit ${achievement.title}`} />
-            <div className="space-y-6">
-                <div className="flex flex-wrap items-center justify-between gap-4">
-                    <Heading
-                        title="Edit Achievement"
-                        description={`Update “${achievement.title}”.`}
-                    />
-                    <Link
-                        href={index.url()}
-                        className="text-sm text-muted-foreground underline-offset-4 hover:underline"
-                    >
-                        Back to Achievements
-                    </Link>
-                </div>
+            <AdminFormPage
+                title="Edit Achievement"
+                description={`Update “${achievement.title}”.`}
+                backHref={index.url()}
+                backLabel="Achievements"
+            >
                 <AchievementForm
                     initialValues={achievement}
                     onSubmit={(form) =>
@@ -35,7 +28,7 @@ export default function EditAchievement({
                     }
                     submitLabel="Save Changes"
                 />
-            </div>
+            </AdminFormPage>
         </>
     );
 }

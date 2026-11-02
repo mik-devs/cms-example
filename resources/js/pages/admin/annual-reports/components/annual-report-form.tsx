@@ -43,7 +43,9 @@ export default function AnnualReportForm({
                 <Input
                     id="title"
                     value={form.data.title}
-                    onChange={(event) => form.setData('title', event.target.value)}
+                    onChange={(event) =>
+                        form.setData('title', event.target.value)
+                    }
                     aria-invalid={Boolean(form.errors.title)}
                 />
                 <InputError message={form.errors.title} />
@@ -53,7 +55,9 @@ export default function AnnualReportForm({
                 <Input
                     id="category"
                     value={form.data.category}
-                    onChange={(event) => form.setData('category', event.target.value)}
+                    onChange={(event) =>
+                        form.setData('category', event.target.value)
+                    }
                     aria-invalid={Boolean(form.errors.category)}
                 />
                 <InputError message={form.errors.category} />
@@ -66,7 +70,10 @@ export default function AnnualReportForm({
                     accept="application/pdf,.pdf"
                     required={!initialValues}
                     onChange={(event) =>
-                        form.setData('pdf_path', event.target.files?.[0] ?? null)
+                        form.setData(
+                            'pdf_path',
+                            event.target.files?.[0] ?? null,
+                        )
                     }
                     aria-invalid={Boolean(form.errors.pdf_path)}
                 />
@@ -91,7 +98,9 @@ export default function AnnualReportForm({
                     onChange={(event) =>
                         form.setData(
                             'year',
-                            event.target.value === '' ? 0 : Number(event.target.value),
+                            event.target.value === ''
+                                ? 0
+                                : Number(event.target.value),
                         )
                     }
                     aria-invalid={Boolean(form.errors.year)}

@@ -1,6 +1,6 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import MayorMessageController from '@/actions/App/Http/Controllers/Admin/MayorMessageController';
-import Heading from '@/components/heading';
+import AdminFormPage from '@/components/kiblawan/admin/admin-form-page';
 import MayorMessageForm from '@/pages/admin/mayor-messages/components/mayor-message-form';
 import type { MayorMessage } from '@/types';
 
@@ -12,19 +12,12 @@ export default function EditMayorMessage({
     return (
         <>
             <Head title={`Edit ${mayorMessage.title}`} />
-            <div className="space-y-6">
-                <div className="flex flex-wrap items-center justify-between gap-4">
-                    <Heading
-                        title="Edit Mayor Message"
-                        description={`Update “${mayorMessage.title}”.`}
-                    />
-                    <Link
-                        href={MayorMessageController.index.url()}
-                        className="text-sm text-muted-foreground underline-offset-4 hover:underline"
-                    >
-                        Back to Mayor's Corner
-                    </Link>
-                </div>
+            <AdminFormPage
+                title="Edit Mayor Message"
+                description={`Update “${mayorMessage.title}”.`}
+                backHref={MayorMessageController.index.url()}
+                backLabel="Mayor's Corner"
+            >
                 <MayorMessageForm
                     initialValues={mayorMessage}
                     onSubmit={(form) =>
@@ -34,7 +27,7 @@ export default function EditMayorMessage({
                     }
                     submitLabel="Save Changes"
                 />
-            </div>
+            </AdminFormPage>
         </>
     );
 }

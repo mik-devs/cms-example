@@ -10,7 +10,11 @@ interface PaginatedOfficials {
     links: { url: string | null; label: string; active: boolean }[];
 }
 
-export default function OfficialsIndex({ officials }: { officials: PaginatedOfficials }) {
+export default function OfficialsIndex({
+    officials,
+}: {
+    officials: PaginatedOfficials;
+}) {
     const columns: ResourceTableColumn<Official>[] = [
         { label: 'Name', render: (official) => official.name },
         { label: 'Position', render: (official) => official.position },
@@ -27,8 +31,12 @@ export default function OfficialsIndex({ officials }: { officials: PaginatedOffi
                 links={officials.links}
                 columns={columns}
                 createHref={OfficialController.create.url()}
-                editHref={(official) => OfficialController.edit.url(official.id)}
-                deleteHref={(official) => OfficialController.destroy.url(official.id)}
+                editHref={(official) =>
+                    OfficialController.edit.url(official.id)
+                }
+                deleteHref={(official) =>
+                    OfficialController.destroy.url(official.id)
+                }
                 getItemLabel={(official) => official.name}
                 emptyMessage="No officials have been added yet."
             />

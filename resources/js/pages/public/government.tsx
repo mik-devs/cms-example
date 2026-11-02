@@ -6,11 +6,31 @@ import PublicLayout from '@/layouts/public/public-layout';
 import type { Official } from '@/types';
 
 const tabs = [
-    { key: 'vision-mission', label: 'Vision & Mission', href: '/government/vision-mission' },
-    { key: 'officials', label: 'Elected Officials', href: '/government/officials' },
-    { key: 'sangguniang-bayan', label: 'Sangguniang Bayan', href: '/government/sangguniang-bayan' },
-    { key: 'citizens-charter', label: "Citizen's Charter", href: '/government/citizens-charter' },
-    { key: 'directories', label: 'Office Directories', href: '/government/directories' },
+    {
+        key: 'vision-mission',
+        label: 'Vision & Mission',
+        href: '/government/vision-mission',
+    },
+    {
+        key: 'officials',
+        label: 'Elected Officials',
+        href: '/government/officials',
+    },
+    {
+        key: 'sangguniang-bayan',
+        label: 'Sangguniang Bayan',
+        href: '/government/sangguniang-bayan',
+    },
+    {
+        key: 'citizens-charter',
+        label: "Citizen's Charter",
+        href: '/government/citizens-charter',
+    },
+    {
+        key: 'directories',
+        label: 'Office Directories',
+        href: '/government/directories',
+    },
 ];
 
 const tabTitles: Record<string, string> = {
@@ -67,7 +87,10 @@ export default function Government({
                                     className="overflow-hidden rounded-[20px] border border-white/80 bg-white/75 shadow-k-card backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-gold/40 hover:shadow-k-card"
                                 >
                                     <KImage
-                                        src={official.photo_url ?? '/images/image.png'}
+                                        src={
+                                            official.photo_url ??
+                                            '/images/image.png'
+                                        }
                                         alt={official.name}
                                         className="aspect-[4/3] w-full object-cover"
                                     />

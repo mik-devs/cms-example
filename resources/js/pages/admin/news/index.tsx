@@ -1,8 +1,8 @@
 import { Head, Link, router } from '@inertiajs/react';
 import { useState } from 'react';
-import { Pencil, Plus, Trash2 } from 'lucide-react';
+import { MoreVertical, Pencil, Trash2 } from 'lucide-react';
 import NewsController from '@/actions/App/Http/Controllers/Admin/NewsController';
-import Heading from '@/components/heading';
+import PageBanner from '@/components/kiblawan/admin/page-banner';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -14,6 +14,12 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import {
     Table,
     TableBody,
@@ -48,13 +54,19 @@ function NewsTableRow({ item }: { item: News }) {
                         className="size-14 rounded-md object-cover"
                     />
                 ) : (
-                    <span className="text-sm text-muted-foreground">No image</span>
+                    <span className="text-sm text-muted-foreground">
+                        No image
+                    </span>
                 )}
             </TableCell>
             <TableCell className="min-w-48 font-medium">{item.title}</TableCell>
             <TableCell className="capitalize">{item.category}</TableCell>
             <TableCell>
-                <Badge variant={item.status === 'published' ? 'default' : 'secondary'}>
+                <Badge
+                    variant={
+                        item.status === 'published' ? 'default' : 'secondary'
+                    }
+                >
                     {item.status}
                 </Badge>
             </TableCell>
@@ -64,56 +76,69 @@ function NewsTableRow({ item }: { item: News }) {
                     : '—'}
             </TableCell>
             <TableCell>
-                <div className="flex items-center gap-2">
-                    <Button variant="outline" size="icon" asChild>
-                        <Link
-                            href={NewsController.edit.url(item.id)}
-                            aria-label={`Edit ${item.title}`}
-                        >
-                            <Pencil />
-                        </Link>
-                    </Button>
-                    <Dialog
-                        open={isDeleteDialogOpen}
-                        onOpenChange={setIsDeleteDialogOpen}
-                    >
-                        <DialogTrigger asChild>
+                <Dialog
+                    open={isDeleteDialogOpen}
+                    onOpenChange={setIsDeleteDialogOpen}
+                >
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button
+                                variant="ghost"
+                                className="h-8 w-8 p-0"
+                                aria-label={`Actions for ${item.title}`}
+                            >
+                                <span className="sr-only">Open menu</span>
+                                <MoreVertical className="h-4 w-4 text-ink-muted" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-[160px]">
+                            <DropdownMenuItem
+                                asChild
+                                className="cursor-pointer gap-2"
+                            >
+                                <Link
+                                    href={NewsController.edit.url(item.id)}
+                                    aria-label={`Edit ${item.title}`}
+                                >
+                                    <Pencil className="h-4 w-4" />
+                                    Edit
+                                </Link>
+                            </DropdownMenuItem>
+                            <DialogTrigger asChild>
+                                <DropdownMenuItem className="cursor-pointer gap-2 text-red-600 focus:text-red-600">
+                                    <Trash2 className="h-4 w-4" />
+                                    Delete
+                                </DropdownMenuItem>
+                            </DialogTrigger>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                    <DialogContent>
+                        <DialogTitle>Delete this news item?</DialogTitle>
+                        <DialogDescription>
+                            “{item.title}” and its uploaded image will be
+                            permanently deleted.
+                        </DialogDescription>
+                        <DialogFooter>
+                            <DialogClose asChild>
+                                <Button variant="outline">Cancel</Button>
+                            </DialogClose>
                             <Button
                                 variant="destructive"
-                                size="icon"
-                                aria-label={`Delete ${item.title}`}
+                                onClick={() =>
+                                    router.delete(
+                                        NewsController.destroy.url(item.id),
+                                        {
+                                            onSuccess: () =>
+                                                setIsDeleteDialogOpen(false),
+                                        },
+                                    )
+                                }
                             >
-                                <Trash2 />
+                                Delete
                             </Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                            <DialogTitle>Delete this news item?</DialogTitle>
-                            <DialogDescription>
-                                “{item.title}” and its uploaded image will be
-                                permanently deleted.
-                            </DialogDescription>
-                            <DialogFooter>
-                                <DialogClose asChild>
-                                    <Button variant="outline">Cancel</Button>
-                                </DialogClose>
-                                <Button
-                                    variant="destructive"
-                                    onClick={() =>
-                                        router.delete(
-                                            NewsController.destroy.url(item.id),
-                                            {
-                                                onSuccess: () =>
-                                                    setIsDeleteDialogOpen(false),
-                                            },
-                                        )
-                                    }
-                                >
-                                    Delete
-                                </Button>
-                            </DialogFooter>
-                        </DialogContent>
-                    </Dialog>
-                </div>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
             </TableCell>
         </TableRow>
     );
@@ -123,21 +148,15 @@ export default function NewsIndex({ news }: { news: PaginatedNews }) {
     return (
         <>
             <Head title="News" />
-            <div className="space-y-6">
-                <div className="flex flex-wrap items-center justify-between gap-4">
-                    <Heading
-                        title="News"
-                        description="Manage news articles and announcements."
-                    />
-                    <Button asChild>
-                        <Link href={NewsController.create.url()}>
-                            <Plus />
-                            Create News
-                        </Link>
-                    </Button>
-                </div>
+            <div className="mx-auto flex w-full max-w-[1400px] flex-col gap-6 p-6 md:p-8">
+                <PageBanner
+                    title="News"
+                    subtitle="Manage news articles and announcements."
+                    actionLabel="Create News"
+                    actionHref={NewsController.create.url()}
+                />
 
-                <div className="rounded-lg border">
+                <div className="overflow-hidden rounded-[20px] border border-line-soft bg-white shadow-sm">
                     <Table>
                         <TableHeader>
                             <TableRow>

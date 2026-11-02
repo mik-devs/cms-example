@@ -1,7 +1,7 @@
 import { Head, useForm } from '@inertiajs/react';
 import type { FormEvent } from 'react';
 import { update } from '@/actions/App/Http/Controllers/Admin/SettingController';
-import Heading from '@/components/heading';
+import PageBanner from '@/components/kiblawan/admin/page-banner';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -40,13 +40,13 @@ export default function SettingsIndex({
     return (
         <>
             <Head title="Settings" />
-            <div className="space-y-6">
-                <Heading
+            <div className="mx-auto flex w-full max-w-[1400px] flex-col gap-6 p-6 md:p-8">
+                <PageBanner
                     title="Settings"
-                    description="Update the site identity and public contact details."
+                    subtitle="Update the site identity and public contact details."
                 />
                 <form onSubmit={handleSubmit} className="space-y-6">
-                    <section className="space-y-5 rounded-xl border bg-card p-6">
+                    <section className="space-y-5 rounded-2xl border border-line-soft bg-card p-6 shadow-sm">
                         <div>
                             <h2 className="text-lg font-semibold">General</h2>
                             <p className="text-sm text-muted-foreground">
@@ -86,7 +86,7 @@ export default function SettingsIndex({
                         </div>
                     </section>
 
-                    <section className="space-y-5 rounded-xl border bg-card p-6">
+                    <section className="space-y-5 rounded-2xl border border-line-soft bg-card p-6 shadow-sm">
                         <div>
                             <h2 className="text-lg font-semibold">
                                 Contact Info
@@ -171,7 +171,7 @@ export default function SettingsIndex({
                         </div>
                     </section>
 
-                    <section className="space-y-5 rounded-xl border bg-card p-6">
+                    <section className="space-y-5 rounded-2xl border border-line-soft bg-card p-6 shadow-sm">
                         <div>
                             <h2 className="text-lg font-semibold">Map</h2>
                             <p className="text-sm text-muted-foreground">

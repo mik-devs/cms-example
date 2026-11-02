@@ -117,11 +117,11 @@ export function ChatbotWidget() {
             >
                 <div className="flex h-[min(70vh,560px)] flex-col overflow-hidden rounded-[24px] border border-line-soft bg-white/90 shadow-2xl backdrop-blur-xl">
                     <div className="flex items-center gap-3 border-b border-white/10 bg-forest px-5 py-4 text-white">
-                        <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm border border-line-soft overflow-hidden">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full border border-line-soft bg-white shadow-sm">
                             <img
                                 src="/images/image.png"
                                 alt="Kiblawan Logo"
-                                className="w-8 h-8 object-contain"
+                                className="h-8 w-8 object-contain"
                             />
                         </div>
                         <div className="min-w-0 flex-1">
@@ -200,7 +200,7 @@ export function ChatbotWidget() {
                             onChange={(event) => setInput(event.target.value)}
                             placeholder={t.chat_placeholder}
                             maxLength={1000}
-                            className="min-w-0 flex-1 rounded-full border border-line-soft bg-cream/60 px-4 py-2.5 text-sm text-ink placeholder:text-ink-muted outline-none transition-all focus:border-gold focus:shadow-[0_0_0_3px_rgba(201,162,39,0.15)]"
+                            className="min-w-0 flex-1 rounded-full border border-line-soft bg-cream/60 px-4 py-2.5 text-sm text-ink transition-all outline-none placeholder:text-ink-muted focus:border-gold focus:shadow-[0_0_0_3px_rgba(201,162,39,0.15)]"
                             aria-label="Chat message"
                         />
                         <button

@@ -16,7 +16,7 @@ export function KiblawanHymn({
             />
             <div
                 aria-hidden="true"
-                className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-maroon via-gold to-maroon"
+                className="absolute top-0 right-0 left-0 h-1.5 bg-gradient-to-r from-maroon via-gold to-maroon"
             />
 
             <Container className="relative z-10">
@@ -24,7 +24,7 @@ export function KiblawanHymn({
                     <h2 className="mb-3 font-display text-[clamp(2.4rem,4.5vw,3.4rem)] tracking-[2px] text-gold-soft [text-shadow:0_6px_24px_rgba(0,0,0,0.45)]">
                         Kiblawan Hymn
                     </h2>
-                    <p className="mb-16 text-center text-base font-extrabold uppercase tracking-[0.25em] text-hymn-sub">
+                    <p className="mb-16 text-center text-base font-extrabold tracking-[0.25em] text-hymn-sub uppercase">
                         Official Music Video
                     </p>
                 </div>

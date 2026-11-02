@@ -28,7 +28,10 @@ export function BarangayMap({
             <Container>
                 <Headline
                     title="Barangay Directory & Map"
-                    action={{ label: 'View All 30 Barangays →', href: '/barangays' }}
+                    action={{
+                        label: 'View All 30 Barangays →',
+                        href: '/barangays',
+                    }}
                 />
 
                 <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-2">
@@ -38,10 +41,10 @@ export function BarangayMap({
                             placeholder="Search for a barangay..."
                             value={query}
                             onChange={(event) => setQuery(event.target.value)}
-                            className="mb-8 w-full rounded-[16px] border border-line-soft bg-white/60 px-5 py-4 font-sans text-ink placeholder:text-ink-muted outline-none transition-all focus:border-gold focus:shadow-[0_0_0_4px_rgba(201,162,39,0.15)]"
+                            className="mb-8 w-full rounded-[16px] border border-line-soft bg-white/60 px-5 py-4 font-sans text-ink transition-all outline-none placeholder:text-ink-muted focus:border-gold focus:shadow-[0_0_0_4px_rgba(201,162,39,0.15)]"
                         />
 
-                        <div className="k-scrollbar grid max-h-80 grid-cols-3 gap-2.5 overflow-y-auto pr-2">
+                        <div className="grid k-scrollbar max-h-80 grid-cols-3 gap-2.5 overflow-y-auto pr-2">
                             {filteredBarangays.map((barangay) => (
                                 <Link
                                     key={barangay.id}
@@ -73,7 +76,9 @@ export function BarangayMap({
                         ) : (
                             <div className="flex h-full min-h-[400px] items-center justify-center gap-3 text-ink-muted">
                                 <MapPin className="size-5 text-gold" />
-                                <span className="font-semibold">Map unavailable</span>
+                                <span className="font-semibold">
+                                    Map unavailable
+                                </span>
                             </div>
                         )}
                     </div>

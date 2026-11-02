@@ -50,7 +50,9 @@ export default function JobForm({
                 <Input
                     id="title"
                     value={form.data.title}
-                    onChange={(event) => form.setData('title', event.target.value)}
+                    onChange={(event) =>
+                        form.setData('title', event.target.value)
+                    }
                     aria-invalid={Boolean(form.errors.title)}
                 />
                 <InputError message={form.errors.title} />
@@ -64,7 +66,7 @@ export default function JobForm({
                         form.setData('description', event.target.value)
                     }
                     aria-invalid={Boolean(form.errors.description)}
-                    className="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 min-h-32 w-full rounded-md border bg-transparent px-3 py-2 text-sm shadow-xs outline-none focus-visible:ring-[3px] aria-invalid:border-destructive"
+                    className="min-h-32 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:border-destructive"
                 />
                 <InputError message={form.errors.description} />
             </div>
@@ -86,7 +88,9 @@ export default function JobForm({
                     id="deadline"
                     type="date"
                     value={form.data.deadline}
-                    onChange={(event) => form.setData('deadline', event.target.value)}
+                    onChange={(event) =>
+                        form.setData('deadline', event.target.value)
+                    }
                     aria-invalid={Boolean(form.errors.deadline)}
                 />
                 <InputError message={form.errors.deadline} />
@@ -101,7 +105,10 @@ export default function JobForm({
                         }
                     }}
                 >
-                    <SelectTrigger id="status" aria-invalid={Boolean(form.errors.status)}>
+                    <SelectTrigger
+                        id="status"
+                        aria-invalid={Boolean(form.errors.status)}
+                    >
                         <SelectValue />
                     </SelectTrigger>
                     <SelectContent>

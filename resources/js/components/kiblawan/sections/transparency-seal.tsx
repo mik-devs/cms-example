@@ -25,7 +25,7 @@ export function TransparencySeal({
                                 <span>Invitation to Bid</span>
                                 <Link
                                     href="/transparency/bids"
-                                    className="text-[0.78rem] font-extrabold uppercase tracking-[0.06em] text-green-600 hover:text-gold"
+                                    className="text-[0.78rem] font-extrabold tracking-[0.06em] text-green-600 uppercase hover:text-gold"
                                 >
                                     More →
                                 </Link>
@@ -37,8 +37,11 @@ export function TransparencySeal({
                                     className="mb-3 flex items-start gap-3 border-b border-dashed border-line-soft pb-4 last:mb-0 last:border-0 last:pb-0"
                                 >
                                     <FileText className="mt-0.5 size-5 shrink-0 text-pdf-red" />
-                                    <Link href={bid.pdf_path ?? '#'} className="block flex-1">
-                                        <b className="mb-1 block text-[0.88rem] font-bold leading-snug text-forest hover:text-green-600">
+                                    <Link
+                                        href={bid.pdf_path ?? '#'}
+                                        className="block flex-1"
+                                    >
+                                        <b className="mb-1 block text-[0.88rem] leading-snug font-bold text-forest hover:text-green-600">
                                             {bid.title}
                                         </b>
                                         <span className="flex items-center gap-1.5 text-[0.78rem] text-ink-muted">
@@ -57,7 +60,7 @@ export function TransparencySeal({
                                 <span>Full Disclosure Policy Reports</span>
                                 <Link
                                     href="/transparency/reports"
-                                    className="text-[0.78rem] font-extrabold uppercase tracking-[0.06em] text-green-600 hover:text-gold"
+                                    className="text-[0.78rem] font-extrabold tracking-[0.06em] text-green-600 uppercase hover:text-gold"
                                 >
                                     Archive →
                                 </Link>
@@ -70,14 +73,17 @@ export function TransparencySeal({
                                         className="mb-3 flex items-start gap-3 border-b border-dashed border-line-soft pb-4"
                                     >
                                         <FileText className="mt-0.5 size-5 shrink-0 text-pdf-red" />
-                                        <Link href={report.pdf_path || '#'} className="block flex-1">
-                                            <b className="block text-[0.88rem] font-bold leading-snug text-forest hover:text-green-600">
+                                        <Link
+                                            href={report.pdf_path || '#'}
+                                            className="block flex-1"
+                                        >
+                                            <b className="block text-[0.88rem] leading-snug font-bold text-forest hover:text-green-600">
                                                 {report.title}
                                             </b>
                                         </Link>
                                         <Link
                                             href={report.pdf_path || '#'}
-                                            className="shrink-0 text-[0.78rem] font-extrabold uppercase tracking-[0.06em] text-green-600 hover:text-gold"
+                                            className="shrink-0 text-[0.78rem] font-extrabold tracking-[0.06em] text-green-600 uppercase hover:text-gold"
                                         >
                                             View
                                         </Link>

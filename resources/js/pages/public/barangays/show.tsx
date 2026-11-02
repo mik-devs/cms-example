@@ -1,11 +1,5 @@
 import { Link } from '@inertiajs/react';
-import {
-    ArrowLeft,
-    MapPin,
-    Phone,
-    UserRound,
-    Users,
-} from 'lucide-react';
+import { ArrowLeft, MapPin, Phone, UserRound, Users } from 'lucide-react';
 import { Container } from '@/components/kiblawan/ui/container';
 import { PageHeader } from '@/components/kiblawan/ui/page-header';
 import { Section } from '@/components/kiblawan/ui/section';
@@ -83,27 +77,29 @@ export default function BarangayShow({ barangay }: { barangay: Barangay }) {
                                     Barangay at a Glance
                                 </h2>
                                 <div className="mt-6 space-y-4">
-                                    {stats.map(({ label, value, icon: Icon }) => (
-                                        <div
-                                            key={label}
-                                            className="flex items-start gap-4 rounded-[16px] border border-line-soft bg-cream/60 p-4"
-                                        >
-                                            <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-green-soft text-green-700">
-                                                <Icon
-                                                    className="size-5"
-                                                    aria-hidden="true"
-                                                />
+                                    {stats.map(
+                                        ({ label, value, icon: Icon }) => (
+                                            <div
+                                                key={label}
+                                                className="flex items-start gap-4 rounded-[16px] border border-line-soft bg-cream/60 p-4"
+                                            >
+                                                <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-green-soft text-green-700">
+                                                    <Icon
+                                                        className="size-5"
+                                                        aria-hidden="true"
+                                                    />
+                                                </div>
+                                                <div className="min-w-0">
+                                                    <p className="text-xs font-bold tracking-[0.12em] text-ink-muted uppercase">
+                                                        {label}
+                                                    </p>
+                                                    <p className="mt-1 font-display text-lg leading-tight font-bold break-words text-forest">
+                                                        {value}
+                                                    </p>
+                                                </div>
                                             </div>
-                                            <div className="min-w-0">
-                                                <p className="text-xs font-bold tracking-[0.12em] text-ink-muted uppercase">
-                                                    {label}
-                                                </p>
-                                                <p className="mt-1 font-display text-lg leading-tight font-bold break-words text-forest">
-                                                    {value}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    ))}
+                                        ),
+                                    )}
                                 </div>
 
                                 <Link

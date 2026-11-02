@@ -155,7 +155,7 @@ function ImageCard({
                 />
             </div>
             <div className="flex flex-1 flex-col p-6 md:p-8">
-                <h3 className="font-display text-xl font-bold leading-snug text-forest">
+                <h3 className="font-display text-xl leading-snug font-bold text-forest">
                     {item.title}
                 </h3>
                 <p className="mt-3 flex-1 leading-7 text-ink-muted">

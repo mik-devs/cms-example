@@ -56,7 +56,9 @@ export default function OfficialForm({
                 <Input
                     id="name"
                     value={form.data.name}
-                    onChange={(event) => form.setData('name', event.target.value)}
+                    onChange={(event) =>
+                        form.setData('name', event.target.value)
+                    }
                     aria-invalid={Boolean(form.errors.name)}
                 />
                 <InputError message={form.errors.name} />
@@ -66,7 +68,9 @@ export default function OfficialForm({
                 <Input
                     id="position"
                     value={form.data.position}
-                    onChange={(event) => form.setData('position', event.target.value)}
+                    onChange={(event) =>
+                        form.setData('position', event.target.value)
+                    }
                     aria-invalid={Boolean(form.errors.position)}
                 />
                 <InputError message={form.errors.position} />
@@ -100,7 +104,9 @@ export default function OfficialForm({
                     onChange={(event) =>
                         form.setData(
                             'order',
-                            event.target.value === '' ? 0 : Number(event.target.value),
+                            event.target.value === ''
+                                ? 0
+                                : Number(event.target.value),
                         )
                     }
                     aria-invalid={Boolean(form.errors.order)}

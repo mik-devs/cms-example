@@ -40,8 +40,12 @@ export default function MayorMessagesIndex({
                 links={mayorMessages.links}
                 columns={columns}
                 createHref={MayorMessageController.create.url()}
-                editHref={(message) => MayorMessageController.edit.url(message.id)}
-                deleteHref={(message) => MayorMessageController.destroy.url(message.id)}
+                editHref={(message) =>
+                    MayorMessageController.edit.url(message.id)
+                }
+                deleteHref={(message) =>
+                    MayorMessageController.destroy.url(message.id)
+                }
                 emptyMessage="No mayor messages have been added yet."
             />
         </>

@@ -32,7 +32,7 @@ export function EmergencyHotlines({
                 <div className="mt-8 text-center">
                     <Link
                         href="/government/directories"
-                        className="inline-flex items-center gap-1 text-[0.85rem] font-bold uppercase tracking-[0.05em] text-gold-soft transition-colors hover:text-gold"
+                        className="inline-flex items-center gap-1 text-[0.85rem] font-bold tracking-[0.05em] text-gold-soft uppercase transition-colors hover:text-gold"
                     >
                         ‹ View all Office Directories ›
                     </Link>

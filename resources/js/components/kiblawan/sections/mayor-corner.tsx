@@ -94,7 +94,8 @@ export function MayorCorner({
                                     </h3>
                                 ) : (
                                     <p className="mb-4 text-sm text-ink-muted">
-                                        No {activeTab.toLowerCase()} are available yet.
+                                        No {activeTab.toLowerCase()} are
+                                        available yet.
                                     </p>
                                 )}
                                 <div className="flex border-b border-line-soft">

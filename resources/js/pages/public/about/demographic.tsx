@@ -35,7 +35,7 @@ export default function AboutDemographic() {
                                             aria-hidden="true"
                                         />
                                     </div>
-                                    <p className="font-display text-3xl font-bold leading-tight text-forest md:text-4xl">
+                                    <p className="font-display text-3xl leading-tight font-bold text-forest md:text-4xl">
                                         {value}
                                     </p>
                                     <h2 className="mt-3 text-sm font-bold tracking-[0.12em] text-ink-muted uppercase">
@@ -68,7 +68,7 @@ export default function AboutDemographic() {
                                         A Community of Farmers, Miners, and
                                         Indigenous Tribes
                                     </h2>
-                                    <p className="mt-4 text-lg font-semibold leading-7 text-gold">
+                                    <p className="mt-4 text-lg leading-7 font-semibold text-gold">
                                         Where Bisaya, B&apos;laan, and Tagalog
                                         Cultures Blend
                                     </p>

@@ -41,7 +41,9 @@ export default function BidForm({
                 <Input
                     id="title"
                     value={form.data.title}
-                    onChange={(event) => form.setData('title', event.target.value)}
+                    onChange={(event) =>
+                        form.setData('title', event.target.value)
+                    }
                     aria-invalid={Boolean(form.errors.title)}
                 />
                 <InputError message={form.errors.title} />
@@ -53,7 +55,10 @@ export default function BidForm({
                     type="file"
                     accept="application/pdf,.pdf"
                     onChange={(event) =>
-                        form.setData('pdf_path', event.target.files?.[0] ?? null)
+                        form.setData(
+                            'pdf_path',
+                            event.target.files?.[0] ?? null,
+                        )
                     }
                     aria-invalid={Boolean(form.errors.pdf_path)}
                 />
@@ -94,7 +99,7 @@ export default function BidForm({
                             form.setData('status', status);
                         }
                     }}
-                    className="border-input h-9 w-full rounded-md border bg-transparent px-3 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
+                    className="h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
                 >
                     <option value="open">Open</option>
                     <option value="closed">Closed</option>

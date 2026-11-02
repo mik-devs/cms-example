@@ -62,7 +62,9 @@ export default function AchievementForm({
                 <Input
                     id="title"
                     value={form.data.title}
-                    onChange={(event) => form.setData('title', event.target.value)}
+                    onChange={(event) =>
+                        form.setData('title', event.target.value)
+                    }
                     aria-invalid={Boolean(form.errors.title)}
                 />
                 <InputError message={form.errors.title} />
@@ -76,7 +78,7 @@ export default function AchievementForm({
                         form.setData('description', event.target.value)
                     }
                     aria-invalid={Boolean(form.errors.description)}
-                    className="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 min-h-32 w-full rounded-md border bg-transparent px-3 py-2 text-sm shadow-xs outline-none focus-visible:ring-[3px] aria-invalid:border-destructive"
+                    className="min-h-32 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:border-destructive"
                 />
                 <InputError message={form.errors.description} />
             </div>
@@ -104,7 +106,9 @@ export default function AchievementForm({
                     onChange={(event) =>
                         form.setData(
                             'order',
-                            event.target.value === '' ? 0 : Number(event.target.value),
+                            event.target.value === ''
+                                ? 0
+                                : Number(event.target.value),
                         )
                     }
                     aria-invalid={Boolean(form.errors.order)}
@@ -132,7 +136,10 @@ export default function AchievementForm({
                     type="file"
                     accept="image/*"
                     onChange={(event) =>
-                        form.setData('image', event.currentTarget.files?.[0] ?? null)
+                        form.setData(
+                            'image',
+                            event.currentTarget.files?.[0] ?? null,
+                        )
                     }
                     aria-invalid={Boolean(form.errors.image)}
                 />

@@ -117,7 +117,7 @@ export function AchievementsCarousel({
                     ref={trackRef}
                     onMouseEnter={() => setIsPaused(true)}
                     onMouseLeave={() => setIsPaused(false)}
-                    className="flex gap-5 overflow-x-auto scroll-smooth px-4 pb-4 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] sm:px-6 lg:px-8 [&::-webkit-scrollbar]:hidden"
+                    className="flex snap-x snap-mandatory [scrollbar-width:none] gap-5 overflow-x-auto scroll-smooth px-4 pb-4 [-ms-overflow-style:none] sm:px-6 lg:px-8 [&::-webkit-scrollbar]:hidden"
                 >
                     {repeatedAchievements.map((achievement, i) => (
                         <div

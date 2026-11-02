@@ -1,29 +1,22 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import {
     index,
     update,
 } from '@/actions/App/Http/Controllers/Admin/BarangayController';
 import type { Barangay } from '@/types';
-import Heading from '@/components/heading';
+import AdminFormPage from '@/components/kiblawan/admin/admin-form-page';
 import BarangayForm from '@/pages/admin/barangays/components/barangay-form';
 
 export default function EditBarangay({ barangay }: { barangay: Barangay }) {
     return (
         <>
             <Head title={`Edit ${barangay.name}`} />
-            <div className="space-y-6">
-                <div className="flex flex-wrap items-center justify-between gap-4">
-                    <Heading
-                        title="Edit Barangay"
-                        description={`Update “${barangay.name}”.`}
-                    />
-                    <Link
-                        href={index.url()}
-                        className="text-sm text-muted-foreground underline-offset-4 hover:underline"
-                    >
-                        Back to Barangays
-                    </Link>
-                </div>
+            <AdminFormPage
+                title="Edit Barangay"
+                description={`Update “${barangay.name}”.`}
+                backHref={index.url()}
+                backLabel="Barangays"
+            >
                 <BarangayForm
                     initialValues={barangay}
                     onSubmit={(form) =>
@@ -31,7 +24,7 @@ export default function EditBarangay({ barangay }: { barangay: Barangay }) {
                     }
                     submitLabel="Save Changes"
                 />
-            </div>
+            </AdminFormPage>
         </>
     );
 }

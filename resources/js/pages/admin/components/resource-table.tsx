@@ -1,7 +1,7 @@
 import { Link, router } from '@inertiajs/react';
 import { useState, type ReactNode } from 'react';
-import { Pencil, Plus, Trash2 } from 'lucide-react';
-import Heading from '@/components/heading';
+import { MoreVertical, Pencil, Trash2 } from 'lucide-react';
+import PageBanner from '@/components/kiblawan/admin/page-banner';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -12,6 +12,12 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import {
     Table,
     TableBody,
@@ -71,52 +77,65 @@ function ResourceTableRow<T extends ResourceItem>({
                 <TableCell key={column.label}>{column.render(item)}</TableCell>
             ))}
             <TableCell>
-                <div className="flex items-center gap-2">
-                    <Button variant="outline" size="icon" asChild>
-                        <Link
-                            href={editHref(item)}
-                            aria-label={`Edit ${itemLabel}`}
-                        >
-                            <Pencil />
-                        </Link>
-                    </Button>
-                    <Dialog
-                        open={isDeleteDialogOpen}
-                        onOpenChange={setIsDeleteDialogOpen}
-                    >
-                        <DialogTrigger asChild>
+                <Dialog
+                    open={isDeleteDialogOpen}
+                    onOpenChange={setIsDeleteDialogOpen}
+                >
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button
+                                variant="ghost"
+                                className="h-8 w-8 p-0"
+                                aria-label={`Actions for ${itemLabel}`}
+                            >
+                                <span className="sr-only">Open menu</span>
+                                <MoreVertical className="h-4 w-4 text-ink-muted" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-[160px]">
+                            <DropdownMenuItem
+                                asChild
+                                className="cursor-pointer gap-2"
+                            >
+                                <Link
+                                    href={editHref(item)}
+                                    aria-label={`Edit ${itemLabel}`}
+                                >
+                                    <Pencil className="h-4 w-4" />
+                                    Edit
+                                </Link>
+                            </DropdownMenuItem>
+                            <DialogTrigger asChild>
+                                <DropdownMenuItem className="cursor-pointer gap-2 text-red-600 focus:text-red-600">
+                                    <Trash2 className="h-4 w-4" />
+                                    Delete
+                                </DropdownMenuItem>
+                            </DialogTrigger>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                    <DialogContent>
+                        <DialogTitle>Delete this item?</DialogTitle>
+                        <DialogDescription>
+                            “{itemLabel}” will be permanently deleted.
+                        </DialogDescription>
+                        <DialogFooter>
+                            <DialogClose asChild>
+                                <Button variant="outline">Cancel</Button>
+                            </DialogClose>
                             <Button
                                 variant="destructive"
-                                size="icon"
-                                aria-label={`Delete ${itemLabel}`}
+                                onClick={() =>
+                                    router.delete(deleteHref(item), {
+                                        onSuccess: () =>
+                                            setIsDeleteDialogOpen(false),
+                                    })
+                                }
                             >
-                                <Trash2 />
+                                Delete
                             </Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                            <DialogTitle>Delete this item?</DialogTitle>
-                            <DialogDescription>
-                                “{itemLabel}” will be permanently deleted.
-                            </DialogDescription>
-                            <DialogFooter>
-                                <DialogClose asChild>
-                                    <Button variant="outline">Cancel</Button>
-                                </DialogClose>
-                                <Button
-                                    variant="destructive"
-                                    onClick={() =>
-                                        router.delete(deleteHref(item), {
-                                            onSuccess: () =>
-                                                setIsDeleteDialogOpen(false),
-                                        })
-                                    }
-                                >
-                                    Delete
-                                </Button>
-                            </DialogFooter>
-                        </DialogContent>
-                    </Dialog>
-                </div>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
             </TableCell>
         </TableRow>
     );
@@ -135,18 +154,15 @@ export default function ResourceTable<T extends ResourceItem>({
     emptyMessage,
 }: ResourceTableProps<T>) {
     return (
-        <div className="space-y-6">
-            <div className="flex flex-wrap items-center justify-between gap-4">
-                <Heading title={title} description={description} />
-                <Button asChild>
-                    <Link href={createHref}>
-                        <Plus />
-                        Create {title.slice(0, -1)}
-                    </Link>
-                </Button>
-            </div>
+        <div className="mx-auto flex w-full max-w-[1400px] flex-col gap-6 p-6 md:p-8">
+            <PageBanner
+                title={title}
+                subtitle={description}
+                actionLabel={`Create ${title.slice(0, -1)}`}
+                actionHref={createHref}
+            />
 
-            <div className="rounded-lg border">
+            <div className="overflow-hidden rounded-[20px] border border-line-soft bg-white shadow-sm">
                 <Table>
                     <TableHeader>
                         <TableRow>

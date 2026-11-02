@@ -36,7 +36,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                     aria-label={`${i + 1} of ${slides.length}`}
                     aria-hidden={i !== index}
                     className={cn(
-                        'absolute inset-0 bg-cover bg-center will-change-[opacity] transition-opacity duration-[1000ms] ease-k-smooth',
+                        'absolute inset-0 bg-cover bg-center transition-opacity duration-[1000ms] ease-k-smooth will-change-[opacity]',
                         i === index
                             ? 'z-10 opacity-100'
                             : 'pointer-events-none z-0 opacity-0',

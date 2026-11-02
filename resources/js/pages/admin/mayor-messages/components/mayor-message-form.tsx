@@ -58,7 +58,9 @@ export default function MayorMessageForm({
                 <Input
                     id="title"
                     value={form.data.title}
-                    onChange={(event) => form.setData('title', event.target.value)}
+                    onChange={(event) =>
+                        form.setData('title', event.target.value)
+                    }
                     aria-invalid={Boolean(form.errors.title)}
                 />
                 <InputError message={form.errors.title} />
@@ -68,9 +70,11 @@ export default function MayorMessageForm({
                 <textarea
                     id="content"
                     value={form.data.content}
-                    onChange={(event) => form.setData('content', event.target.value)}
+                    onChange={(event) =>
+                        form.setData('content', event.target.value)
+                    }
                     aria-invalid={Boolean(form.errors.content)}
-                    className="border-input placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 min-h-48 w-full rounded-md border bg-transparent px-3 py-2 text-sm shadow-xs outline-none focus-visible:ring-[3px] aria-invalid:border-destructive"
+                    className="min-h-48 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:border-destructive"
                 />
                 <InputError message={form.errors.content} />
             </div>
@@ -96,7 +100,7 @@ export default function MayorMessageForm({
                             form.setData('type', selectedType);
                         }
                     }}
-                    className="border-input h-9 w-full rounded-md border bg-transparent px-3 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
+                    className="h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
                 >
                     <option value="photo_release">Photo Release</option>
                     <option value="speech">Speech</option>

@@ -21,7 +21,9 @@ const columns: ResourceTableColumn<JobPosting>[] = [
     {
         label: 'Deadline',
         render: (job) =>
-            job.deadline ? new Date(`${job.deadline}T00:00:00`).toLocaleDateString() : '—',
+            job.deadline
+                ? new Date(`${job.deadline}T00:00:00`).toLocaleDateString()
+                : '—',
     },
     {
         label: 'Status',

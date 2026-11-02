@@ -314,7 +314,8 @@ export default function Navbar() {
                                                                 'bg-green-soft text-green-600',
                                                         )}
                                                     >
-                                                        {getLabel(item)} overview
+                                                        {getLabel(item)}{' '}
+                                                        overview
                                                     </Link>
                                                 </li>
                                                 {item.children.map((child) => (

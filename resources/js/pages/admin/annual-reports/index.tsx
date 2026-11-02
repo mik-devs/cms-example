@@ -19,12 +19,20 @@ export default function AnnualReportsIndex({
         { label: 'Title', render: (report) => report.title },
         { label: 'Category', render: (report) => report.category ?? '—' },
         { label: 'Year', render: (report) => report.year },
-        { label: 'Date Posted', render: (report) => report.date_posted.slice(0, 10) },
+        {
+            label: 'Date Posted',
+            render: (report) => report.date_posted.slice(0, 10),
+        },
         {
             label: 'Document',
             render: (report) =>
                 report.pdf_url ? (
-                    <a href={report.pdf_url} target="_blank" rel="noreferrer" className="underline">
+                    <a
+                        href={report.pdf_url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="underline"
+                    >
                         View PDF
                     </a>
                 ) : (
@@ -43,8 +51,12 @@ export default function AnnualReportsIndex({
                 links={annualReports.links}
                 columns={columns}
                 createHref={AnnualReportController.create.url()}
-                editHref={(report) => AnnualReportController.edit.url(report.id)}
-                deleteHref={(report) => AnnualReportController.destroy.url(report.id)}
+                editHref={(report) =>
+                    AnnualReportController.edit.url(report.id)
+                }
+                deleteHref={(report) =>
+                    AnnualReportController.destroy.url(report.id)
+                }
                 emptyMessage="No annual reports have been added yet."
             />
         </>

@@ -32,7 +32,7 @@ export function AboutSidebar({ currentSection }: { currentSection: string }) {
             <p className="mb-3 hidden px-3 text-xs font-extrabold tracking-[0.18em] text-ink-muted uppercase lg:block">
                 Explore Kiblawan
             </p>
-            <div className="flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] lg:flex-col lg:overflow-visible lg:pb-0 [&::-webkit-scrollbar]:hidden">
+            <div className="flex [scrollbar-width:none] gap-2 overflow-x-auto pb-2 lg:flex-col lg:overflow-visible lg:pb-0 [&::-webkit-scrollbar]:hidden">
                 {sections.map(({ key, label, icon: Icon, href }) => {
                     const isActive = currentSection === key;
 
@@ -47,7 +47,10 @@ export function AboutSidebar({ currentSection }: { currentSection: string }) {
                                     : 'border-line-soft/80 bg-white/70 text-forest shadow-sm backdrop-blur-md hover:border-green-soft hover:bg-green-soft hover:text-green-600'
                             }`}
                         >
-                            <Icon className="size-4 shrink-0" aria-hidden="true" />
+                            <Icon
+                                className="size-4 shrink-0"
+                                aria-hidden="true"
+                            />
                             {label}
                         </Link>
                     );

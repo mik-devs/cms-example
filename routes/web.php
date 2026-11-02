@@ -5,6 +5,8 @@ use App\Http\Controllers\Admin\AchievementController;
 use App\Http\Controllers\Admin\AnnualReportController;
 use App\Http\Controllers\Admin\BarangayController;
 use App\Http\Controllers\Admin\BidController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\EmergencyContactController;
 use App\Http\Controllers\Admin\HeroSlideController;
 use App\Http\Controllers\Admin\JobController;
 use App\Http\Controllers\Admin\MayorMessageController;
@@ -12,6 +14,7 @@ use App\Http\Controllers\Admin\OfficialController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\StatController;
+use App\Http\Controllers\Admin\TourismController as AdminTourismController;
 use App\Http\Controllers\BarangayController as PublicBarangayController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GovernmentController;
@@ -75,7 +78,7 @@ Route::get('/barangays/{slug}', [PublicBarangayController::class, 'show'])
     ->name('barangays.show');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::inertia('dashboard', 'dashboard')->name('dashboard');
+    Route::get('admin', [DashboardController::class, 'index'])->name('dashboard');
 });
 
 Route::prefix('admin')
@@ -96,6 +99,14 @@ Route::prefix('admin')
         });
         Route::middleware('can:manage jobs')->group(function () {
             Route::resource('jobs', JobController::class)
+                ->except('show');
+        });
+        Route::middleware('can:manage tourism')->group(function () {
+            Route::resource('tourism', AdminTourismController::class)
+                ->except('show');
+        });
+        Route::middleware('can:manage emergency')->group(function () {
+            Route::resource('emergency-contacts', EmergencyContactController::class)
                 ->except('show');
         });
         Route::middleware('can:manage bids')->group(function () {

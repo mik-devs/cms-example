@@ -1,30 +1,25 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import AnnualReportController from '@/actions/App/Http/Controllers/Admin/AnnualReportController';
-import Heading from '@/components/heading';
+import AdminFormPage from '@/components/kiblawan/admin/admin-form-page';
 import AnnualReportForm from '@/pages/admin/annual-reports/components/annual-report-form';
 
 export default function CreateAnnualReport() {
     return (
         <>
             <Head title="Create Annual Report" />
-            <div className="space-y-6">
-                <div className="flex flex-wrap items-center justify-between gap-4">
-                    <Heading
-                        title="Create Annual Report"
-                        description="Add an annual report to the public records."
-                    />
-                    <Link
-                        href={AnnualReportController.index.url()}
-                        className="text-sm text-muted-foreground underline-offset-4 hover:underline"
-                    >
-                        Back to Annual Reports
-                    </Link>
-                </div>
+            <AdminFormPage
+                title="Create Annual Report"
+                description="Add an annual report to the public records."
+                backHref={AnnualReportController.index.url()}
+                backLabel="Annual Reports"
+            >
                 <AnnualReportForm
-                    onSubmit={(form) => form.post(AnnualReportController.store.url())}
+                    onSubmit={(form) =>
+                        form.post(AnnualReportController.store.url())
+                    }
                     submitLabel="Create Annual Report"
                 />
-            </div>
+            </AdminFormPage>
         </>
     );
 }
