@@ -11,7 +11,7 @@ export function AppSidebarHeader({
         <AppHeader
             breadcrumbs={breadcrumbs}
             leading={
-                <SidebarTrigger className="-ml-1 size-8 text-ink-muted hover:bg-cream hover:text-forest" />
+                <SidebarTrigger className="-ml-1 size-8 text-ink-muted hover:bg-(--color-bg-light) hover:text-primary" />
             }
         />
     );

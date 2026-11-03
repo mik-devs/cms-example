@@ -41,7 +41,7 @@ export function BarangayMap({
                             placeholder="Search for a barangay..."
                             value={query}
                             onChange={(event) => setQuery(event.target.value)}
-                            className="mb-8 w-full rounded-[16px] border border-line-soft bg-white/60 px-5 py-4 font-sans text-ink transition-all outline-none placeholder:text-ink-muted focus:border-gold focus:shadow-[0_0_0_4px_rgba(201,162,39,0.15)]"
+                            className="mb-8 w-full rounded-[16px] border border-line bg-white px-5 py-4 font-sans text-ink transition-all outline-none placeholder:text-ink-muted focus:border-gold focus:shadow-[0_0_0_4px_rgba(232,184,63,0.15)]"
                         />
 
                         <div className="grid k-scrollbar max-h-80 grid-cols-3 gap-2.5 overflow-y-auto pr-2">
@@ -49,7 +49,7 @@ export function BarangayMap({
                                 <Link
                                     key={barangay.id}
                                     href={`/barangays/${barangay.slug}`}
-                                    className="block rounded-[12px] border border-transparent bg-cream/55 px-4 py-3 text-[0.88rem] text-forest transition-all hover:translate-x-1 hover:border-green-soft hover:bg-green-soft hover:text-green-600"
+                                    className="block rounded-[12px] border border-transparent bg-cream px-4 py-3 text-[0.88rem] text-primary transition-all hover:border-green-soft hover:bg-green-soft hover:text-green-dark"
                                 >
                                     {barangay.name}
                                 </Link>
@@ -63,7 +63,7 @@ export function BarangayMap({
                         )}
                     </div>
 
-                    <div className="h-full min-h-[400px] overflow-hidden rounded-[20px] border border-line-soft bg-image-bed shadow-k-soft">
+                    <div className="h-full min-h-[400px] overflow-hidden rounded-[20px] border border-line bg-image-bed shadow-k-soft">
                         {mapEmbedUrl ? (
                             <iframe
                                 src={mapEmbedUrl}
@@ -75,7 +75,7 @@ export function BarangayMap({
                             />
                         ) : (
                             <div className="flex h-full min-h-[400px] items-center justify-center gap-3 text-ink-muted">
-                                <MapPin className="size-5 text-gold" />
+                                <MapPin className="size-5 text-primary" />
                                 <span className="font-semibold">
                                     Map unavailable
                                 </span>

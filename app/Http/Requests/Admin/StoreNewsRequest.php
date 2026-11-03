@@ -20,7 +20,7 @@ class StoreNewsRequest extends FormRequest
             'category' => ['required', 'in:news,announcement'],
             'status' => ['required', 'in:draft,published'],
             'published_at' => ['nullable', 'date'],
-            'image' => ['nullable', 'image', 'max:2048'],
+            'image' => ['required', 'image', 'max:2048'],
             'is_featured' => ['boolean'],
         ];
     }

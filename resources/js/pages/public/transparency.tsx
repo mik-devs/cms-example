@@ -25,11 +25,11 @@ export default function Transparency({
                 <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-2">
                     <section
                         id="bids"
-                        className={`h-full rounded-[20px] border border-t-4 border-line-soft border-t-green bg-white/80 p-6 shadow-k-card md:p-7 ${
+                        className={`h-full rounded-[20px] border border-t-4 border-line border-t-green bg-white p-6 shadow-k-card md:p-7 ${
                             tab === 'bids' ? 'ring-2 ring-gold/40' : ''
                         }`}
                     >
-                        <h2 className="mb-5 font-display text-xl font-bold text-forest">
+                        <h2 className="mb-5 font-display text-xl font-bold text-primary">
                             Bids & Awards
                         </h2>
                         {bids.length > 0 ? (
@@ -37,7 +37,7 @@ export default function Transparency({
                                 {bids.map((bid) => (
                                     <li
                                         key={bid.id}
-                                        className="flex items-start gap-3 border-b border-dashed border-line-soft py-4 first:pt-0 last:border-0 last:pb-0"
+                                        className="flex items-start gap-3 border-b border-dashed border-line py-4 first:pt-0 last:border-0 last:pb-0"
                                     >
                                         <FileText className="mt-1 size-5 shrink-0 text-pdf-red" />
                                         <div className="min-w-0 flex-1">
@@ -46,21 +46,21 @@ export default function Transparency({
                                                     href={bid.pdf_url}
                                                     target="_blank"
                                                     rel="noreferrer"
-                                                    className="font-bold text-forest hover:text-green-600"
+                                                    className="font-bold text-primary hover:text-green-dark"
                                                 >
                                                     {bid.title}
                                                 </a>
                                             ) : (
-                                                <span className="font-bold text-forest">
+                                                <span className="font-bold text-primary">
                                                     {bid.title}
                                                 </span>
                                             )}
                                             <span className="mt-1 flex items-center gap-1.5 text-xs text-ink-muted">
-                                                <Calendar className="size-3 text-gold" />
+                                                <Calendar className="size-3 text-primary" />
                                                 {formatDate(bid.date_posted)}
                                             </span>
                                         </div>
-                                        <span className="rounded-full bg-green-soft px-2.5 py-1 text-xs font-semibold text-forest">
+                                        <span className="rounded-full bg-green-soft px-2.5 py-1 text-xs font-semibold text-primary">
                                             {bid.status}
                                         </span>
                                     </li>
@@ -73,7 +73,7 @@ export default function Transparency({
                         )}
                         <Link
                             href="/transparency/bids"
-                            className="mt-6 inline-flex font-semibold text-green-600 hover:text-gold"
+                            className="mt-6 inline-flex font-semibold text-green-dark hover:text-primary"
                         >
                             View bid documents
                         </Link>
@@ -81,11 +81,11 @@ export default function Transparency({
 
                     <section
                         id="reports"
-                        className={`h-full rounded-[20px] border border-t-4 border-line-soft border-t-green bg-white/80 p-6 shadow-k-card md:p-7 ${
+                        className={`h-full rounded-[20px] border border-t-4 border-line border-t-green bg-white p-6 shadow-k-card md:p-7 ${
                             tab === 'reports' ? 'ring-2 ring-gold/40' : ''
                         }`}
                     >
-                        <h2 className="mb-5 font-display text-xl font-bold text-forest">
+                        <h2 className="mb-5 font-display text-xl font-bold text-primary">
                             Full Disclosure Reports
                         </h2>
                         {annualReports.length > 0 ? (
@@ -93,7 +93,7 @@ export default function Transparency({
                                 {annualReports.map((report) => (
                                     <li
                                         key={report.id}
-                                        className="flex items-start gap-3 border-b border-dashed border-line-soft py-4 first:pt-0 last:border-0 last:pb-0"
+                                        className="flex items-start gap-3 border-b border-dashed border-line py-4 first:pt-0 last:border-0 last:pb-0"
                                     >
                                         <FileText className="mt-1 size-5 shrink-0 text-pdf-red" />
                                         <div className="min-w-0 flex-1">
@@ -102,12 +102,12 @@ export default function Transparency({
                                                     href={report.pdf_url}
                                                     target="_blank"
                                                     rel="noreferrer"
-                                                    className="font-bold text-forest hover:text-green-600"
+                                                    className="font-bold text-primary hover:text-green-dark"
                                                 >
                                                     {report.title}
                                                 </a>
                                             ) : (
-                                                <span className="font-bold text-forest">
+                                                <span className="font-bold text-primary">
                                                     {report.title}
                                                 </span>
                                             )}
@@ -131,7 +131,7 @@ export default function Transparency({
                         )}
                         <Link
                             href="/transparency/reports"
-                            className="mt-6 inline-flex font-semibold text-green-600 hover:text-gold"
+                            className="mt-6 inline-flex font-semibold text-green-dark hover:text-primary"
                         >
                             View disclosure reports
                         </Link>

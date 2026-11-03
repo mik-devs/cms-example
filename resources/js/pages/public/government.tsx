@@ -11,11 +11,7 @@ const tabTitles: Record<string, string> = {
     directories: 'Office Directories',
 };
 
-export default function Government({
-    tab,
-}: {
-    tab: string | null;
-}) {
+export default function Government({ tab }: { tab: string | null }) {
     const activeTab = tab ?? 'overview';
     const title = tabTitles[activeTab] ?? 'Government of Kiblawan';
 
@@ -24,8 +20,8 @@ export default function Government({
             <PageHeader title="Government" />
             <Container className="py-12 md:py-16">
                 <GovernmentNavigation activeTab={activeTab} />
-                <article className="rounded-[20px] border border-line-soft bg-white/80 p-6 shadow-k-soft md:p-9">
-                    <h2 className="mb-4 font-display text-2xl font-bold text-forest">
+                <article className="rounded-[20px] border border-line bg-white p-6 shadow-k-soft md:p-9">
+                    <h2 className="mb-4 font-display text-2xl font-bold text-primary">
                         {title}
                     </h2>
                     <p className="m-0 text-ink-muted">

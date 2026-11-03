@@ -162,7 +162,7 @@ export default function ResourceTable<T extends ResourceItem>({
                 actionHref={createHref}
             />
 
-            <div className="overflow-hidden rounded-[20px] border border-line-soft bg-white shadow-sm">
+            <div className="overflow-hidden rounded-[20px] border border-line bg-white shadow-sm">
                 <Table>
                     <TableHeader>
                         <TableRow>

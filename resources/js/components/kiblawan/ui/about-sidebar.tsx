@@ -41,10 +41,10 @@ export function AboutSidebar({ currentSection }: { currentSection: string }) {
                             key={key}
                             href={href}
                             aria-current={isActive ? 'page' : undefined}
-                            className={`inline-flex shrink-0 items-center gap-3 rounded-xl border px-4 py-3 text-sm font-bold transition-all duration-300 hover:-translate-y-0.5 lg:w-full ${
+                            className={`inline-flex shrink-0 items-center gap-3 rounded-xl border px-4 py-3 text-sm font-bold transition-colors duration-300 lg:w-full ${
                                 isActive
-                                    ? 'border-forest bg-forest text-white shadow-k-card'
-                                    : 'border-line-soft/80 bg-white/70 text-forest shadow-sm backdrop-blur-md hover:border-green-soft hover:bg-green-soft hover:text-green-600'
+                                    ? 'border-primary bg-primary text-white shadow-sm'
+                                    : 'border-line bg-white text-primary shadow-sm hover:border-primary/30 hover:bg-primary/5 hover:text-primary'
                             }`}
                         >
                             <Icon

@@ -25,7 +25,7 @@ export function AppHeader({ breadcrumbs = [], leading }: Props) {
     const getInitials = useInitials();
 
     return (
-        <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center gap-3 border-b border-line-soft bg-white px-4 md:px-6">
+        <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center gap-3 border-b border-line bg-white px-4 md:px-6">
             {leading}
 
             <div className="flex min-w-0 items-center gap-2 text-sm text-ink-muted">
@@ -42,7 +42,7 @@ export function AppHeader({ breadcrumbs = [], leading }: Props) {
                     variant="ghost"
                     size="icon"
                     aria-label="Notifications"
-                    className="relative size-9 rounded-full text-ink-muted hover:bg-cream hover:text-forest"
+                    className="relative size-9 rounded-full text-ink-muted hover:bg-(--color-bg-light) hover:text-primary"
                 >
                     <Bell className="h-4 w-4" />
                     <span className="absolute top-2 right-2 size-1.5 rounded-full bg-gold" />
@@ -53,19 +53,19 @@ export function AppHeader({ breadcrumbs = [], leading }: Props) {
                         <DropdownMenuTrigger asChild>
                             <Button
                                 variant="ghost"
-                                className="h-10 gap-2 rounded-full px-2 hover:bg-cream"
+                                className="h-10 gap-2 rounded-full px-2 hover:bg-(--color-bg-light)"
                             >
-                                <Avatar className="size-8 border border-line-soft">
+                                <Avatar className="size-8 border border-line">
                                     <AvatarImage
                                         src={user.avatar}
                                         alt={user.name}
                                     />
-                                    <AvatarFallback className="bg-forest text-xs font-semibold text-white">
+                                    <AvatarFallback className="bg-primary text-xs font-semibold text-white">
                                         {getInitials(user.name)}
                                     </AvatarFallback>
                                 </Avatar>
                                 <span className="hidden text-left md:grid">
-                                    <span className="text-sm leading-tight font-semibold text-forest">
+                                    <span className="text-sm leading-tight font-semibold text-primary">
                                         {user.name}
                                     </span>
                                     <span className="text-[11px] leading-tight text-ink-muted capitalize">

@@ -4,7 +4,6 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Str;
 
 class StoreTourismRequest extends FormRequest
 {
@@ -20,10 +19,14 @@ class StoreTourismRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255', 'unique:tourism_spots,slug'],
+            'slug' => ['required', 'string', 'max:255', 'unique:tourism_spots,slug'],
             'description' => ['required', 'string'],
             'image' => ['required', 'image', 'max:5120'],
-            'category' => ['nullable', 'string', 'max:255'],
+            'images' => ['nullable', 'array'],
+            'images.*' => ['image', 'max:5120'],
+            'category' => ['required', 'string', 'max:255'],
+            'latitude' => ['nullable', 'numeric', 'between:-90,90'],
+            'longitude' => ['nullable', 'numeric', 'between:-180,180'],
             'order' => ['required', 'integer', 'min:0'],
             'is_active' => ['boolean'],
         ];
@@ -33,12 +36,6 @@ class StoreTourismRequest extends FormRequest
     {
         if (! $this->has('is_active')) {
             $this->merge(['is_active' => true]);
-        }
-
-        if (blank($this->input('slug'))) {
-            $slug = Str::slug((string) $this->input('name'));
-
-            $this->merge(['slug' => $slug !== '' ? $slug : 'tourism-'.Str::random(8)]);
         }
     }
 }

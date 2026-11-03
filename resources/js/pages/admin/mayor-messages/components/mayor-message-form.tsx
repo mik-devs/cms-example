@@ -54,9 +54,12 @@ export default function MayorMessageForm({
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid gap-2">
-                <Label htmlFor="title">Title</Label>
+                <Label htmlFor="title">
+                    Title <span className="text-red-500">*</span>
+                </Label>
                 <Input
                     id="title"
+                    required
                     value={form.data.title}
                     onChange={(event) =>
                         form.setData('title', event.target.value)
@@ -66,9 +69,12 @@ export default function MayorMessageForm({
                 <InputError message={form.errors.title} />
             </div>
             <div className="grid gap-2">
-                <Label htmlFor="content">Content</Label>
+                <Label htmlFor="content">
+                    Content <span className="text-red-500">*</span>
+                </Label>
                 <textarea
                     id="content"
+                    required
                     value={form.data.content}
                     onChange={(event) =>
                         form.setData('content', event.target.value)
@@ -79,7 +85,9 @@ export default function MayorMessageForm({
                 <InputError message={form.errors.content} />
             </div>
             <div className="grid gap-2 sm:max-w-md">
-                <Label htmlFor="type">Type</Label>
+                <Label htmlFor="type">
+                    Type <span className="text-red-500">*</span>
+                </Label>
                 <select
                     id="type"
                     value={form.data.type}
@@ -110,7 +118,10 @@ export default function MayorMessageForm({
                 <InputError message={form.errors.type} />
             </div>
             <div className="grid gap-2">
-                <Label htmlFor="image">Image</Label>
+                <Label htmlFor="image">
+                    Image
+                    {!initialValues && <span className="text-red-500"> *</span>}
+                </Label>
                 {imagePreview && (
                     <img
                         src={imagePreview}
@@ -122,6 +133,7 @@ export default function MayorMessageForm({
                     id="image"
                     type="file"
                     accept="image/*"
+                    required={!initialValues}
                     onChange={(event) =>
                         form.setData('image', event.target.files?.[0] ?? null)
                     }

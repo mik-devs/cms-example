@@ -42,9 +42,12 @@ export default function ServiceForm({
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid gap-2">
-                <Label htmlFor="title">Title</Label>
+                <Label htmlFor="title">
+                    Title <span className="text-red-500">*</span>
+                </Label>
                 <Input
                     id="title"
+                    required
                     value={form.data.title}
                     onChange={(event) =>
                         form.setData('title', event.target.value)
@@ -54,9 +57,12 @@ export default function ServiceForm({
                 <InputError message={form.errors.title} />
             </div>
             <div className="grid gap-2">
-                <Label htmlFor="description">Description</Label>
+                <Label htmlFor="description">
+                    Description <span className="text-red-500">*</span>
+                </Label>
                 <textarea
                     id="description"
+                    required
                     value={form.data.description}
                     onChange={(event) =>
                         form.setData('description', event.target.value)
@@ -67,9 +73,12 @@ export default function ServiceForm({
                 <InputError message={form.errors.description} />
             </div>
             <div className="grid gap-2">
-                <Label htmlFor="icon">Icon</Label>
+                <Label htmlFor="icon">
+                    Icon <span className="text-red-500">*</span>
+                </Label>
                 <Input
                     id="icon"
+                    required
                     placeholder="e.g. Briefcase"
                     value={form.data.icon}
                     onChange={(event) =>
@@ -92,7 +101,9 @@ export default function ServiceForm({
                 <InputError message={form.errors.link} />
             </div>
             <div className="grid gap-2 sm:max-w-xs">
-                <Label htmlFor="order">Order</Label>
+                <Label htmlFor="order">
+                    Order <span className="text-red-500">*</span>
+                </Label>
                 <Input
                     id="order"
                     type="number"

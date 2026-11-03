@@ -45,10 +45,10 @@ export default function BarangayShow({ barangay }: { barangay: Barangay }) {
                                     alt={`Barangay ${barangay.name}`}
                                     className="absolute inset-0 size-full object-cover"
                                 />
-                                <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-forest/60 to-transparent" />
-                                <span className="absolute right-6 bottom-6 inline-flex items-center gap-2 rounded-full border border-white/40 bg-forest/70 px-4 py-2 text-sm font-semibold text-white backdrop-blur-md">
+                                <div className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-primary/60 to-transparent" />
+                                <span className="absolute right-6 bottom-6 inline-flex items-center gap-2 rounded-full border border-white/40 bg-primary/70 px-4 py-2 text-sm font-semibold text-white">
                                     <MapPin
-                                        className="size-4 text-gold"
+                                        className="size-4 text-primary"
                                         aria-hidden="true"
                                     />
                                     Kiblawan, Davao del Sur
@@ -56,10 +56,10 @@ export default function BarangayShow({ barangay }: { barangay: Barangay }) {
                             </div>
 
                             <div className="mt-10">
-                                <span className="mb-5 inline-flex w-fit items-center rounded-full border border-gold/30 bg-gold/10 px-4 py-2 text-xs font-extrabold tracking-[0.12em] text-forest uppercase">
+                                <span className="mb-5 inline-flex w-fit items-center rounded-full border border-gold/30 bg-gold/10 px-4 py-2 text-xs font-extrabold tracking-[0.12em] text-primary uppercase">
                                     Community profile
                                 </span>
-                                <h2 className="font-display text-[clamp(1.8rem,3vw,2.6rem)] leading-tight font-bold text-forest">
+                                <h2 className="font-display text-[clamp(1.8rem,3vw,2.6rem)] leading-tight font-bold text-primary">
                                     About {barangay.name}
                                 </h2>
                                 <p className="mt-6 text-base leading-8 text-ink-muted">
@@ -72,8 +72,8 @@ export default function BarangayShow({ barangay }: { barangay: Barangay }) {
                         </div>
 
                         <aside className="space-y-6">
-                            <div className="rounded-[24px] bg-white/80 p-6 shadow-k-card backdrop-blur-md md:p-8">
-                                <h2 className="font-display text-xl font-bold text-forest">
+                            <div className="rounded-[24px] bg-white p-6 shadow-k-card md:p-8">
+                                <h2 className="font-display text-xl font-bold text-primary">
                                     Barangay at a Glance
                                 </h2>
                                 <div className="mt-6 space-y-4">
@@ -81,9 +81,9 @@ export default function BarangayShow({ barangay }: { barangay: Barangay }) {
                                         ({ label, value, icon: Icon }) => (
                                             <div
                                                 key={label}
-                                                className="flex items-start gap-4 rounded-[16px] border border-line-soft bg-cream/60 p-4"
+                                                className="flex items-start gap-4 rounded-[16px] border border-line bg-cream p-4"
                                             >
-                                                <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-green-soft text-green-700">
+                                                <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-green-soft text-green-dark">
                                                     <Icon
                                                         className="size-5"
                                                         aria-hidden="true"
@@ -93,7 +93,7 @@ export default function BarangayShow({ barangay }: { barangay: Barangay }) {
                                                     <p className="text-xs font-bold tracking-[0.12em] text-ink-muted uppercase">
                                                         {label}
                                                     </p>
-                                                    <p className="mt-1 font-display text-lg leading-tight font-bold break-words text-forest">
+                                                    <p className="mt-1 font-display text-lg leading-tight font-bold break-words text-primary">
                                                         {value}
                                                     </p>
                                                 </div>
@@ -104,7 +104,7 @@ export default function BarangayShow({ barangay }: { barangay: Barangay }) {
 
                                 <Link
                                     href="/#barangay-directory"
-                                    className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-[16px] bg-forest px-5 py-3 font-bold text-white transition-colors hover:bg-green-600"
+                                    className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-[16px] bg-primary px-5 py-3 font-bold text-white transition-colors hover:bg-green-dark"
                                 >
                                     <ArrowLeft
                                         className="size-4"
@@ -114,7 +114,7 @@ export default function BarangayShow({ barangay }: { barangay: Barangay }) {
                                 </Link>
                             </div>
 
-                            <div className="overflow-hidden rounded-[24px] border border-line-soft bg-white/80 shadow-k-card backdrop-blur-md">
+                            <div className="overflow-hidden rounded-[24px] border border-line bg-white shadow-k-card">
                                 <iframe
                                     src={mapSrc}
                                     className="h-72 w-full border-0"

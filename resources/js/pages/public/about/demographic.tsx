@@ -27,15 +27,15 @@ export default function AboutDemographic() {
                             {stats.map(({ label, value, icon: Icon }) => (
                                 <article
                                     key={label}
-                                    className="group rounded-[24px] border border-line-soft bg-white/80 p-6 shadow-k-card backdrop-blur-[14px] transition-all duration-300 hover:-translate-y-1 hover:border-gold/40 hover:shadow-k-glow md:p-8"
+                                    className="group rounded-[24px] border border-line bg-white p-6 shadow-k-card transition-all duration-300 hover:border-gold/40 hover:shadow-k-glow md:p-8"
                                 >
-                                    <div className="mb-6 flex size-12 items-center justify-center rounded-full bg-green-soft text-green-700 transition-colors group-hover:bg-gold/20">
+                                    <div className="mb-6 flex size-12 items-center justify-center rounded-full bg-green-soft text-green-dark transition-colors group-hover:bg-gold/20">
                                         <Icon
                                             className="size-6"
                                             aria-hidden="true"
                                         />
                                     </div>
-                                    <p className="font-display text-3xl leading-tight font-bold text-forest md:text-4xl">
+                                    <p className="font-display text-3xl leading-tight font-bold text-primary md:text-4xl">
                                         {value}
                                     </p>
                                     <h2 className="mt-3 text-sm font-bold tracking-[0.12em] text-ink-muted uppercase">
@@ -51,28 +51,28 @@ export default function AboutDemographic() {
                                     <img
                                         src="/images/about/kiblawan-community-photo.png.png"
                                         alt="Residents and community life in Kiblawan"
-                                        className="absolute inset-0 size-full object-cover transition-transform duration-700 hover:scale-105"
+                                        className="absolute inset-0 size-full object-cover transition-transform duration-700"
                                     />
-                                    <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-forest/50 to-transparent" />
-                                    <span className="absolute right-6 bottom-6 rounded-full border border-white/40 bg-forest/70 px-4 py-2 text-sm font-semibold text-white backdrop-blur-md">
+                                    <div className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-primary/50 to-transparent" />
+                                    <span className="absolute right-6 bottom-6 rounded-full border border-white/40 bg-primary/70 px-4 py-2 text-sm font-semibold text-white">
                                         Kiblawan, Davao del Sur
                                     </span>
                                 </div>
                             }
                             right={
                                 <div className="flex flex-col justify-center">
-                                    <span className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-2 text-xs font-extrabold tracking-[0.12em] text-forest uppercase">
+                                    <span className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-2 text-xs font-extrabold tracking-[0.12em] text-primary uppercase">
                                         <Users
-                                            className="w-4 h-4 text-gold"
+                                            className="h-4 w-4 text-primary"
                                             aria-hidden="true"
                                         />
                                         People & community
                                     </span>
-                                    <h2 className="font-display text-[clamp(1.8rem,3vw,2.6rem)] leading-tight font-bold text-forest">
+                                    <h2 className="font-display text-[clamp(1.8rem,3vw,2.6rem)] leading-tight font-bold text-primary">
                                         A Community of Farmers, Miners, and
                                         Indigenous Tribes
                                     </h2>
-                                    <p className="mt-4 text-lg leading-7 font-semibold text-gold">
+                                    <p className="mt-4 text-lg leading-7 font-semibold text-primary">
                                         Where Bisaya, B&apos;laan, and Tagalog
                                         Cultures Blend
                                     </p>

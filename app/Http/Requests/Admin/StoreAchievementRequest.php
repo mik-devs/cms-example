@@ -28,7 +28,7 @@ class StoreAchievementRequest extends FormRequest
             'badge_year' => ['required', 'string', 'max:10'],
             'order' => ['required', 'integer', 'min:0'],
             'is_active' => ['boolean'],
-            'image' => ['nullable', 'image', 'max:2048'],
+            'image' => ['required', 'image', 'max:2048'],
         ];
     }
 

@@ -46,10 +46,10 @@ export default function NewsIndex({ news }: { news: NewsPageData }) {
                                     const label = paginationLabel(link.label);
                                     const className = `inline-flex min-h-10 min-w-10 items-center justify-center rounded-lg border px-3 text-sm font-semibold transition-colors ${
                                         link.active
-                                            ? 'border-gold bg-gold text-forest'
+                                            ? 'border-gold bg-gold text-primary'
                                             : link.url
-                                              ? 'border-line-soft bg-white text-forest hover:border-gold hover:bg-cream'
-                                              : 'cursor-not-allowed border-line-soft bg-cream/50 text-ink-muted'
+                                              ? 'border-line bg-white text-primary hover:border-gold hover:bg-cream'
+                                              : 'cursor-not-allowed border-line bg-cream text-ink-muted'
                                     }`;
 
                                     return link.url ? (
@@ -77,7 +77,7 @@ export default function NewsIndex({ news }: { news: NewsPageData }) {
                         )}
                     </>
                 ) : (
-                    <p className="rounded-[20px] border border-line-soft bg-white/80 p-8 text-ink-muted">
+                    <p className="rounded-[20px] border border-line bg-white p-8 text-ink-muted">
                         No news or announcements are available right now.
                     </p>
                 )}

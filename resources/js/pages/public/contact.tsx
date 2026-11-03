@@ -50,15 +50,15 @@ export default function Contact({
             <Container className="py-12 md:py-16">
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
                     <div className="flex flex-col gap-8">
-                        <section className="relative z-10 rounded-[20px] border border-line-soft bg-white/80 p-6 shadow-k-soft md:p-8">
-                            <h2 className="mb-6 font-display text-2xl font-bold text-forest">
+                        <section className="relative z-10 rounded-[20px] border border-line bg-white p-6 shadow-k-soft md:p-8">
+                            <h2 className="mb-6 font-display text-2xl font-bold text-primary">
                                 Contact Information
                             </h2>
                             <ul className="m-0 flex list-none flex-col gap-5 p-0">
                                 <li className="flex gap-4">
-                                    <MapPin className="mt-1 size-5 shrink-0 text-gold" />
+                                    <MapPin className="mt-1 size-5 shrink-0 text-primary" />
                                     <div>
-                                        <h3 className="font-sans text-sm font-bold text-forest">
+                                        <h3 className="font-sans text-sm font-bold text-primary">
                                             Address
                                         </h3>
                                         <p className="m-0 text-ink-muted">
@@ -68,14 +68,14 @@ export default function Contact({
                                 </li>
                                 {phone && (
                                     <li className="flex gap-4">
-                                        <Phone className="mt-1 size-5 shrink-0 text-gold" />
+                                        <Phone className="mt-1 size-5 shrink-0 text-primary" />
                                         <div>
-                                            <h3 className="font-sans text-sm font-bold text-forest">
+                                            <h3 className="font-sans text-sm font-bold text-primary">
                                                 Phone
                                             </h3>
                                             <a
                                                 href={`tel:${phoneHref}`}
-                                                className="text-ink-muted hover:text-green-600"
+                                                className="text-ink-muted hover:text-green-dark"
                                             >
                                                 {phone}
                                             </a>
@@ -84,14 +84,14 @@ export default function Contact({
                                 )}
                                 {email && (
                                     <li className="flex gap-4">
-                                        <Mail className="mt-1 size-5 shrink-0 text-gold" />
+                                        <Mail className="mt-1 size-5 shrink-0 text-primary" />
                                         <div>
-                                            <h3 className="font-sans text-sm font-bold text-forest">
+                                            <h3 className="font-sans text-sm font-bold text-primary">
                                                 Email
                                             </h3>
                                             <a
                                                 href={`mailto:${email}`}
-                                                className="text-ink-muted hover:text-green-600"
+                                                className="text-ink-muted hover:text-green-dark"
                                             >
                                                 {email}
                                             </a>
@@ -100,9 +100,9 @@ export default function Contact({
                                 )}
                                 {officeHours && (
                                     <li className="flex gap-4">
-                                        <Clock className="mt-1 size-5 shrink-0 text-gold" />
+                                        <Clock className="mt-1 size-5 shrink-0 text-primary" />
                                         <div>
-                                            <h3 className="font-sans text-sm font-bold text-forest">
+                                            <h3 className="font-sans text-sm font-bold text-primary">
                                                 Office Hours
                                             </h3>
                                             <p className="m-0 text-ink-muted">
@@ -114,15 +114,15 @@ export default function Contact({
                             </ul>
                         </section>
 
-                        <section className="rounded-[20px] border border-line-soft bg-white/80 p-6 shadow-k-soft md:p-8">
-                            <h2 className="mb-5 font-display text-2xl font-bold text-forest">
+                        <section className="rounded-[20px] border border-line bg-white p-6 shadow-k-soft md:p-8">
+                            <h2 className="mb-5 font-display text-2xl font-bold text-primary">
                                 Send a Message
                             </h2>
                             <form
                                 className="flex flex-col gap-4"
                                 onSubmit={handleSubmit}
                             >
-                                <label className="flex flex-col gap-1.5 text-sm font-semibold text-forest">
+                                <label className="flex flex-col gap-1.5 text-sm font-semibold text-primary">
                                     Name
                                     <input
                                         type="text"
@@ -136,10 +136,10 @@ export default function Contact({
                                                 name: event.target.value,
                                             })
                                         }
-                                        className="w-full rounded-xl border border-line-soft bg-white/50 px-4 py-3 text-ink transition-all outline-none focus:border-gold focus:ring-2 focus:ring-gold/20"
+                                        className="w-full rounded-xl border border-line bg-white px-4 py-3 text-ink transition-all outline-none focus:border-gold focus:ring-2 focus:ring-gold/20"
                                     />
                                 </label>
-                                <label className="flex flex-col gap-1.5 text-sm font-semibold text-forest">
+                                <label className="flex flex-col gap-1.5 text-sm font-semibold text-primary">
                                     Email
                                     <input
                                         type="email"
@@ -153,10 +153,10 @@ export default function Contact({
                                                 email: event.target.value,
                                             })
                                         }
-                                        className="w-full rounded-xl border border-line-soft bg-white/50 px-4 py-3 text-ink transition-all outline-none focus:border-gold focus:ring-2 focus:ring-gold/20"
+                                        className="w-full rounded-xl border border-line bg-white px-4 py-3 text-ink transition-all outline-none focus:border-gold focus:ring-2 focus:ring-gold/20"
                                     />
                                 </label>
-                                <label className="flex flex-col gap-1.5 text-sm font-semibold text-forest">
+                                <label className="flex flex-col gap-1.5 text-sm font-semibold text-primary">
                                     Message
                                     <textarea
                                         name="message"
@@ -169,12 +169,12 @@ export default function Contact({
                                                 message: event.target.value,
                                             })
                                         }
-                                        className="w-full resize-y rounded-xl border border-line-soft bg-white/50 px-4 py-3 text-ink transition-all outline-none focus:border-gold focus:ring-2 focus:ring-gold/20"
+                                        className="w-full resize-y rounded-xl border border-line bg-white px-4 py-3 text-ink transition-all outline-none focus:border-gold focus:ring-2 focus:ring-gold/20"
                                     />
                                 </label>
                                 <button
                                     type="submit"
-                                    className="w-fit rounded-full bg-forest px-6 py-3 font-bold text-white transition-colors hover:bg-green-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
+                                    className="w-fit rounded-full bg-primary px-6 py-3 font-bold text-white transition-colors hover:bg-green-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
                                 >
                                     Send
                                 </button>
@@ -182,7 +182,7 @@ export default function Contact({
                         </section>
                     </div>
 
-                    <div className="min-h-[400px] overflow-hidden rounded-[20px] border border-line-soft bg-image-bed shadow-k-soft">
+                    <div className="min-h-[400px] overflow-hidden rounded-[20px] border border-line bg-image-bed shadow-k-soft">
                         {settings.map_embed ? (
                             <iframe
                                 src={settings.map_embed}

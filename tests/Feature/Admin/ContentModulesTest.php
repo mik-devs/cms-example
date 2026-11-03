@@ -120,7 +120,7 @@ it('creates and updates services that are reflected on the public page', functio
     $this->assertDatabaseMissing('services', ['id' => $service->id]);
 });
 
-it('stores optional achievement images and replaces or deletes uploaded images', function () {
+it('stores achievement images and replaces or deletes uploaded images', function () {
     Storage::fake('public');
     $this->actingAs(superAdminUser());
 
@@ -130,10 +130,11 @@ it('stores optional achievement images and replaces or deletes uploaded images',
         'badge_year' => '2026',
         'order' => 1,
         'is_active' => true,
+        'image' => UploadedFile::fake()->image('award.png'),
     ])->assertRedirect(route('admin.achievements.index'));
 
     $achievement = Achievement::query()->firstOrFail();
-    expect($achievement->image)->toBeNull();
+    expect($achievement->image)->not->toBeNull();
 
     $this->put(route('admin.achievements.update', $achievement), [
         'title' => 'Regional Award',

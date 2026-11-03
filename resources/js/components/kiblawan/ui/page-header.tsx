@@ -9,12 +9,12 @@ export function PageHeader({
 }) {
     return (
         <div
-            className="relative overflow-hidden border-b border-line-soft bg-cover bg-center bg-no-repeat"
+            className="relative overflow-hidden border-b border-line bg-cover bg-center bg-no-repeat"
             style={{ backgroundImage: 'url(/images/kib.png)' }}
         >
             <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-0 bg-gradient-to-r from-forest/90 via-forest/80 to-forest/70"
+                className="pointer-events-none absolute inset-0 bg-(--color-dark-brown)/90"
             />
             <Container className="relative z-10 py-16 text-center md:py-24">
                 <div

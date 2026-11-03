@@ -8,7 +8,11 @@ import {
 } from '@/routes/government';
 
 const tabs = [
-    { key: 'vision-mission', label: 'Vision & Mission', href: visionMission.url() },
+    {
+        key: 'vision-mission',
+        label: 'Vision & Mission',
+        href: visionMission.url(),
+    },
     { key: 'officials', label: 'Elected Officials', href: officials.url() },
     {
         key: 'sangguniang-bayan',
@@ -20,7 +24,11 @@ const tabs = [
         label: "Citizen's Charter",
         href: citizensCharter.url(),
     },
-    { key: 'directories', label: 'Office Directories', href: directories.url() },
+    {
+        key: 'directories',
+        label: 'Office Directories',
+        href: directories.url(),
+    },
 ];
 
 export function GovernmentNavigation({ activeTab }: { activeTab: string }) {
@@ -36,8 +44,8 @@ export function GovernmentNavigation({ activeTab }: { activeTab: string }) {
                     aria-current={activeTab === item.key ? 'page' : undefined}
                     className={`rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
                         activeTab === item.key
-                            ? 'border-forest bg-forest text-white'
-                            : 'border-line-soft bg-white text-forest hover:border-gold hover:bg-cream'
+                            ? 'border-primary bg-primary text-white'
+                            : 'border-line bg-white text-primary hover:border-primary/30 hover:bg-primary/5'
                     }`}
                 >
                     {item.label}

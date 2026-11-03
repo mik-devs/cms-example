@@ -58,9 +58,12 @@ export default function AchievementForm({
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid gap-2">
-                <Label htmlFor="title">Title</Label>
+                <Label htmlFor="title">
+                    Title <span className="text-red-500">*</span>
+                </Label>
                 <Input
                     id="title"
+                    required
                     value={form.data.title}
                     onChange={(event) =>
                         form.setData('title', event.target.value)
@@ -70,9 +73,12 @@ export default function AchievementForm({
                 <InputError message={form.errors.title} />
             </div>
             <div className="grid gap-2">
-                <Label htmlFor="description">Description</Label>
+                <Label htmlFor="description">
+                    Description <span className="text-red-500">*</span>
+                </Label>
                 <textarea
                     id="description"
+                    required
                     value={form.data.description}
                     onChange={(event) =>
                         form.setData('description', event.target.value)
@@ -83,9 +89,12 @@ export default function AchievementForm({
                 <InputError message={form.errors.description} />
             </div>
             <div className="grid gap-2 sm:max-w-xs">
-                <Label htmlFor="badge_year">Badge Year</Label>
+                <Label htmlFor="badge_year">
+                    Badge Year <span className="text-red-500">*</span>
+                </Label>
                 <Input
                     id="badge_year"
+                    required
                     maxLength={10}
                     placeholder="e.g. 2026"
                     value={form.data.badge_year}
@@ -97,11 +106,14 @@ export default function AchievementForm({
                 <InputError message={form.errors.badge_year} />
             </div>
             <div className="grid gap-2 sm:max-w-xs">
-                <Label htmlFor="order">Order</Label>
+                <Label htmlFor="order">
+                    Order <span className="text-red-500">*</span>
+                </Label>
                 <Input
                     id="order"
                     type="number"
                     min={0}
+                    required
                     value={form.data.order}
                     onChange={(event) =>
                         form.setData(
@@ -130,11 +142,15 @@ export default function AchievementForm({
                 <InputError message={form.errors.is_active} />
             </div>
             <div className="grid gap-2">
-                <Label htmlFor="image">Image</Label>
+                <Label htmlFor="image">
+                    Image
+                    {!initialValues && <span className="text-red-500"> *</span>}
+                </Label>
                 <Input
                     id="image"
                     type="file"
                     accept="image/*"
+                    required={!initialValues}
                     onChange={(event) =>
                         form.setData(
                             'image',

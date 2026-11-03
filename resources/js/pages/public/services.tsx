@@ -19,7 +19,7 @@ export default function Services({ services }: { services: Service[] }) {
                         ))}
                     </div>
                 ) : (
-                    <p className="rounded-[20px] border border-line-soft bg-white/80 p-8 text-ink-muted">
+                    <p className="rounded-[20px] border border-line bg-white p-8 text-ink-muted">
                         Services will be listed here soon.
                     </p>
                 )}

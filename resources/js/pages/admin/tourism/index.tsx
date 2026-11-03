@@ -32,7 +32,13 @@ const columns: ResourceTableColumn<TourismSpot>[] = [
     {
         label: 'Status',
         render: (spot) => (
-            <Badge variant={spot.is_active ? 'default' : 'secondary'}>
+            <Badge
+                className={
+                    spot.is_active
+                        ? 'border-transparent bg-green text-white'
+                        : 'border-transparent bg-gold text-ink'
+                }
+            >
                 {spot.is_active ? 'Active' : 'Inactive'}
             </Badge>
         ),

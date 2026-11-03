@@ -46,7 +46,7 @@ export default function SettingsIndex({
                     subtitle="Update the site identity and public contact details."
                 />
                 <form onSubmit={handleSubmit} className="space-y-6">
-                    <section className="space-y-5 rounded-2xl border border-line-soft bg-card p-6 shadow-sm">
+                    <section className="space-y-5 rounded-2xl border border-line bg-card p-6 shadow-sm">
                         <div>
                             <h2 className="text-lg font-semibold">General</h2>
                             <p className="text-sm text-muted-foreground">
@@ -86,7 +86,7 @@ export default function SettingsIndex({
                         </div>
                     </section>
 
-                    <section className="space-y-5 rounded-2xl border border-line-soft bg-card p-6 shadow-sm">
+                    <section className="space-y-5 rounded-2xl border border-line bg-card p-6 shadow-sm">
                         <div>
                             <h2 className="text-lg font-semibold">
                                 Contact Info
@@ -171,7 +171,7 @@ export default function SettingsIndex({
                         </div>
                     </section>
 
-                    <section className="space-y-5 rounded-2xl border border-line-soft bg-card p-6 shadow-sm">
+                    <section className="space-y-5 rounded-2xl border border-line bg-card p-6 shadow-sm">
                         <div>
                             <h2 className="text-lg font-semibold">Map</h2>
                             <p className="text-sm text-muted-foreground">

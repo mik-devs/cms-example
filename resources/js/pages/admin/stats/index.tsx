@@ -25,7 +25,13 @@ const columns: ResourceTableColumn<Stat>[] = [
     {
         label: 'Status',
         render: (stat) => (
-            <Badge variant={stat.is_active ? 'default' : 'secondary'}>
+            <Badge
+                className={
+                    stat.is_active
+                        ? 'border-transparent bg-green text-white'
+                        : 'border-transparent bg-gold text-ink'
+                }
+            >
                 {stat.is_active ? 'Active' : 'Inactive'}
             </Badge>
         ),

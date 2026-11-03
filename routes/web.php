@@ -65,7 +65,7 @@ Route::get('/news/{slug}', [NewsController::class, 'show'])->name('news.show');
 
 Route::get('/careers', fn () => Inertia::render('public/coming-soon', ['title' => 'Careers']))
     ->name('careers');
-Route::get('/tourism', fn () => Inertia::render('public/coming-soon', ['title' => 'Tourism']))
+Route::get('/tourism', [TourismController::class, 'index'])
     ->name('tourism');
 Route::get('/tourism/{slug}', [TourismController::class, 'show'])
     ->name('tourism.show');
@@ -101,6 +101,8 @@ Route::prefix('admin')
                 ->except('show');
         });
         Route::middleware('can:manage tourism')->group(function () {
+            Route::delete('/tourism-images/{image}', [AdminTourismController::class, 'destroyImage'])
+                ->name('tourism.images.destroy');
             Route::resource('tourism', AdminTourismController::class)
                 ->except('show');
         });

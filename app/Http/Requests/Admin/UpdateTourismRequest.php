@@ -5,7 +5,6 @@ namespace App\Http\Requests\Admin;
 use App\Models\TourismSpot;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class UpdateTourismRequest extends FormRequest
@@ -25,7 +24,7 @@ class UpdateTourismRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'slug' => [
-                'nullable',
+                'required',
                 'string',
                 'max:255',
                 Rule::unique('tourism_spots', 'slug')->ignore(
@@ -34,7 +33,13 @@ class UpdateTourismRequest extends FormRequest
             ],
             'description' => ['required', 'string'],
             'image' => ['nullable', 'image', 'max:5120'],
-            'category' => ['nullable', 'string', 'max:255'],
+            'images' => ['nullable', 'array'],
+            'images.*' => ['image', 'max:5120'],
+            'remove_images' => ['nullable', 'array'],
+            'remove_images.*' => ['integer', 'exists:tourism_spot_images,id'],
+            'category' => ['required', 'string', 'max:255'],
+            'latitude' => ['nullable', 'numeric', 'between:-90,90'],
+            'longitude' => ['nullable', 'numeric', 'between:-180,180'],
             'order' => ['required', 'integer', 'min:0'],
             'is_active' => ['boolean'],
         ];
@@ -44,15 +49,6 @@ class UpdateTourismRequest extends FormRequest
     {
         if (! $this->has('is_active')) {
             $this->merge(['is_active' => false]);
-        }
-
-        if (blank($this->input('slug'))) {
-            $tourismSpot = $this->route('tourism');
-            $slug = $tourismSpot instanceof TourismSpot
-                ? $tourismSpot->slug
-                : Str::slug((string) $this->input('name'));
-
-            $this->merge(['slug' => $slug !== '' ? $slug : 'tourism-'.Str::random(8)]);
         }
     }
 }

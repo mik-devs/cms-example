@@ -86,6 +86,15 @@ export interface Barangay {
     order: number;
 }
 
+// Mirrors App\Models\TourismSpotImage
+export interface TourismSpotImage {
+    id: number;
+    tourism_spot_id: number;
+    image_path: string;
+    image_url: string;
+    order: number;
+}
+
 // Mirrors App\Models\TourismSpot
 export interface TourismSpot {
     id: number;
@@ -95,8 +104,11 @@ export interface TourismSpot {
     image: string;
     image_url: string;
     category: string | null;
+    latitude: string | null;
+    longitude: string | null;
     order: number;
     is_active: boolean;
+    images?: TourismSpotImage[];
 }
 
 // Mirrors App\Models\JobPosting

@@ -31,11 +31,11 @@ export default function TopBar({
     const { lang, setLang } = useLanguage();
 
     const buttonClass =
-        'border border-white/20 bg-white/10 px-1.5 py-0.5 rounded text-[0.7rem] text-white transition-all hover:border-gold hover:bg-gold hover:text-maroon-dark';
-    const activeButtonClass = 'border-gold bg-gold text-maroon-dark';
+        'border border-white/25 bg-white/10 px-1.5 py-0.5 rounded text-[0.7rem] text-white transition-all hover:border-gold hover:bg-gold hover:text-primary-dark';
+    const activeButtonClass = 'border-gold bg-gold text-primary-dark';
 
     return (
-        <div className="fixed top-0 right-0 left-0 z-[100] flex h-[34px] items-center border-b-2 border-gold bg-maroon-dark text-[0.78rem] text-gold-soft shadow-k-soft">
+        <div className="fixed top-0 right-0 left-0 z-[100] flex h-[34px] items-center border-b-2 border-gold bg-(--color-dark-brown) text-[0.78rem] text-cream">
             <div className="mx-auto flex w-full max-w-[1320px] items-center justify-between px-4">
                 <span className="hidden md:inline">
                     Republic of the Philippines

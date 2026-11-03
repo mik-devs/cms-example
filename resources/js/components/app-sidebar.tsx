@@ -151,7 +151,7 @@ const navGroups: AdminNavGroup[] = [
 ];
 
 const navItemClassName =
-    'h-9 gap-2 rounded-lg px-2.5 text-sm font-medium text-ink-muted transition-colors hover:bg-cream hover:text-forest data-[active=true]:bg-forest data-[active=true]:font-semibold data-[active=true]:text-white data-[active=true]:shadow-sm data-[active=true]:hover:bg-forest data-[active=true]:hover:text-white';
+    'h-9 gap-2 rounded-lg px-2.5 text-sm font-medium text-ink-muted transition-colors hover:bg-(--color-bg-light) hover:text-primary data-[active=true]:bg-primary data-[active=true]:font-semibold data-[active=true]:text-white data-[active=true]:shadow-sm data-[active=true]:hover:bg-primary data-[active=true]:hover:text-white';
 
 export function AppSidebar() {
     const { auth } = usePage().props;
@@ -166,14 +166,14 @@ export function AppSidebar() {
     };
 
     return (
-        <Sidebar collapsible="icon" className="border-r border-line-soft">
-            <SidebarHeader className="border-b border-line-soft p-3">
+        <Sidebar collapsible="icon" className="border-r border-line">
+            <SidebarHeader className="border-b border-line p-3">
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton
                             size="lg"
                             asChild
-                            className="h-auto justify-start gap-3 p-1 hover:bg-cream"
+                            className="h-auto justify-start gap-3 p-1 hover:bg-(--color-bg-light)"
                         >
                             <Link href="/admin" prefetch>
                                 <span className="flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-cream ring-1 ring-line-soft group-data-[collapsible=icon]:size-7">
@@ -184,7 +184,7 @@ export function AppSidebar() {
                                     />
                                 </span>
                                 <span className="grid min-w-0 flex-1 text-left group-data-[collapsible=icon]:hidden">
-                                    <span className="truncate font-display text-base leading-tight font-bold text-forest">
+                                    <span className="truncate font-display text-base leading-tight font-bold text-primary">
                                         Kiblawan
                                     </span>
                                     <span className="text-[10px] font-semibold tracking-[0.2em] text-ink-muted uppercase">
@@ -266,21 +266,21 @@ export function AppSidebar() {
                 })}
             </SidebarContent>
 
-            <SidebarFooter className="border-t border-line-soft p-3">
+            <SidebarFooter className="border-t border-line p-3">
                 {user && (
-                    <div className="rounded-xl border border-line-soft bg-cream/60 p-3 group-data-[collapsible=icon]:hidden">
+                    <div className="rounded-xl border border-line bg-(--color-bg-light) p-3 group-data-[collapsible=icon]:hidden">
                         <div className="flex items-center gap-2.5">
                             <Avatar className="size-9 border border-white shadow-sm">
                                 <AvatarImage
                                     src={user.avatar}
                                     alt={user.name}
                                 />
-                                <AvatarFallback className="bg-forest text-xs font-semibold text-white">
+                                <AvatarFallback className="bg-primary text-xs font-semibold text-white">
                                     {getInitials(user.name)}
                                 </AvatarFallback>
                             </Avatar>
                             <div className="min-w-0 flex-1">
-                                <p className="truncate text-sm font-semibold text-forest">
+                                <p className="truncate text-sm font-semibold text-primary">
                                     {user.name}
                                 </p>
                                 <p className="truncate text-[11px] text-ink-muted capitalize">
@@ -293,7 +293,7 @@ export function AppSidebar() {
                             as="button"
                             method="post"
                             onClick={handleLogout}
-                            className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg border border-line-soft bg-white px-3 py-2 text-xs font-semibold text-maroon transition-colors hover:border-maroon/20 hover:bg-maroon/5"
+                            className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg border border-line bg-white px-3 py-2 text-xs font-semibold text-primary transition-colors hover:border-primary/20 hover:bg-primary/5"
                         >
                             <LogOut className="h-4 w-4" />
                             Log Out

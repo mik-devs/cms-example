@@ -46,9 +46,12 @@ export default function JobForm({
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid gap-2">
-                <Label htmlFor="title">Title</Label>
+                <Label htmlFor="title">
+                    Title <span className="text-red-500">*</span>
+                </Label>
                 <Input
                     id="title"
+                    required
                     value={form.data.title}
                     onChange={(event) =>
                         form.setData('title', event.target.value)
@@ -58,9 +61,12 @@ export default function JobForm({
                 <InputError message={form.errors.title} />
             </div>
             <div className="grid gap-2">
-                <Label htmlFor="description">Description</Label>
+                <Label htmlFor="description">
+                    Description <span className="text-red-500">*</span>
+                </Label>
                 <textarea
                     id="description"
+                    required
                     value={form.data.description}
                     onChange={(event) =>
                         form.setData('description', event.target.value)
@@ -71,9 +77,12 @@ export default function JobForm({
                 <InputError message={form.errors.description} />
             </div>
             <div className="grid gap-2">
-                <Label htmlFor="department">Department</Label>
+                <Label htmlFor="department">
+                    Department <span className="text-red-500">*</span>
+                </Label>
                 <Input
                     id="department"
+                    required
                     value={form.data.department}
                     onChange={(event) =>
                         form.setData('department', event.target.value)
@@ -96,7 +105,9 @@ export default function JobForm({
                 <InputError message={form.errors.deadline} />
             </div>
             <div className="grid gap-2 sm:max-w-xs">
-                <Label htmlFor="status">Status</Label>
+                <Label htmlFor="status">
+                    Status <span className="text-red-500">*</span>
+                </Label>
                 <Select
                     value={form.data.status}
                     onValueChange={(value) => {

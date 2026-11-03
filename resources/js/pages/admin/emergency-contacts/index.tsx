@@ -23,7 +23,13 @@ const columns: ResourceTableColumn<EmergencyContact>[] = [
     {
         label: 'Status',
         render: (contact) => (
-            <Badge variant={contact.is_active ? 'default' : 'secondary'}>
+            <Badge
+                className={
+                    contact.is_active
+                        ? 'border-transparent bg-green text-white'
+                        : 'border-transparent bg-gold text-ink'
+                }
+            >
                 {contact.is_active ? 'Active' : 'Inactive'}
             </Badge>
         ),

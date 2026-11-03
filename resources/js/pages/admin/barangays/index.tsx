@@ -34,7 +34,12 @@ const columns: ResourceTableColumn<Barangay>[] = [
     {
         label: 'Slug',
         render: (barangay) => (
-            <Badge variant="secondary">{barangay.slug}</Badge>
+            <Badge
+                variant="outline"
+                className="border-line bg-(--color-bg-light) text-ink-muted"
+            >
+                {barangay.slug}
+            </Badge>
         ),
     },
 ];

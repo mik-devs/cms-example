@@ -32,7 +32,13 @@ const columns: ResourceTableColumn<HeroSlide>[] = [
     {
         label: 'Status',
         render: (slide) => (
-            <Badge variant={slide.is_active ? 'default' : 'secondary'}>
+            <Badge
+                className={
+                    slide.is_active
+                        ? 'border-transparent bg-green text-white'
+                        : 'border-transparent bg-gold text-ink'
+                }
+            >
                 {slide.is_active ? 'Active' : 'Inactive'}
             </Badge>
         ),

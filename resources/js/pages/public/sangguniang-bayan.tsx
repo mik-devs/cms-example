@@ -37,21 +37,21 @@ export default function SangguniangBayan({
                 >
                     <h2
                         id="presiding-officer-heading"
-                        className="mb-6 font-display text-3xl font-bold text-forest"
+                        className="mb-6 font-display text-3xl font-bold text-primary"
                     >
                         Presiding Officer
                     </h2>
-                    <article className="grid overflow-hidden rounded-[24px] border border-line-soft bg-white/85 shadow-k-card md:grid-cols-[minmax(16rem,0.8fr)_1.2fr]">
+                    <article className="grid overflow-hidden rounded-[24px] border border-line bg-white shadow-k-card md:grid-cols-[minmax(16rem,0.8fr)_1.2fr]">
                         <KImage
                             src={viceMayor?.photo_url}
                             alt={viceMayor?.name ?? 'Vice Mayor'}
                             className="aspect-[4/3] w-full bg-cream object-contain object-top md:aspect-auto md:min-h-80"
                         />
                         <div className="flex flex-col justify-center gap-3 p-6 md:p-10">
-                            <p className="m-0 text-sm font-bold tracking-wide text-gold uppercase">
+                            <p className="m-0 text-sm font-bold tracking-wide text-primary uppercase">
                                 Vice Mayor
                             </p>
-                            <h3 className="m-0 font-display text-3xl font-bold text-forest md:text-4xl">
+                            <h3 className="m-0 font-display text-3xl font-bold text-primary md:text-4xl">
                                 {viceMayor?.name ?? 'Not listed yet'}
                             </h3>
                             {viceMayor && (
@@ -66,7 +66,7 @@ export default function SangguniangBayan({
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 aria-label={`${viceMayor.name} on Facebook`}
-                                                className="text-forest transition-colors hover:text-gold"
+                                                className="text-primary transition-colors hover:text-green-dark"
                                             >
                                                 <Facebook className="h-5 w-5" />
                                             </a>
@@ -77,7 +77,7 @@ export default function SangguniangBayan({
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 aria-label={`${viceMayor.name} on Instagram`}
-                                                className="text-forest transition-colors hover:text-gold"
+                                                className="text-primary transition-colors hover:text-green-dark"
                                             >
                                                 <Instagram className="h-5 w-5" />
                                             </a>
@@ -92,7 +92,7 @@ export default function SangguniangBayan({
                 <section aria-labelledby="councilors-heading" className="mb-16">
                     <h2
                         id="councilors-heading"
-                        className="mb-6 font-display text-3xl font-bold text-forest"
+                        className="mb-6 font-display text-3xl font-bold text-primary"
                     >
                         The Councilors
                     </h2>
@@ -101,7 +101,7 @@ export default function SangguniangBayan({
                             {members.map((member, index) => (
                                 <article
                                     key={member.id}
-                                    className="overflow-hidden rounded-[20px] border border-line-soft bg-white/85 shadow-k-card"
+                                    className="overflow-hidden rounded-[20px] border border-line bg-white shadow-k-card"
                                 >
                                     <KImage
                                         src={member.photo_url}
@@ -109,7 +109,7 @@ export default function SangguniangBayan({
                                         className="aspect-[4/3] w-full bg-cream object-contain object-top"
                                     />
                                     <div className="p-5">
-                                        <h3 className="m-0 font-display text-xl font-bold text-forest">
+                                        <h3 className="m-0 font-display text-xl font-bold text-primary">
                                             {member.name}
                                         </h3>
                                         <p className="mt-1 mb-3 text-sm text-ink-muted">
@@ -122,7 +122,7 @@ export default function SangguniangBayan({
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                     aria-label={`${member.name} on Facebook`}
-                                                    className="text-forest transition-colors hover:text-gold"
+                                                    className="text-primary transition-colors hover:text-green-dark"
                                                 >
                                                     <Facebook className="h-5 w-5" />
                                                 </a>
@@ -133,13 +133,13 @@ export default function SangguniangBayan({
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                     aria-label={`${member.name} on Instagram`}
-                                                    className="text-forest transition-colors hover:text-gold"
+                                                    className="text-primary transition-colors hover:text-green-dark"
                                                 >
                                                     <Instagram className="h-5 w-5" />
                                                 </a>
                                             )}
                                         </div>
-                                        <p className="m-0 text-sm font-semibold text-forest">
+                                        <p className="m-0 text-sm font-semibold text-primary">
                                             Committee Chairmanship
                                         </p>
                                         <p className="mt-1 mb-0 text-sm text-ink-muted">
@@ -155,7 +155,7 @@ export default function SangguniangBayan({
                             ))}
                         </div>
                     ) : (
-                        <p className="rounded-[20px] border border-line-soft bg-white/80 p-8 text-ink-muted">
+                        <p className="rounded-[20px] border border-line bg-white p-8 text-ink-muted">
                             Councilors will be listed here soon.
                         </p>
                     )}
@@ -164,12 +164,12 @@ export default function SangguniangBayan({
                 <section aria-labelledby="session-heading">
                     <h2
                         id="session-heading"
-                        className="mb-6 font-display text-3xl font-bold text-forest"
+                        className="mb-6 font-display text-3xl font-bold text-primary"
                     >
                         Legislative Session
                     </h2>
-                    <article className="rounded-[20px] border border-line-soft bg-white/85 p-6 shadow-k-card md:p-8">
-                        <p className="m-0 text-lg font-semibold text-forest">
+                    <article className="rounded-[20px] border border-line bg-white p-6 shadow-k-card md:p-8">
+                        <p className="m-0 text-lg font-semibold text-primary">
                             Regular Session: Every Tuesday at 9:00 AM | SB
                             Session Hall
                         </p>

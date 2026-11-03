@@ -24,7 +24,7 @@ export default function AdminFormPage({
                 backHref={backHref}
                 backLabel={backLabel}
             />
-            <div className="rounded-[20px] border border-line-soft bg-white p-6 shadow-sm">
+            <div className="rounded-[20px] border border-line bg-white p-6 shadow-sm">
                 {children}
             </div>
         </div>

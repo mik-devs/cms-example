@@ -82,9 +82,7 @@ export default function Footer() {
     ].filter((contact) => contact.value);
 
     return (
-        <footer className="relative border-t-4 border-gold bg-[linear-gradient(135deg,#06271C_0%,#030c08_100%)] text-white/70">
-            <div className="absolute top-0 right-0 left-0 h-1 bg-gradient-to-r from-maroon via-gold to-maroon" />
-
+        <footer className="relative border-t-4 border-gold bg-(--color-dark-brown) text-white/75">
             <div className="py-20 pb-12">
                 <div className="mx-auto max-w-[1320px] px-4">
                     <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1.5fr] lg:gap-12">

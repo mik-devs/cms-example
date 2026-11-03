@@ -25,47 +25,45 @@ export default function Login({ status }: Props) {
     };
 
     return (
-        <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-forest-deep">
+        <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-(--color-dark-brown)">
             <Head title="Admin Login" />
 
-            {/* Background Image & Overlay */}
             <div className="absolute inset-0 z-0">
                 <img
                     src="/images/kib.png"
                     alt="Kiblawan Background"
                     className="h-full w-full object-cover"
                 />
-                <div className="absolute inset-0 bg-forest-deep/80 backdrop-blur-sm"></div>
+                <div className="absolute inset-0 bg-(--color-dark-brown)/85" />
             </div>
 
-            {/* Login Card */}
             <div className="relative z-10 w-full max-w-md p-4">
-                <div className="rounded-[24px] border border-white/20 bg-white/10 p-8 shadow-2xl backdrop-blur-xl sm:p-10">
-                    {/* Branding */}
+                <div className="rounded-[24px] border border-line bg-white p-8 shadow-k-deep sm:p-10">
                     <div className="mb-8 text-center">
                         <img
                             src="/images/image.png"
                             alt="Kiblawan Logo"
-                            className="mx-auto mb-6 h-20 w-20 drop-shadow-lg"
+                            className="mx-auto mb-6 h-20 w-20"
                         />
-                        <h1 className="mb-2 font-display text-3xl font-bold text-white">
+                        <h1 className="mb-2 font-display text-3xl font-bold text-primary">
                             Admin Portal
                         </h1>
+                        <p className="text-sm text-ink-muted">
+                            Municipality of Kiblawan
+                        </p>
                     </div>
 
-                    {/* Status Message */}
                     {status && (
-                        <div className="mb-6 rounded-lg border border-green-500/30 bg-green-500/20 p-3 text-center text-sm font-medium text-green-100">
+                        <div className="mb-6 rounded-lg border border-green/20 bg-green-soft p-3 text-center text-sm font-medium text-green-dark">
                             {status}
                         </div>
                     )}
 
-                    {/* Form */}
                     <form onSubmit={submit} className="flex flex-col gap-5">
                         {Object.keys(errors).length > 0 && (
                             <div
                                 role="alert"
-                                className="mb-4 rounded-lg border border-red-500/30 bg-red-500/20 p-3 text-sm font-medium text-red-200"
+                                className="mb-4 rounded-lg border border-red-300 bg-red-50 p-3 text-sm font-medium text-red-700"
                             >
                                 {errors.email ||
                                     errors.password ||
@@ -74,7 +72,7 @@ export default function Login({ status }: Props) {
                         )}
 
                         <div className="grid gap-2">
-                            <Label htmlFor="email" className="text-white/90">
+                            <Label htmlFor="email" className="text-foreground">
                                 Email Address
                             </Label>
                             <Input
@@ -89,16 +87,16 @@ export default function Login({ status }: Props) {
                                 autoFocus
                                 autoComplete="email"
                                 placeholder="admin@kiblawan.gov.ph"
-                                className="border-white/20 bg-white/5 text-white transition-all placeholder:text-white/40 focus:border-gold focus:ring-gold"
+                                className="bg-white"
                             />
-                            <InputError
-                                message={errors.email}
-                                className="text-red-400"
-                            />
+                            <InputError message={errors.email} />
                         </div>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="password" className="text-white/90">
+                            <Label
+                                htmlFor="password"
+                                className="text-foreground"
+                            >
                                 Password
                             </Label>
                             <PasswordInput
@@ -111,18 +109,15 @@ export default function Login({ status }: Props) {
                                 required
                                 autoComplete="current-password"
                                 placeholder="••••••••"
-                                className="border-white/20 bg-white/5 text-white transition-all placeholder:text-white/40 focus:border-gold focus:ring-gold"
+                                className="bg-white"
                             />
-                            <InputError
-                                message={errors.password}
-                                className="text-red-400"
-                            />
+                            <InputError message={errors.password} />
                         </div>
 
                         <Button
                             type="submit"
                             disabled={processing}
-                            className="text-forest-dark mt-4 w-full bg-gold py-6 text-lg font-bold shadow-[0_0_20px_rgba(201,162,39,0.3)] transition-all duration-300 hover:bg-gold-soft hover:shadow-[0_0_30px_rgba(201,162,39,0.5)]"
+                            className="mt-4 w-full py-6 text-base font-semibold"
                         >
                             {processing ? <Spinner className="mr-2" /> : null}
                             Log In

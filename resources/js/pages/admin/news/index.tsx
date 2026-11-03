@@ -63,8 +63,10 @@ function NewsTableRow({ item }: { item: News }) {
             <TableCell className="capitalize">{item.category}</TableCell>
             <TableCell>
                 <Badge
-                    variant={
-                        item.status === 'published' ? 'default' : 'secondary'
+                    className={
+                        item.status === 'published'
+                            ? 'border-transparent bg-green text-white'
+                            : 'border-transparent bg-gold text-ink'
                     }
                 >
                     {item.status}
@@ -156,7 +158,7 @@ export default function NewsIndex({ news }: { news: PaginatedNews }) {
                     actionHref={NewsController.create.url()}
                 />
 
-                <div className="overflow-hidden rounded-[20px] border border-line-soft bg-white shadow-sm">
+                <div className="overflow-hidden rounded-[20px] border border-line bg-white shadow-sm">
                     <Table>
                         <TableHeader>
                             <TableRow>

@@ -18,8 +18,12 @@ class StoreHeroSlideRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'kicker' => ['nullable', 'string', 'max:255'],
+            'kicker' => ['required', 'string', 'max:255'],
             'title' => ['required', 'string', 'max:255'],
+            'subtitle' => ['nullable', 'string', 'max:255'],
+            'title_emphasis' => ['nullable', 'string', 'max:255'],
+            'cta_text' => ['nullable', 'string', 'max:255'],
+            'cta_link' => ['nullable', 'string', 'max:255'],
             'image' => ['required', 'image', 'max:5120'],
             'order' => ['required', 'integer'],
             'is_active' => ['boolean'],

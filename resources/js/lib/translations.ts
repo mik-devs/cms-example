@@ -13,6 +13,12 @@ export const translations = {
         chat_greeting:
             'Hello! I am #BastaTagaKiblawanNo.1, your AI assistant. How can I help you today?',
         chat_placeholder: 'Type your question...',
+        chat_online: 'Online',
+        chat_today: 'Today',
+        chat_typing: 'Typing…',
+        chat_suggest_hours: 'Office hours',
+        chat_suggest_permit: 'Business permit',
+        chat_suggest_emergency: 'Emergency hotlines',
     },
     fil: {
         nav_home: 'Home',
@@ -28,6 +34,12 @@ export const translations = {
         chat_greeting:
             'Kumusta! Ako si #BastaTagaKiblawanNo.1, ang iyong AI assistant. Paano kita matutulungan ngayon?',
         chat_placeholder: 'Isulat ang iyong katanungan...',
+        chat_online: 'Online',
+        chat_today: 'Ngayon',
+        chat_typing: 'Nagta-type…',
+        chat_suggest_hours: 'Oras ng opisina',
+        chat_suggest_permit: 'Business permit',
+        chat_suggest_emergency: 'Emergency hotlines',
     },
     ceb: {
         nav_home: 'Home',
@@ -43,6 +55,12 @@ export const translations = {
         chat_greeting:
             'Kumusta! Ako si #BastaTagaKiblawanNo.1, ang imong AI assistant. Unsaon nako pagtabang nimo karon?',
         chat_placeholder: 'Isulat ang imong pangutana...',
+        chat_online: 'Online',
+        chat_today: 'Karon',
+        chat_typing: 'Nag-type…',
+        chat_suggest_hours: 'Oras sa opisina',
+        chat_suggest_permit: 'Business permit',
+        chat_suggest_emergency: 'Emergency hotlines',
     },
 } as const;
 

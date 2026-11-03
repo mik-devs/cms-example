@@ -137,7 +137,7 @@ export function NewsCarousel({ news }: { news: News[] }) {
                     type="button"
                     onClick={() => scrollByStep(-1)}
                     aria-label="Previous news"
-                    className="absolute top-1/2 left-1 z-10 hidden size-[46px] -translate-y-1/2 place-items-center rounded-full bg-forest text-lg text-white shadow-k-card transition-all duration-[400ms] ease-k-smooth hover:scale-105 hover:bg-gold hover:text-forest sm:grid"
+                    className="absolute top-1/2 left-1 z-10 hidden size-[46px] -translate-y-1/2 place-items-center rounded-full bg-primary text-lg text-white shadow-k-card transition-all duration-[400ms] ease-k-smooth hover:bg-gold hover:text-primary sm:grid"
                 >
                     ‹
                 </button>
@@ -145,7 +145,7 @@ export function NewsCarousel({ news }: { news: News[] }) {
                     type="button"
                     onClick={() => scrollByStep(1)}
                     aria-label="Next news"
-                    className="absolute top-1/2 right-1 z-10 hidden size-[46px] -translate-y-1/2 place-items-center rounded-full bg-forest text-lg text-white shadow-k-card transition-all duration-[400ms] ease-k-smooth hover:scale-105 hover:bg-gold hover:text-forest sm:grid"
+                    className="absolute top-1/2 right-1 z-10 hidden size-[46px] -translate-y-1/2 place-items-center rounded-full bg-primary text-lg text-white shadow-k-card transition-all duration-[400ms] ease-k-smooth hover:bg-gold hover:text-primary sm:grid"
                 >
                     ›
                 </button>

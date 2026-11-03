@@ -26,25 +26,25 @@ const statCards: StatCard[] = [
         key: 'news',
         label: 'Total News',
         icon: Newspaper,
-        accentClassName: 'bg-cream text-gold',
+        accentClassName: 'bg-primary/10 text-primary',
     },
     {
         key: 'jobs',
         label: 'Total Jobs',
         icon: BriefcaseBusiness,
-        accentClassName: 'bg-green-soft text-green',
+        accentClassName: 'bg-green-soft text-green-dark',
     },
     {
         key: 'bids',
         label: 'Total Bids',
         icon: Gavel,
-        accentClassName: 'bg-gold-soft text-maroon',
+        accentClassName: 'bg-gold-soft text-primary',
     },
     {
         key: 'officials',
         label: 'Total Officials',
         icon: Users,
-        accentClassName: 'bg-green-soft text-forest',
+        accentClassName: 'bg-primary/10 text-primary',
     },
 ];
 
@@ -76,14 +76,14 @@ export default function Dashboard({
                     {statCards.map((card) => (
                         <div
                             key={card.key}
-                            className="rounded-xl border border-line-soft bg-white p-6 shadow-sm"
+                            className="rounded-xl border border-line bg-white p-6 shadow-sm"
                         >
                             <div className="flex items-start justify-between gap-4">
                                 <div>
                                     <p className="text-sm font-medium text-ink-muted">
                                         {card.label}
                                     </p>
-                                    <p className="mt-3 font-display text-3xl font-bold text-forest">
+                                    <p className="mt-3 font-display text-3xl font-bold text-primary">
                                         {Number(
                                             stats[card.key] ?? 0,
                                         ).toLocaleString()}
@@ -102,9 +102,9 @@ export default function Dashboard({
                     ))}
                 </div>
 
-                <section className="rounded-xl border border-line-soft bg-white p-6 shadow-sm">
+                <section className="rounded-xl border border-line bg-white p-6 shadow-sm">
                     <div>
-                        <h2 className="font-display text-lg font-bold text-forest">
+                        <h2 className="font-display text-lg font-bold text-primary">
                             Quick Actions
                         </h2>
                         <p className="mt-1 text-sm text-ink-muted">
@@ -117,7 +117,7 @@ export default function Dashboard({
                                 key={action.label}
                                 href={action.href}
                                 prefetch
-                                className="flex items-center justify-center gap-2 rounded-lg bg-forest px-4 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-forest-deep focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:outline-none"
+                                className="flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-dark-brown focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none"
                             >
                                 <Plus className="h-4 w-4" />
                                 {action.label}

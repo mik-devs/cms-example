@@ -34,7 +34,7 @@ export default function ElectedOfficials({
                 <section aria-labelledby="executive-heading" className="mb-16">
                     <h2
                         id="executive-heading"
-                        className="mb-6 font-display text-3xl font-bold text-forest"
+                        className="mb-6 font-display text-3xl font-bold text-primary"
                     >
                         The Executive
                     </h2>
@@ -42,7 +42,7 @@ export default function ElectedOfficials({
                         {executiveLeaders.map(({ title, official }) => (
                             <article
                                 key={title}
-                                className="overflow-hidden rounded-[24px] border border-line-soft bg-white/85 shadow-k-card"
+                                className="overflow-hidden rounded-[24px] border border-line bg-white shadow-k-card"
                             >
                                 <KImage
                                     src={official?.photo_url}
@@ -50,10 +50,10 @@ export default function ElectedOfficials({
                                     className="aspect-[16/10] w-full bg-cream object-contain object-top"
                                 />
                                 <div className="flex flex-col items-start gap-3 p-6 md:p-8">
-                                    <p className="m-0 text-sm font-bold tracking-wide text-gold uppercase">
+                                    <p className="m-0 text-sm font-bold tracking-wide text-primary uppercase">
                                         {title}
                                     </p>
-                                    <h3 className="m-0 font-display text-2xl font-bold text-forest md:text-3xl">
+                                    <h3 className="m-0 font-display text-2xl font-bold text-primary md:text-3xl">
                                         {official?.name ?? 'Not listed yet'}
                                     </h3>
                                     {official && (
@@ -70,7 +70,7 @@ export default function ElectedOfficials({
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                         aria-label={`${official.name} on Facebook`}
-                                                        className="text-forest transition-colors hover:text-gold"
+                                                        className="text-primary transition-colors hover:text-green-dark"
                                                     >
                                                         <Facebook className="h-5 w-5" />
                                                     </a>
@@ -83,7 +83,7 @@ export default function ElectedOfficials({
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                         aria-label={`${official.name} on Instagram`}
-                                                        className="text-forest transition-colors hover:text-gold"
+                                                        className="text-primary transition-colors hover:text-green-dark"
                                                     >
                                                         <Instagram className="h-5 w-5" />
                                                     </a>
@@ -91,7 +91,7 @@ export default function ElectedOfficials({
                                             </div>
                                             <Link
                                                 href={`${home.url()}#mayor-corner`}
-                                                className="mt-2 inline-flex min-h-11 items-center justify-center rounded-full bg-forest px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-green"
+                                                className="mt-2 inline-flex min-h-11 items-center justify-center rounded-full bg-primary px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-green"
                                             >
                                                 Read Message
                                             </Link>
@@ -106,7 +106,7 @@ export default function ElectedOfficials({
                 <section aria-labelledby="legislative-heading">
                     <h2
                         id="legislative-heading"
-                        className="mb-6 font-display text-3xl font-bold text-forest"
+                        className="mb-6 font-display text-3xl font-bold text-primary"
                     >
                         Legislative Council
                     </h2>
@@ -115,7 +115,7 @@ export default function ElectedOfficials({
                             {members.map((member) => (
                                 <article
                                     key={member.id}
-                                    className="overflow-hidden rounded-[20px] border border-line-soft bg-white/85 shadow-k-card"
+                                    className="overflow-hidden rounded-[20px] border border-line bg-white shadow-k-card"
                                 >
                                     <KImage
                                         src={member.photo_url}
@@ -123,7 +123,7 @@ export default function ElectedOfficials({
                                         className="aspect-[4/3] w-full bg-cream object-contain object-top"
                                     />
                                     <div className="p-5">
-                                        <h3 className="m-0 font-display text-xl font-bold text-forest">
+                                        <h3 className="m-0 font-display text-xl font-bold text-primary">
                                             {member.name}
                                         </h3>
                                         <p className="mt-2 mb-0 text-sm text-ink-muted">
@@ -136,7 +136,7 @@ export default function ElectedOfficials({
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                     aria-label={`${member.name} on Facebook`}
-                                                    className="text-forest transition-colors hover:text-gold"
+                                                    className="text-primary transition-colors hover:text-green-dark"
                                                 >
                                                     <Facebook className="h-5 w-5" />
                                                 </a>
@@ -147,7 +147,7 @@ export default function ElectedOfficials({
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                     aria-label={`${member.name} on Instagram`}
-                                                    className="text-forest transition-colors hover:text-gold"
+                                                    className="text-primary transition-colors hover:text-green-dark"
                                                 >
                                                     <Instagram className="h-5 w-5" />
                                                 </a>
@@ -158,7 +158,7 @@ export default function ElectedOfficials({
                             ))}
                         </div>
                     ) : (
-                        <p className="rounded-[20px] border border-line-soft bg-white/80 p-8 text-ink-muted">
+                        <p className="rounded-[20px] border border-line bg-white p-8 text-ink-muted">
                             Sangguniang Bayan members will be listed here soon.
                         </p>
                     )}

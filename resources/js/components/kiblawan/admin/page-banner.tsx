@@ -20,7 +20,7 @@ export default function PageBanner({
     actionHref,
 }: PageBannerProps) {
     return (
-        <section className="relative min-h-[200px] shrink-0 overflow-hidden rounded-[24px] bg-forest p-8 text-white select-none md:min-h-[180px] md:px-12 md:py-10">
+        <section className="relative min-h-[200px] shrink-0 overflow-hidden rounded-[24px] border-l-4 border-gold bg-primary p-8 text-white select-none md:min-h-[180px] md:px-12 md:py-10">
             <img
                 src="/images/image.png"
                 alt=""
@@ -48,7 +48,7 @@ export default function PageBanner({
                 <div className="absolute top-1/2 right-8 z-20 -translate-y-1/2">
                     <Button
                         asChild
-                        className="bg-white text-forest hover:bg-cream"
+                        className="bg-white text-primary hover:bg-cream"
                     >
                         <Link href={actionHref}>{actionLabel}</Link>
                     </Button>

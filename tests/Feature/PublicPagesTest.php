@@ -30,7 +30,7 @@ it('renders each public navigation route', function (string $path, string $compo
     'contact' => ['/contact', 'public/contact'],
     'news' => ['/news', 'public/news/index'],
     'careers placeholder' => ['/careers', 'public/coming-soon'],
-    'tourism placeholder' => ['/tourism', 'public/coming-soon'],
+    'tourism' => ['/tourism', 'public/tourism/index'],
     'achievements placeholder' => ['/achievements', 'public/coming-soon'],
     'barangays placeholder' => ['/barangays', 'public/coming-soon'],
 ]);
@@ -197,6 +197,46 @@ it('renders a barangay profile by slug and returns 404 for unknown slugs', funct
         ->assertNotFound();
 });
 
+it('lists active tourism spots in order and hides inactive spots', function () {
+    TourismSpot::query()->create([
+        'name' => 'Pandong Bato Peak',
+        'slug' => 'pandong-bato-peak',
+        'description' => 'A scenic peak and trail.',
+        'image' => '/tourism/peak.jpg',
+        'category' => 'Eco-Adventure',
+        'order' => 2,
+        'is_active' => true,
+    ]);
+
+    TourismSpot::query()->create([
+        'name' => 'Lawayan Falls',
+        'slug' => 'lawayan-falls',
+        'description' => 'A natural waterfall in Kiblawan.',
+        'image' => '/tourism/lawayan.jpg',
+        'category' => 'Waterfalls',
+        'order' => 1,
+        'is_active' => true,
+    ]);
+
+    TourismSpot::query()->create([
+        'name' => 'Hidden Falls',
+        'slug' => 'hidden-falls',
+        'description' => 'An inactive tourism spot.',
+        'image' => '/tourism/hidden.jpg',
+        'category' => 'Waterfalls',
+        'order' => 3,
+        'is_active' => false,
+    ]);
+
+    $this->get(route('tourism'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('public/tourism/index')
+            ->has('spots', 2)
+            ->where('spots.0.name', 'Lawayan Falls')
+            ->where('spots.1.name', 'Pandong Bato Peak'));
+});
+
 it('renders active tourism details and hides inactive or unknown spots', function () {
     $activeSpot = TourismSpot::query()->create([
         'name' => 'Lawayan Falls',
@@ -206,6 +246,17 @@ it('renders active tourism details and hides inactive or unknown spots', functio
         'category' => 'Waterfalls',
         'order' => 1,
         'is_active' => true,
+    ]);
+
+    $activeSpot->images()->createMany([
+        [
+            'image_path' => 'tourism/gallery/second.jpg',
+            'order' => 2,
+        ],
+        [
+            'image_path' => 'tourism/gallery/first.jpg',
+            'order' => 1,
+        ],
     ]);
 
     TourismSpot::query()->create([
@@ -223,7 +274,10 @@ it('renders active tourism details and hides inactive or unknown spots', functio
         ->assertInertia(fn (Assert $page) => $page
             ->component('public/tourism/show')
             ->where('spot.name', 'Lawayan Falls')
-            ->where('spot.slug', 'lawayan-falls'));
+            ->where('spot.slug', 'lawayan-falls')
+            ->has('spot.images', 2)
+            ->where('spot.images.0.image_path', 'tourism/gallery/first.jpg')
+            ->where('spot.images.1.image_path', 'tourism/gallery/second.jpg'));
 
     $this->get(route('tourism.show', 'hidden-falls'))
         ->assertNotFound();

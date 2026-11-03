@@ -69,7 +69,9 @@ export default function AboutSocioEconomic() {
                                 eyebrow="Local economy"
                                 title="Livelihoods rooted in land and enterprise"
                                 description="Agriculture, natural resources, and local producers support Kiblawan’s economy and connect the municipality with markets across Mindanao."
-                                icon={<Sprout className="w-4 h-4 text-gold" />}
+                                icon={
+                                    <Sprout className="h-4 w-4 text-primary" />
+                                }
                             />
                             <div className="grid gap-8 md:grid-cols-2">
                                 {economy.map((item) => (
@@ -84,7 +86,9 @@ export default function AboutSocioEconomic() {
                                 eyebrow="Places & experiences"
                                 title="Discover Kiblawan"
                                 description="Mountain scenery, cultural heritage, and natural attractions create memorable ways to experience the municipality."
-                                icon={<Compass className="w-4 h-4 text-gold" />}
+                                icon={
+                                    <Compass className="h-4 w-4 text-primary" />
+                                }
                             />
                             <div className="grid gap-8 md:grid-cols-3">
                                 {tourism.map((item) => (
@@ -117,13 +121,13 @@ function SectionHeading({
     return (
         <header className="mb-8 flex flex-col gap-5 md:mb-10 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">
-                <span className="mb-3 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-2 text-xs font-extrabold tracking-[0.12em] text-forest uppercase">
+                <span className="mb-3 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-2 text-xs font-extrabold tracking-[0.12em] text-primary uppercase">
                     {icon}
                     {eyebrow}
                 </span>
                 <h2
                     id={id}
-                    className="font-display text-[clamp(1.8rem,3vw,2.6rem)] leading-tight font-bold text-forest"
+                    className="font-display text-[clamp(1.8rem,3vw,2.6rem)] leading-tight font-bold text-primary"
                 >
                     {title}
                 </h2>
@@ -132,7 +136,7 @@ function SectionHeading({
                 </p>
             </div>
             <ArrowUpRight
-                className="hidden size-8 shrink-0 text-gold md:block"
+                className="hidden size-8 shrink-0 text-primary md:block"
                 aria-hidden="true"
             />
         </header>
@@ -145,17 +149,17 @@ function ImageCard({
     item: { title: string; image: string; description: string };
 }) {
     return (
-        <article className="group flex h-full flex-col overflow-hidden rounded-[24px] border border-line-soft bg-white/80 shadow-k-card backdrop-blur-[14px] transition-all duration-300 hover:-translate-y-1 hover:shadow-k-glow">
+        <article className="group flex h-full flex-col overflow-hidden rounded-[24px] border border-line bg-white shadow-k-card transition-all duration-300 hover:shadow-k-glow">
             <div className="overflow-hidden">
                 <img
                     src={item.image}
                     alt={item.title}
                     loading="lazy"
-                    className="aspect-[16/10] w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="aspect-[16/10] w-full object-cover transition-transform duration-700"
                 />
             </div>
             <div className="flex flex-1 flex-col p-6 md:p-8">
-                <h3 className="font-display text-xl leading-snug font-bold text-forest">
+                <h3 className="font-display text-xl leading-snug font-bold text-primary">
                     {item.title}
                 </h3>
                 <p className="mt-3 flex-1 leading-7 text-ink-muted">

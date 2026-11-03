@@ -64,16 +64,16 @@ const navItems: NavItem[] = [
 ];
 
 const itemBase =
-    'inline-flex items-center gap-1.5 px-4 py-2.5 rounded-[16px] text-[0.88rem] font-semibold text-forest transition-all border border-transparent';
+    'inline-flex items-center gap-1.5 px-4 py-2.5 rounded-[16px] text-[0.88rem] font-semibold text-primary transition-all border border-transparent';
 const itemActive =
-    'bg-forest text-white border-forest shadow-[0_4px_12px_rgba(11,61,46,0.3)]';
+    'bg-primary text-white border-primary shadow-[0_4px_12px_rgba(122,41,38,0.25)]';
 const itemIdle =
-    'hover:bg-green hover:text-white hover:shadow-[0_4px_12px_rgba(30,122,70,0.25)]';
+    'hover:bg-primary/10 hover:text-primary hover:border-primary/15';
 const mobileBase =
-    'block px-3 py-3 rounded-[16px] text-[0.95rem] font-semibold text-forest transition-all border border-transparent';
-const mobileIdle = 'hover:bg-green hover:text-white';
+    'block px-3 py-3 rounded-[16px] text-[0.95rem] font-semibold text-primary transition-all border border-transparent';
+const mobileIdle = 'hover:bg-primary/10 hover:text-primary';
 const mobileChild =
-    'block px-3 py-2 rounded-[12px] text-[0.88rem] font-medium text-forest transition-all hover:bg-green-soft hover:text-green-600';
+    'block px-3 py-2 rounded-[12px] text-[0.88rem] font-medium text-primary transition-all hover:bg-primary/5 hover:text-primary';
 
 export default function Navbar() {
     const { url, props } = usePage();
@@ -127,16 +127,16 @@ export default function Navbar() {
 
     return (
         <>
-            <header className="fixed top-[36px] right-0 left-0 z-[90] border-b border-line-soft bg-cream/85 shadow-k-soft backdrop-blur-[18px] backdrop-saturate-[180%] transition-all duration-[400ms]">
+            <header className="fixed top-[36px] right-0 left-0 z-[90] border-b border-line bg-cream shadow-k-soft transition-all duration-[400ms]">
                 <div className="mx-auto flex min-h-[86px] max-w-[1320px] items-center justify-between px-4">
                     <Link href="/" className="group flex items-center gap-3.5">
                         <img
                             src="/images/image.png"
                             alt="Kiblawan Seal"
-                            className="size-[60px] shrink-0 object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.15)] transition-transform duration-[400ms] group-hover:scale-105 group-hover:-rotate-2"
+                            className="size-[60px] shrink-0 object-contain drop-shadow-[0_2px_6px_rgba(0,0,0,0.12)]"
                         />
                         <div className="leading-[1.1]">
-                            <div className="font-display text-[1.15rem] font-bold text-forest">
+                            <div className="font-display text-[1.15rem] font-bold text-primary">
                                 {siteSettings.site_name ?? 'Kiblawan'}
                             </div>
                             <div className="text-[0.72rem] font-semibold tracking-[0.1em] text-ink-muted uppercase">
@@ -199,12 +199,12 @@ export default function Navbar() {
                                                 className="absolute top-full left-0 h-2 w-full"
                                             />
 
-                                            <div className="absolute top-full left-0 z-30 mt-2 hidden min-w-[260px] animate-[k-dropdown-fade_0.28s_cubic-bezier(0.4,0,0.2,1)_both] flex-col gap-0.5 rounded-[20px] border border-line-soft bg-white/95 p-2 shadow-k-dropdown backdrop-blur-[16px] backdrop-saturate-[160%] group-hover:flex">
+                                            <div className="absolute top-full left-0 z-30 mt-2 hidden min-w-[260px] animate-[k-dropdown-fade_0.28s_cubic-bezier(0.4,0,0.2,1)_both] flex-col gap-0.5 rounded-[20px] border border-line bg-white p-2 shadow-k-dropdown group-hover:flex">
                                                 {item.children.map((child) => (
                                                     <Link
                                                         key={child.href}
                                                         href={child.href}
-                                                        className="block rounded-[12px] px-3.5 py-2.5 text-[0.86rem] font-medium text-forest transition-all hover:bg-green-soft hover:pl-5 hover:text-green-600"
+                                                        className="block rounded-[12px] px-3.5 py-2.5 text-[0.86rem] font-medium text-primary transition-all hover:bg-primary/5 hover:text-primary"
                                                     >
                                                         {child.label}
                                                     </Link>
@@ -223,7 +223,7 @@ export default function Navbar() {
                         aria-label="Open menu"
                         aria-expanded={mobileOpen}
                         aria-controls="kiblawan-mobile-nav"
-                        className="flex flex-col gap-1.5 rounded-[16px] bg-forest p-2.5 min-[1200px]:hidden"
+                        className="flex flex-col gap-1.5 rounded-[16px] bg-primary p-2.5 min-[1200px]:hidden"
                     >
                         <span className="block h-0.5 w-[22px] rounded bg-white" />
                         <span className="block h-0.5 w-[22px] rounded bg-white" />
@@ -248,19 +248,19 @@ export default function Navbar() {
                 aria-label="Mobile navigation"
                 aria-hidden={!mobileOpen}
                 className={cn(
-                    'fixed top-[var(--nav-offset)] right-0 z-[80] k-scrollbar h-[calc(100vh-var(--nav-offset))] w-[min(88vw,380px)] overflow-y-auto bg-paper p-7 shadow-[-12px_0_40px_rgba(11,61,46,0.14)] transition-transform duration-[400ms]',
+                    'fixed top-[var(--nav-offset)] right-0 z-[80] k-scrollbar h-[calc(100vh-var(--nav-offset))] w-[min(88vw,380px)] overflow-y-auto bg-paper p-7 shadow-[-12px_0_40px_rgba(38,50,56,0.16)] transition-transform duration-[400ms]',
                     mobileOpen ? 'translate-x-0' : 'translate-x-full',
                 )}
             >
                 <div className="mb-6 flex items-center justify-between">
-                    <span className="font-display text-lg font-bold text-forest">
+                    <span className="font-display text-lg font-bold text-primary">
                         Menu
                     </span>
                     <button
                         type="button"
                         onClick={() => setMobileOpen(false)}
                         aria-label="Close menu"
-                        className="grid size-10 place-items-center rounded-full bg-forest text-white transition-all hover:bg-green"
+                        className="grid size-10 place-items-center rounded-full bg-primary text-white transition-all hover:bg-primary-dark"
                     >
                         <X className="size-4" />
                     </button>
@@ -311,7 +311,7 @@ export default function Navbar() {
                                                             mobileChild,
                                                             pathname ===
                                                                 item.href &&
-                                                                'bg-green-soft text-green-600',
+                                                                'bg-primary/5 text-primary',
                                                         )}
                                                     >
                                                         {getLabel(item)}{' '}
@@ -332,7 +332,7 @@ export default function Navbar() {
                                                                 isActive(
                                                                     child.href,
                                                                 ) &&
-                                                                    'bg-green-soft text-green-600',
+                                                                    'bg-primary/5 text-primary',
                                                             )}
                                                         >
                                                             {child.label}

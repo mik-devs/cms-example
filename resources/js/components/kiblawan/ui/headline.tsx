@@ -20,7 +20,7 @@ export function Headline({
     return (
         <h2
             className={cn(
-                'relative mb-11 pb-[1.1rem] font-display text-[clamp(1.6rem,2.8vw,2.2rem)] font-bold tracking-[-0.01em] text-forest',
+                'relative mb-11 pb-[1.1rem] font-display text-[clamp(1.6rem,2.8vw,2.2rem)] font-bold tracking-[-0.01em] text-primary',
                 className,
             )}
         >
@@ -34,7 +34,7 @@ export function Headline({
                 {action && (
                     <Link
                         href={action.href}
-                        className="inline-flex items-center font-sans text-[0.85rem] font-extrabold tracking-[0.06em] text-maroon uppercase transition-all hover:translate-x-1 hover:text-gold"
+                        className="inline-flex items-center font-sans text-[0.85rem] font-extrabold tracking-[0.06em] text-primary uppercase transition-all hover:text-green-dark"
                     >
                         {action.label}
                     </Link>

@@ -28,7 +28,13 @@ const columns: ResourceTableColumn<JobPosting>[] = [
     {
         label: 'Status',
         render: (job) => (
-            <Badge variant={job.status === 'open' ? 'default' : 'secondary'}>
+            <Badge
+                className={
+                    job.status === 'open'
+                        ? 'border-transparent bg-green text-white'
+                        : 'border-transparent bg-gold text-ink'
+                }
+            >
                 {job.status}
             </Badge>
         ),

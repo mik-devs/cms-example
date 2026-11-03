@@ -71,9 +71,12 @@ export default function NewsForm({
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid gap-2">
-                <Label htmlFor="title">Title</Label>
+                <Label htmlFor="title">
+                    Title <span className="text-red-500">*</span>
+                </Label>
                 <Input
                     id="title"
+                    required
                     value={form.data.title}
                     onChange={(event) =>
                         form.setData('title', event.target.value)
@@ -84,7 +87,9 @@ export default function NewsForm({
             </div>
 
             <div className="grid gap-2">
-                <Label htmlFor="category">Category</Label>
+                <Label htmlFor="category">
+                    Category <span className="text-red-500">*</span>
+                </Label>
                 <Select
                     value={form.data.category}
                     onValueChange={(value) => {
@@ -124,7 +129,9 @@ export default function NewsForm({
             </div>
 
             <div className="grid gap-2">
-                <Label htmlFor="content">Content</Label>
+                <Label htmlFor="content">
+                    Content <span className="text-red-500">*</span>
+                </Label>
                 <textarea
                     id="content"
                     required
@@ -153,7 +160,9 @@ export default function NewsForm({
             </div>
 
             <div className="grid gap-2 sm:max-w-xs">
-                <Label htmlFor="status">Status</Label>
+                <Label htmlFor="status">
+                    Status <span className="text-red-500">*</span>
+                </Label>
                 <Select
                     value={form.data.status}
                     onValueChange={(value) => {
@@ -192,11 +201,15 @@ export default function NewsForm({
             </div>
 
             <div className="grid gap-2">
-                <Label htmlFor="image">Image</Label>
+                <Label htmlFor="image">
+                    Image
+                    {!initialValues && <span className="text-red-500"> *</span>}
+                </Label>
                 <Input
                     id="image"
                     type="file"
                     accept="image/*"
+                    required={!initialValues}
                     onChange={(event) =>
                         form.setData(
                             'image',

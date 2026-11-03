@@ -25,7 +25,13 @@ const columns: ResourceTableColumn<Service>[] = [
     {
         label: 'Status',
         render: (service) => (
-            <Badge variant={service.is_active ? 'default' : 'secondary'}>
+            <Badge
+                className={
+                    service.is_active
+                        ? 'border-transparent bg-green text-white'
+                        : 'border-transparent bg-gold text-ink'
+                }
+            >
                 {service.is_active ? 'Active' : 'Inactive'}
             </Badge>
         ),

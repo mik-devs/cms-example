@@ -20,12 +20,12 @@ export function TransparencySeal({
 
                 <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-12">
                     <div className="lg:col-span-4">
-                        <div className="h-full rounded-[20px] border border-t-4 border-line-soft border-t-green bg-white/80 p-7 px-7 shadow-k-card backdrop-blur-[14px] backdrop-saturate-150 transition-all hover:border-t-gold hover:shadow-k-glow">
+                        <div className="h-full rounded-[20px] border border-t-4 border-line border-t-green bg-white p-7 px-7 shadow-k-card transition-colors hover:border-t-gold hover:shadow-k-glow">
                             <h3 className="mb-4 flex items-center justify-between text-[1.05rem] font-bold">
                                 <span>Invitation to Bid</span>
                                 <Link
                                     href="/transparency/bids"
-                                    className="text-[0.78rem] font-extrabold tracking-[0.06em] text-green-600 uppercase hover:text-gold"
+                                    className="text-[0.78rem] font-extrabold tracking-[0.06em] text-green-dark uppercase hover:text-primary"
                                 >
                                     More →
                                 </Link>
@@ -34,18 +34,18 @@ export function TransparencySeal({
                             {bids.map((bid) => (
                                 <div
                                     key={bid.id}
-                                    className="mb-3 flex items-start gap-3 border-b border-dashed border-line-soft pb-4 last:mb-0 last:border-0 last:pb-0"
+                                    className="mb-3 flex items-start gap-3 border-b border-dashed border-line pb-4 last:mb-0 last:border-0 last:pb-0"
                                 >
                                     <FileText className="mt-0.5 size-5 shrink-0 text-pdf-red" />
                                     <Link
                                         href={bid.pdf_path ?? '#'}
                                         className="block flex-1"
                                     >
-                                        <b className="mb-1 block text-[0.88rem] leading-snug font-bold text-forest hover:text-green-600">
+                                        <b className="mb-1 block text-[0.88rem] leading-snug font-bold text-primary hover:text-green-dark">
                                             {bid.title}
                                         </b>
                                         <span className="flex items-center gap-1.5 text-[0.78rem] text-ink-muted">
-                                            <Calendar className="size-3 text-gold" />
+                                            <Calendar className="size-3 text-primary" />
                                             {formatDate(bid.date_posted)}
                                         </span>
                                     </Link>
@@ -55,12 +55,12 @@ export function TransparencySeal({
                     </div>
 
                     <div className="lg:col-span-8">
-                        <div className="h-full rounded-[20px] border border-t-4 border-line-soft border-t-green bg-white/80 p-7 px-7 shadow-k-card backdrop-blur-[14px] backdrop-saturate-150 transition-all hover:border-t-gold hover:shadow-k-glow">
+                        <div className="h-full rounded-[20px] border border-t-4 border-line border-t-green bg-white p-7 px-7 shadow-k-card transition-colors hover:border-t-gold hover:shadow-k-glow">
                             <h3 className="mb-4 flex items-center justify-between text-[1.05rem] font-bold">
                                 <span>Full Disclosure Policy Reports</span>
                                 <Link
                                     href="/transparency/reports"
-                                    className="text-[0.78rem] font-extrabold tracking-[0.06em] text-green-600 uppercase hover:text-gold"
+                                    className="text-[0.78rem] font-extrabold tracking-[0.06em] text-green-dark uppercase hover:text-primary"
                                 >
                                     Archive →
                                 </Link>
@@ -70,20 +70,20 @@ export function TransparencySeal({
                                 {annualReports.map((report) => (
                                     <div
                                         key={report.id}
-                                        className="mb-3 flex items-start gap-3 border-b border-dashed border-line-soft pb-4"
+                                        className="mb-3 flex items-start gap-3 border-b border-dashed border-line pb-4"
                                     >
                                         <FileText className="mt-0.5 size-5 shrink-0 text-pdf-red" />
                                         <Link
                                             href={report.pdf_path || '#'}
                                             className="block flex-1"
                                         >
-                                            <b className="block text-[0.88rem] leading-snug font-bold text-forest hover:text-green-600">
+                                            <b className="block text-[0.88rem] leading-snug font-bold text-primary hover:text-green-dark">
                                                 {report.title}
                                             </b>
                                         </Link>
                                         <Link
                                             href={report.pdf_path || '#'}
-                                            className="shrink-0 text-[0.78rem] font-extrabold tracking-[0.06em] text-green-600 uppercase hover:text-gold"
+                                            className="shrink-0 text-[0.78rem] font-extrabold tracking-[0.06em] text-green-dark uppercase hover:text-primary"
                                         >
                                             View
                                         </Link>

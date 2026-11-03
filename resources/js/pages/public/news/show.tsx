@@ -22,14 +22,14 @@ export default function NewsShow({ news }: { news: News }) {
                             className="mb-8 aspect-[21/9] w-full rounded-xl object-cover"
                         />
                     )}
-                    <div className="rounded-[20px] border border-line-soft bg-white/80 p-6 shadow-k-soft md:p-10">
+                    <div className="rounded-[20px] border border-line bg-white p-6 shadow-k-soft md:p-10">
                         <p className="leading-relaxed whitespace-pre-line text-ink">
                             {news.content}
                         </p>
                     </div>
                     <Link
                         href="/news"
-                        className="mt-8 inline-flex font-bold text-green-600 hover:text-gold"
+                        className="mt-8 inline-flex font-bold text-green-dark hover:text-primary"
                     >
                         ← Back to News
                     </Link>

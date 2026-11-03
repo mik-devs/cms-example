@@ -56,9 +56,12 @@ export default function OfficialForm({
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid gap-2">
-                <Label htmlFor="name">Name</Label>
+                <Label htmlFor="name">
+                    Name <span className="text-red-500">*</span>
+                </Label>
                 <Input
                     id="name"
+                    required
                     value={form.data.name}
                     onChange={(event) =>
                         form.setData('name', event.target.value)
@@ -68,9 +71,12 @@ export default function OfficialForm({
                 <InputError message={form.errors.name} />
             </div>
             <div className="grid gap-2">
-                <Label htmlFor="position">Position</Label>
+                <Label htmlFor="position">
+                    Position <span className="text-red-500">*</span>
+                </Label>
                 <Input
                     id="position"
+                    required
                     value={form.data.position}
                     onChange={(event) =>
                         form.setData('position', event.target.value)
@@ -108,7 +114,10 @@ export default function OfficialForm({
                 <InputError message={form.errors.instagram_url} />
             </div>
             <div className="grid gap-2">
-                <Label htmlFor="photo">Photo</Label>
+                <Label htmlFor="photo">
+                    Photo
+                    {!initialValues && <span className="text-red-500"> *</span>}
+                </Label>
                 {photoPreview && (
                     <img
                         src={photoPreview}
@@ -120,6 +129,7 @@ export default function OfficialForm({
                     id="photo"
                     type="file"
                     accept="image/*"
+                    required={!initialValues}
                     onChange={(event) =>
                         form.setData('photo', event.target.files?.[0] ?? null)
                     }
@@ -128,10 +138,13 @@ export default function OfficialForm({
                 <InputError message={form.errors.photo} />
             </div>
             <div className="grid gap-2 sm:max-w-xs">
-                <Label htmlFor="order">Order</Label>
+                <Label htmlFor="order">
+                    Order <span className="text-red-500">*</span>
+                </Label>
                 <Input
                     id="order"
                     type="number"
+                    required
                     value={form.data.order}
                     onChange={(event) =>
                         form.setData(

@@ -134,6 +134,10 @@ it('stores and manages hero slide images used by the home page', function () {
     $this->post(route('admin.hero-slides.store'), [
         'kicker' => 'Community',
         'title' => 'A Stronger Kiblawan',
+        'subtitle' => 'A united community driving sustainable progress.',
+        'title_emphasis' => 'Kiblawan',
+        'cta_text' => 'Explore Services',
+        'cta_link' => '/services',
         'image' => UploadedFile::fake()->image('hero.png'),
         'order' => 1,
         'is_active' => true,
@@ -149,17 +153,29 @@ it('stores and manages hero slide images used by the home page', function () {
         ->assertInertia(fn (Assert $page) => $page
             ->component('public/home')
             ->where('heroSlides.0.title', 'A Stronger Kiblawan')
+            ->where('heroSlides.0.subtitle', 'A united community driving sustainable progress.')
+            ->where('heroSlides.0.title_emphasis', 'Kiblawan')
+            ->where('heroSlides.0.cta_text', 'Explore Services')
+            ->where('heroSlides.0.cta_link', '/services')
             ->where('heroSlides.0.image_url', Storage::disk('public')->url($originalImage)));
 
     $this->put(route('admin.hero-slides.update', $heroSlide), [
         'kicker' => 'Updated',
         'title' => 'A Better Kiblawan',
+        'subtitle' => 'A better community for all.',
+        'title_emphasis' => 'Better',
+        'cta_text' => 'Plan Your Visit',
+        'cta_link' => '/tourism',
         'order' => 2,
         'is_active' => true,
     ])->assertRedirect(route('admin.hero-slides.index'));
 
     $heroSlide->refresh();
     expect($heroSlide->title)->toBe('A Better Kiblawan');
+    expect($heroSlide->subtitle)->toBe('A better community for all.');
+    expect($heroSlide->title_emphasis)->toBe('Better');
+    expect($heroSlide->cta_text)->toBe('Plan Your Visit');
+    expect($heroSlide->cta_link)->toBe('/tourism');
     expect($heroSlide->image)->toBe($originalImage);
     Storage::disk('public')->assertExists($originalImage);
 
@@ -282,6 +298,7 @@ it('rejects a barangay when its generated slug already exists', function () {
 it('requires an image when creating a hero slide', function () {
     $this->actingAs(superAdminUser())
         ->post(route('admin.hero-slides.store'), [
+            'kicker' => 'Community',
             'title' => 'Missing image',
             'order' => 1,
         ])

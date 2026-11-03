@@ -35,7 +35,13 @@ const columns: ResourceTableColumn<Achievement>[] = [
     {
         label: 'Status',
         render: (achievement) => (
-            <Badge variant={achievement.is_active ? 'default' : 'secondary'}>
+            <Badge
+                className={
+                    achievement.is_active
+                        ? 'border-transparent bg-green text-white'
+                        : 'border-transparent bg-gold text-ink'
+                }
+            >
                 {achievement.is_active ? 'Active' : 'Inactive'}
             </Badge>
         ),
