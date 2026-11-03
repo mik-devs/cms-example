@@ -1,4 +1,6 @@
 import { ArrowUpRight, Compass, Sprout } from 'lucide-react';
+import { useInView } from '@/hooks/use-in-view';
+import { cn } from '@/lib/utils';
 import { AboutReadNext } from '@/components/kiblawan/ui/about-read-next';
 import { Container } from '@/components/kiblawan/ui/container';
 import { PageHeader } from '@/components/kiblawan/ui/page-header';
@@ -74,8 +76,15 @@ export default function AboutSocioEconomic() {
                                 }
                             />
                             <div className="grid gap-8 md:grid-cols-2">
-                                {economy.map((item) => (
-                                    <ImageCard key={item.title} item={item} />
+                                {economy.map((item, index) => (
+                                    <ScrollSlideIn
+                                        key={item.title}
+                                        direction={
+                                            index % 2 === 0 ? 'left' : 'right'
+                                        }
+                                    >
+                                        <ImageCard item={item} />
+                                    </ScrollSlideIn>
                                 ))}
                             </div>
                         </section>
@@ -91,8 +100,15 @@ export default function AboutSocioEconomic() {
                                 }
                             />
                             <div className="grid gap-8 md:grid-cols-3">
-                                {tourism.map((item) => (
-                                    <ImageCard key={item.title} item={item} />
+                                {tourism.map((item, index) => (
+                                    <ScrollSlideIn
+                                        key={item.title}
+                                        direction={
+                                            index % 2 === 0 ? 'left' : 'right'
+                                        }
+                                    >
+                                        <ImageCard item={item} />
+                                    </ScrollSlideIn>
                                 ))}
                             </div>
                         </section>
@@ -102,6 +118,29 @@ export default function AboutSocioEconomic() {
                 </Container>
             </Section>
         </PublicLayout>
+    );
+}
+
+function ScrollSlideIn({
+    children,
+    direction,
+}: {
+    children: React.ReactNode;
+    direction: 'left' | 'right';
+}) {
+    const { ref, inView } = useInView<HTMLDivElement>({ threshold: 0.12 });
+
+    return (
+        <div
+            ref={ref}
+            className={cn(
+                'h-full',
+                direction === 'left' ? 'slide-in-left' : 'slide-in-right',
+                inView && 'is-visible',
+            )}
+        >
+            {children}
+        </div>
     );
 }
 

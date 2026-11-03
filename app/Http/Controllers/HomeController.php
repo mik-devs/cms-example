@@ -22,6 +22,20 @@ class HomeController extends Controller
 {
     public function index(): Response
     {
+        $latestPhotoRelease = MayorMessage::query()
+            ->published()
+            ->where('type', 'photo_release')
+            ->orderByDesc('published_at')
+            ->orderByDesc('id')
+            ->first();
+
+        $latestMayorMessage = $latestPhotoRelease
+            ?? MayorMessage::query()
+                ->published()
+                ->orderByDesc('published_at')
+                ->orderByDesc('id')
+                ->first();
+
         return Inertia::render('public/home', [
             'settings' => Setting::query()
                 ->pluck('value', 'key')
@@ -74,12 +88,7 @@ class HomeController extends Controller
                 ->orderByDesc('date_posted')
                 ->take(4)
                 ->get(),
-            'mayorMessages' => MayorMessage::query()
-                ->published()
-                ->orderByDesc('published_at')
-                ->orderByDesc('id')
-                ->take(10)
-                ->get(),
+            'mayorMessage' => $latestMayorMessage,
         ]);
     }
 }

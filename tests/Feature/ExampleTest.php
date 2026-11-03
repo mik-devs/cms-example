@@ -22,6 +22,6 @@ test('renders the public home page with homepage data', function () {
                 'emergencyContacts',
                 'bids',
                 'annualReports',
-                'mayorMessages',
+                'mayorMessage',
             ]));
 });

@@ -19,6 +19,7 @@ use App\Http\Controllers\BarangayController as PublicBarangayController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GovernmentController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MayorCornerController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\TourismController;
@@ -62,6 +63,8 @@ Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::get('/news/{slug}', [NewsController::class, 'show'])->name('news.show');
+Route::get('/mayors-corner', [MayorCornerController::class, 'index'])
+    ->name('mayors-corner');
 
 Route::get('/careers', fn () => Inertia::render('public/coming-soon', ['title' => 'Careers']))
     ->name('careers');

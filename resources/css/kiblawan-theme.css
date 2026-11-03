@@ -130,11 +130,34 @@
 }
 
 @layer components {
-    .slide-in-left,
+    .slide-in-left {
+        opacity: 0;
+        transform: translateX(-100px);
+        transition:
+            opacity 0.8s ease-out,
+            transform 0.8s cubic-bezier(0.22, 0.75, 0.25, 1);
+    }
+
     .slide-in-right {
+        opacity: 0;
+        transform: translateX(100px);
+        transition:
+            opacity 0.8s ease-out,
+            transform 0.8s cubic-bezier(0.22, 0.75, 0.25, 1);
+    }
+
+    .slide-in-left.is-visible,
+    .slide-in-right.is-visible {
         opacity: 1;
-        transform: none;
-        transition: none;
+        transform: translateX(0);
+    }
+
+    @media (max-width: 991px) {
+        .slide-in-left,
+        .slide-in-right {
+            opacity: 1;
+            transform: none;
+        }
     }
 }
 

@@ -38,7 +38,7 @@ interface PreviewProps {
     emergencyContacts: EmergencyContact[];
     bids: Bid[];
     annualReports: AnnualReport[];
-    mayorMessages: MayorMessage[];
+    mayorMessage: MayorMessage | null;
 }
 
 export default function Preview({
@@ -54,7 +54,7 @@ export default function Preview({
     emergencyContacts,
     bids,
     annualReports,
-    mayorMessages,
+    mayorMessage,
 }: PreviewProps) {
     const mapEmbedUrl = settings.map_embed ?? '';
 
@@ -67,7 +67,7 @@ export default function Preview({
             <AchievementsCarousel achievements={achievements} />
             <BarangayMap barangays={barangays} mapEmbedUrl={mapEmbedUrl} />
             <TourismHighlights spots={tourismSpots} />
-            <MayorCorner messages={mayorMessages} jobs={latestJobs} />
+            <MayorCorner message={mayorMessage} jobs={latestJobs} />
             <KiblawanHymn
                 videoSrc="/video/kiblawan-hymn.mp4"
                 posterSrc="/images/image.png"

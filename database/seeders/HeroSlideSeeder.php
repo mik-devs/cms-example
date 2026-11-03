@@ -40,6 +40,16 @@ class HeroSlideSeeder extends Seeder
                 'cta_link' => '/events/araw-ng-kiblawan',
                 'order' => 3,
             ],
+            [
+                'kicker' => 'Award & Recognition',
+                'title' => 'Kiblawan Achieves <em>IDEAL</em> Level of Functionality',
+                'title_emphasis' => 'IDEAL',
+                'subtitle' => 'Congratulations to the Municipal Council for the Protection of Children for this outstanding achievement.',
+                'image' => '/images/award/ideal.png',
+                'cta_text' => 'View Achievements',
+                'cta_link' => '/achievements',
+                'order' => 4,
+            ],
         ];
 
         foreach ($slides as $slide) {

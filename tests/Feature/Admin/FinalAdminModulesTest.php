@@ -324,8 +324,7 @@ it('shows officials and transparency files publicly and features the latest mayo
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
             ->component('public/home')
-            ->has('mayorMessages', 4)
-            ->where('mayorMessages.0.title', 'Newest'));
+            ->where('mayorMessage.title', 'Newest'));
 });
 
 it('shows only the ten latest published mayor messages on the home page', function () {
@@ -349,9 +348,43 @@ it('shows only the ten latest published mayor messages on the home page', functi
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
             ->component('public/home')
-            ->has('mayorMessages', 10)
-            ->where('mayorMessages.0.title', 'Message 11')
-            ->where('mayorMessages.9.title', 'Message 2'));
+            ->where('mayorMessage.title', 'Message 11'));
+});
+
+it('renders the public mayors corner page with published messages', function () {
+    MayorMessage::query()->create([
+        'title' => 'Oldest Photo',
+        'content' => 'A public photo.',
+        'type' => 'photo_release',
+        'published_at' => '2026-01-01 09:00:00',
+    ]);
+    MayorMessage::query()->create([
+        'title' => 'Middle Speech',
+        'content' => 'A public speech.',
+        'type' => 'speech',
+        'published_at' => '2026-02-01 09:00:00',
+    ]);
+    MayorMessage::query()->create([
+        'title' => 'Newest Achievement',
+        'content' => 'A public achievement.',
+        'type' => 'achievement',
+        'published_at' => '2026-03-01 09:00:00',
+    ]);
+    MayorMessage::query()->create([
+        'title' => 'Future Update',
+        'content' => 'Not public yet.',
+        'type' => 'gallery',
+        'published_at' => now()->addDay(),
+    ]);
+
+    $this->get(route('mayors-corner'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('public/mayors-corner')
+            ->has('messages', 3)
+            ->where('messages.0.title', 'Newest Achievement')
+            ->where('messages.1.title', 'Middle Speech')
+            ->where('messages.2.title', 'Oldest Photo'));
 });
 
 it('publishes a mayor message created in the CMS to the home page', function () {
@@ -373,8 +406,7 @@ it('publishes a mayor message created in the CMS to the home page', function () 
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
             ->component('public/home')
-            ->has('mayorMessages', 1)
-            ->where('mayorMessages.0.title', 'Community Update')
-            ->where('mayorMessages.0.type', 'photo_release')
-            ->where('mayorMessages.0.image_url', Storage::disk('public')->url($message->image)));
+            ->where('mayorMessage.title', 'Community Update')
+            ->where('mayorMessage.type', 'photo_release')
+            ->where('mayorMessage.image_url', Storage::disk('public')->url($message->image)));
 });

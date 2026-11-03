@@ -192,5 +192,5 @@ export interface HomePageProps {
     emergencyContacts: EmergencyContact[];
     bids: Bid[];
     annualReports: AnnualReport[];
-    mayorMessages: MayorMessage[];
+    mayorMessage: MayorMessage | null;
 }

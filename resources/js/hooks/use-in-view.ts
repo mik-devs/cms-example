@@ -15,6 +15,8 @@ export function useInView<T extends Element = HTMLDivElement>({
         const node = ref.current;
 
         if (!node || typeof IntersectionObserver === 'undefined') {
+            setInView(true);
+
             return;
         }
 

@@ -9,9 +9,10 @@ class AchievementSeeder extends Seeder
 {
     public function run(): void
     {
-        $images = ['/images/kib.png', '/tourism/spot.png', '/images/araw.png'];
+        $images = ['/images/award/ideal.png', '/images/kib.png', '/tourism/spot.png', '/images/araw.png'];
 
         $achievements = [
+            ['title' => '2025 LCPC Functionality Assessment - IDEAL Level of Functionality', 'description' => 'Congratulations to the Municipal Council for the Protection of Children for this outstanding achievement.', 'badge_year' => '2025'],
             ['title' => 'Seal of Good Local Governance', 'description' => 'Recognized for excellence in local governance, transparency, and public service.', 'badge_year' => '2026'],
             ['title' => '100% Barangay Connectivity', 'description' => 'Reached all barangays through the Serbisyo Caravan program.', 'badge_year' => '2025'],
             ['title' => 'Best Tourism Award', 'description' => 'Awarded for promoting sustainable and inclusive tourism in the region.', 'badge_year' => '2024'],

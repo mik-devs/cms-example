@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { Facebook, Instagram } from 'lucide-react';
+import { ArrowRight, Facebook, Instagram } from 'lucide-react';
+import { Link } from '@inertiajs/react';
+import { useInView } from '@/hooks/use-in-view';
 import { cn } from '@/lib/utils';
 import { Container } from '@/components/kiblawan/ui/container';
 import { Headline } from '@/components/kiblawan/ui/headline';
@@ -7,49 +8,41 @@ import { JobCard } from '@/components/kiblawan/ui/job-card';
 import { Section } from '@/components/kiblawan/ui/section';
 import type { JobPosting, MayorMessage } from '@/types';
 
-const tabs = ['Photo Release', 'Speeches', 'Achievements', 'Gallery'] as const;
-
-type MayorTab = (typeof tabs)[number];
-
-const messageTypes: Record<MayorTab, MayorMessage['type']> = {
-    'Photo Release': 'photo_release',
-    Speeches: 'speech',
-    Achievements: 'achievement',
-    Gallery: 'gallery',
-};
-
 export function MayorCorner({
-    messages,
+    message,
     jobs,
 }: {
-    messages: MayorMessage[];
+    message: MayorMessage | null;
     jobs: JobPosting[];
 }) {
-    const [activeTab, setActiveTab] = useState<MayorTab>('Photo Release');
-
-    const featuredMessage = messages.filter(
-        (message) => message.type === messageTypes[activeTab],
-    )[0];
+    const { ref, inView } = useInView<HTMLDivElement>({ threshold: 0.15 });
+    const imageUrl = message?.image_url || '/images/mayor/mayor.jpg';
+    const title = message?.title ?? "Welcome to the Mayor's Corner";
+    const excerpt =
+        message?.content ??
+        'Explore the latest updates, speeches, and gallery from the Mayor’s Office.';
 
     return (
         <Section id="mayor-corner" className="overflow-hidden bg-paper">
             <Container>
-                <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-                    <div className="lg:col-span-8">
+                <div
+                    ref={ref}
+                    className="grid grid-cols-1 gap-8 lg:grid-cols-2"
+                >
+                    <div
+                        className={cn(
+                            'slide-in-left h-full',
+                            inView && 'is-visible',
+                        )}
+                    >
                         <Headline title={"Mayor's Corner"} />
 
                         <div className="flex h-full flex-col overflow-hidden rounded-[24px] border border-line bg-white shadow-k-card">
-                            <div className="relative">
+                            <div className="relative overflow-hidden rounded-t-[24px]">
                                 <img
-                                    src={
-                                        featuredMessage?.image_url ??
-                                        '/images/mayor/mayor.jpg'
-                                    }
-                                    alt={
-                                        featuredMessage?.title ??
-                                        "Mayor's Corner"
-                                    }
-                                    className="h-[400px] w-full bg-cream object-contain"
+                                    src={imageUrl}
+                                    alt={message?.title ?? "Mayor's Corner"}
+                                    className="h-[400px] w-full bg-cream object-contain md:h-[450px]"
                                     onError={(event) => {
                                         event.currentTarget.src =
                                             '/images/mayor/mayor.jpg';
@@ -77,39 +70,36 @@ export function MayorCorner({
                                 </div>
                             </div>
 
-                            <div className="p-5">
-                                {featuredMessage ? (
-                                    <h3 className="mb-4 font-display text-xl font-bold text-primary">
-                                        {featuredMessage.title}
-                                    </h3>
-                                ) : (
-                                    <p className="mb-4 text-sm text-ink-muted">
-                                        No {activeTab.toLowerCase()} are
-                                        available yet.
-                                    </p>
-                                )}
-                                <div className="flex border-b border-line">
-                                    {tabs.map((tab) => (
-                                        <button
-                                            key={tab}
-                                            type="button"
-                                            onClick={() => setActiveTab(tab)}
-                                            className={cn(
-                                                'flex-1 border-b-2 px-2.5 py-4 text-[0.85rem] font-extrabold transition-all',
-                                                activeTab === tab
-                                                    ? 'border-gold text-primary'
-                                                    : 'border-transparent text-ink-muted hover:bg-primary/5 hover:text-primary',
-                                            )}
-                                        >
-                                            {tab}
-                                        </button>
-                                    ))}
-                                </div>
+                            <div className="p-6 md:p-8">
+                                <p className="mb-2 text-xs font-extrabold tracking-[0.2em] text-primary uppercase">
+                                    Latest from the Mayor
+                                </p>
+                                <h3 className="mb-2 font-display text-2xl font-bold text-primary">
+                                    {title}
+                                </h3>
+                                <p className="mb-5 line-clamp-3 leading-relaxed text-ink-muted">
+                                    {excerpt}
+                                </p>
+                                <Link
+                                    href="/mayors-corner"
+                                    className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gold px-6 py-3.5 text-sm font-extrabold tracking-wide text-primary-dark shadow-sm transition-all duration-300 ease-k-smooth hover:-translate-y-0.5 hover:bg-gold-soft"
+                                >
+                                    View All Updates
+                                    <ArrowRight
+                                        className="size-4"
+                                        aria-hidden="true"
+                                    />
+                                </Link>
                             </div>
                         </div>
                     </div>
 
-                    <div className="lg:col-span-4">
+                    <div
+                        className={cn(
+                            'slide-in-right h-full',
+                            inView && 'is-visible',
+                        )}
+                    >
                         <Headline
                             title="Latest Jobs"
                             action={{ label: 'More →', href: '/careers' }}

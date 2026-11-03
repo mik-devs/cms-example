@@ -31,6 +31,7 @@ it('renders each public navigation route', function (string $path, string $compo
     'news' => ['/news', 'public/news/index'],
     'careers placeholder' => ['/careers', 'public/coming-soon'],
     'tourism' => ['/tourism', 'public/tourism/index'],
+    'mayors corner' => ['/mayors-corner', 'public/mayors-corner'],
     'achievements placeholder' => ['/achievements', 'public/coming-soon'],
     'barangays placeholder' => ['/barangays', 'public/coming-soon'],
 ]);
