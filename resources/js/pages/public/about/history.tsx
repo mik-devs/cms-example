@@ -78,8 +78,9 @@ export default function AboutHistory() {
                                         <img
                                             src={story.image}
                                             alt={story.imageAlt}
-                                            loading="lazy"
                                             className="aspect-[4/3] w-full rounded-[24px] object-cover shadow-k-card transition-transform duration-700"
+                                            loading="lazy"
+                                            decoding="async"
                                         />
                                     }
                                     right={
@@ -134,8 +135,9 @@ export default function AboutHistory() {
                                             <img
                                                 src={festival.image}
                                                 alt={festival.title}
-                                                loading="lazy"
                                                 className="aspect-square w-full object-cover transition-transform duration-700"
+                                                loading="lazy"
+                                                decoding="async"
                                             />
                                         </div>
                                         <div className="p-6 md:p-8">

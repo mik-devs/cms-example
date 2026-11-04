@@ -51,6 +51,8 @@ export default function AboutDemographic() {
                                     <img
                                         src="/images/about/kiblawan-community-photo.png.png"
                                         alt="Residents and community life in Kiblawan"
+                                        loading="lazy"
+                                        decoding="async"
                                         className="absolute inset-0 size-full object-cover transition-transform duration-700"
                                     />
                                     <div className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-primary/50 to-transparent" />

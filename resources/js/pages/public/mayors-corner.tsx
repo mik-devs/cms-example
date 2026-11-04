@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Camera, Medal, Megaphone, Images } from 'lucide-react';
 import { Container } from '@/components/kiblawan/ui/container';
-import { KImage } from '@/components/kiblawan/ui/k-image';
 import { PageHeader } from '@/components/kiblawan/ui/page-header';
 import { Section } from '@/components/kiblawan/ui/section';
 import PublicLayout from '@/layouts/public/public-layout';
@@ -98,11 +97,12 @@ export default function MayorsCorner({
                                         key={message.id}
                                         className="group relative aspect-square overflow-hidden rounded-2xl border border-line bg-white shadow-sm"
                                     >
-                                        <KImage
-                                            src={message.image_url}
-                                            fallbackSrc="/images/kib.png"
+                                        <img
+                                            src={message.image_url || '/images/kib.png'}
                                             alt={message.title}
                                             className="h-full w-full object-cover transition-transform duration-500 ease-k-smooth group-hover:scale-105"
+                                            loading="lazy"
+                                            decoding="async"
                                         />
                                         <figcaption className="absolute inset-0 flex items-end bg-linear-to-t from-black/80 via-black/20 to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                                             <span className="line-clamp-2 text-xs leading-snug font-bold text-white sm:text-sm">
@@ -120,11 +120,12 @@ export default function MayorsCorner({
                                         className="group flex h-full flex-col overflow-hidden rounded-[24px] border border-line bg-white shadow-k-card transition-all duration-300 ease-k-smooth hover:-translate-y-1 hover:shadow-k-glow"
                                     >
                                         <div className="relative aspect-[4/3] overflow-hidden bg-cream">
-                                            <KImage
-                                                src={message.image_url}
-                                                fallbackSrc="/images/kib.png"
+                                            <img
+                                                src={message.image_url || '/images/kib.png'}
                                                 alt={message.title}
                                                 className="h-full w-full object-cover transition-transform duration-500 ease-k-smooth group-hover:scale-105"
+                                                loading="lazy"
+                                                decoding="async"
                                             />
                                         </div>
                                         <div className="flex flex-1 flex-col p-5">

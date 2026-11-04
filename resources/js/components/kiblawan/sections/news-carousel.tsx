@@ -119,7 +119,7 @@ export function NewsCarousel({ news }: { news: News[] }) {
                     ref={trackRef}
                     onMouseEnter={() => setIsPaused(true)}
                     onMouseLeave={() => setIsPaused(false)}
-                    className="flex snap-x snap-mandatory [scrollbar-width:none] gap-5 overflow-x-auto scroll-smooth px-4 pb-4 [-ms-overflow-style:none] sm:px-6 lg:px-8 [&::-webkit-scrollbar]:hidden"
+                    className="flex snap-x snap-mandatory [scrollbar-width:none] gap-5 overflow-x-auto scroll-smooth px-12 pb-4 md:px-16 [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
                     style={{ scrollSnapType: 'x mandatory' }}
                 >
                     {repeatedNews.map((item, i) => (
@@ -137,7 +137,7 @@ export function NewsCarousel({ news }: { news: News[] }) {
                     type="button"
                     onClick={() => scrollByStep(-1)}
                     aria-label="Previous news"
-                    className="absolute top-1/2 left-1 z-10 hidden size-[46px] -translate-y-1/2 place-items-center rounded-full bg-primary text-lg text-white shadow-k-card transition-all duration-[400ms] ease-k-smooth hover:bg-gold hover:text-primary sm:grid"
+                    className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-30 size-[46px] rounded-full bg-[#7A2926] text-white grid place-items-center text-xl shadow-md transition-all duration-300 hover:bg-[#5E141C] hover:scale-105 hidden sm:grid"
                 >
                     ‹
                 </button>
@@ -145,7 +145,7 @@ export function NewsCarousel({ news }: { news: News[] }) {
                     type="button"
                     onClick={() => scrollByStep(1)}
                     aria-label="Next news"
-                    className="absolute top-1/2 right-1 z-10 hidden size-[46px] -translate-y-1/2 place-items-center rounded-full bg-primary text-lg text-white shadow-k-card transition-all duration-[400ms] ease-k-smooth hover:bg-gold hover:text-primary sm:grid"
+                    className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-30 size-[46px] rounded-full bg-[#7A2926] text-white grid place-items-center text-xl shadow-md transition-all duration-300 hover:bg-[#5E141C] hover:scale-105 hidden sm:grid"
                 >
                     ›
                 </button>

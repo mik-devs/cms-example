@@ -1,6 +1,5 @@
 import { Link } from '@inertiajs/react';
 import { Container } from '@/components/kiblawan/ui/container';
-import { KImage } from '@/components/kiblawan/ui/k-image';
 import { PageHeader } from '@/components/kiblawan/ui/page-header';
 import { formatDate } from '@/lib/format-date';
 import PublicLayout from '@/layouts/public/public-layout';
@@ -16,10 +15,12 @@ export default function NewsShow({ news }: { news: News }) {
             <Container className="py-12 md:py-16">
                 <article className="mx-auto max-w-4xl">
                     {news.image_url && (
-                        <KImage
+                        <img
                             src={news.image_url}
                             alt={news.title}
                             className="mb-8 aspect-[21/9] w-full rounded-xl object-cover"
+                            loading="lazy"
+                            decoding="async"
                         />
                     )}
                     <div className="rounded-[20px] border border-line bg-white p-6 shadow-k-soft md:p-10">

@@ -194,6 +194,7 @@ function ImageCard({
                     src={item.image}
                     alt={item.title}
                     loading="lazy"
+                    decoding="async"
                     className="aspect-[16/10] w-full object-cover transition-transform duration-700"
                 />
             </div>

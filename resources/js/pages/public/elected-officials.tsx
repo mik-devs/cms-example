@@ -2,7 +2,6 @@ import { Link } from '@inertiajs/react';
 import { Facebook, Instagram } from 'lucide-react';
 import { GovernmentNavigation } from '@/components/kiblawan/government-navigation';
 import { Container } from '@/components/kiblawan/ui/container';
-import { KImage } from '@/components/kiblawan/ui/k-image';
 import { PageHeader } from '@/components/kiblawan/ui/page-header';
 import PublicLayout from '@/layouts/public/public-layout';
 import { home } from '@/routes';
@@ -44,10 +43,12 @@ export default function ElectedOfficials({
                                 key={title}
                                 className="overflow-hidden rounded-[24px] border border-line bg-white shadow-k-card"
                             >
-                                <KImage
-                                    src={official?.photo_url}
+                                <img
+                                    src={official?.photo_url || '/images/image.png'}
                                     alt={official?.name ?? title}
                                     className="aspect-[16/10] w-full bg-cream object-contain object-top"
+                                    loading="lazy"
+                                    decoding="async"
                                 />
                                 <div className="flex flex-col items-start gap-3 p-6 md:p-8">
                                     <p className="m-0 text-sm font-bold tracking-wide text-primary uppercase">
@@ -117,10 +118,12 @@ export default function ElectedOfficials({
                                     key={member.id}
                                     className="overflow-hidden rounded-[20px] border border-line bg-white shadow-k-card"
                                 >
-                                    <KImage
-                                        src={member.photo_url}
+                                    <img
+                                        src={member.photo_url || '/images/image.png'}
                                         alt={member.name}
                                         className="aspect-[4/3] w-full bg-cream object-contain object-top"
+                                        loading="lazy"
+                                        decoding="async"
                                     />
                                     <div className="p-5">
                                         <h3 className="m-0 font-display text-xl font-bold text-primary">

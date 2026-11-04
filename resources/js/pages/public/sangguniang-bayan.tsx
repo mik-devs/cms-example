@@ -1,7 +1,6 @@
 import { Facebook, Instagram } from 'lucide-react';
 import { GovernmentNavigation } from '@/components/kiblawan/government-navigation';
 import { Container } from '@/components/kiblawan/ui/container';
-import { KImage } from '@/components/kiblawan/ui/k-image';
 import { PageHeader } from '@/components/kiblawan/ui/page-header';
 import PublicLayout from '@/layouts/public/public-layout';
 import type { Official } from '@/types';
@@ -42,10 +41,12 @@ export default function SangguniangBayan({
                         Presiding Officer
                     </h2>
                     <article className="grid overflow-hidden rounded-[24px] border border-line bg-white shadow-k-card md:grid-cols-[minmax(16rem,0.8fr)_1.2fr]">
-                        <KImage
-                            src={viceMayor?.photo_url}
+                        <img
+                            src={viceMayor?.photo_url || '/images/image.png'}
                             alt={viceMayor?.name ?? 'Vice Mayor'}
                             className="aspect-[4/3] w-full bg-cream object-contain object-top md:aspect-auto md:min-h-80"
+                            loading="lazy"
+                            decoding="async"
                         />
                         <div className="flex flex-col justify-center gap-3 p-6 md:p-10">
                             <p className="m-0 text-sm font-bold tracking-wide text-primary uppercase">
@@ -103,10 +104,12 @@ export default function SangguniangBayan({
                                     key={member.id}
                                     className="overflow-hidden rounded-[20px] border border-line bg-white shadow-k-card"
                                 >
-                                    <KImage
-                                        src={member.photo_url}
+                                    <img
+                                        src={member.photo_url || '/images/image.png'}
                                         alt={member.name}
                                         className="aspect-[4/3] w-full bg-cream object-contain object-top"
+                                        loading="lazy"
+                                        decoding="async"
                                     />
                                     <div className="p-5">
                                         <h3 className="m-0 font-display text-xl font-bold text-primary">

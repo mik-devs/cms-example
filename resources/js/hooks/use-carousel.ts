@@ -31,6 +31,9 @@ export function useCarousel({
     const [isPlaying, setIsPlaying] = useState(autoplay);
     const [isHovered, setIsHovered] = useState(false);
     const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+    const isHoverable =
+        typeof window !== 'undefined' &&
+        window.matchMedia('(hover: hover)').matches;
 
     const clearTimer = useCallback((): void => {
         if (timerRef.current !== null) {
@@ -78,18 +81,6 @@ export function useCarousel({
 
     const pause = useCallback((): void => setIsPlaying(false), []);
 
-    const handleMouseEnter = useCallback((): void => {
-        if (pauseOnHover) {
-            setIsHovered(true);
-        }
-    }, [pauseOnHover]);
-
-    const handleMouseLeave = useCallback((): void => {
-        if (pauseOnHover) {
-            setIsHovered(false);
-        }
-    }, [pauseOnHover]);
-
     useEffect(() => {
         if (isPlaying && !isHovered) {
             startTimer();
@@ -109,8 +100,16 @@ export function useCarousel({
         play,
         pause,
         containerProps: {
-            onMouseEnter: handleMouseEnter,
-            onMouseLeave: handleMouseLeave,
+            onMouseEnter: (): void => {
+                if (isHoverable && pauseOnHover) {
+                    setIsHovered(true);
+                }
+            },
+            onMouseLeave: (): void => {
+                if (isHoverable && pauseOnHover) {
+                    setIsHovered(false);
+                }
+            },
         },
     };
 }

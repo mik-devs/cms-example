@@ -71,6 +71,8 @@ export default function AboutGeography() {
                                     <img
                                         src="/images/about/kiblawan-farm.png"
                                         alt="Agricultural landscape in Kiblawan"
+                                        loading="lazy"
+                                        decoding="async"
                                         className="absolute inset-0 size-full object-cover transition-transform duration-700"
                                     />
                                     <div className="absolute inset-0 bg-linear-to-t from-primary/45 via-transparent to-transparent" />
@@ -115,6 +117,7 @@ export default function AboutGeography() {
                                                     src={image}
                                                     alt={imageAlt}
                                                     loading="lazy"
+                                                    decoding="async"
                                                     className={`absolute inset-0 size-full transition-transform duration-700 ${
                                                         title.startsWith(
                                                             'Transportation',

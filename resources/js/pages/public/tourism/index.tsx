@@ -1,7 +1,6 @@
 import { Link } from '@inertiajs/react';
 import { ArrowRight, Compass, MapPin } from 'lucide-react';
 import { Container } from '@/components/kiblawan/ui/container';
-import { KImage } from '@/components/kiblawan/ui/k-image';
 import { PageHeader } from '@/components/kiblawan/ui/page-header';
 import { WeatherWidget } from '@/components/kiblawan/sections/weather-widget';
 import PublicLayout from '@/layouts/public/public-layout';
@@ -46,10 +45,12 @@ export default function TourismIndex({ spots }: { spots: TourismSpot[] }) {
                                     className="group flex h-full flex-col overflow-hidden rounded-[24px] border border-line bg-white shadow-k-soft transition-all duration-300 ease-k-smooth hover:-translate-y-1 hover:border-gold/40 hover:shadow-k-card"
                                 >
                                     <div className="relative aspect-[4/3] overflow-hidden">
-                                        <KImage
-                                            src={spot.image_url}
+                                        <img
+                                            src={spot.image_url || '/images/image.png'}
                                             alt={spot.name}
                                             className="h-full w-full object-cover transition-transform duration-500 ease-k-smooth group-hover:scale-105"
+                                            loading="lazy"
+                                            decoding="async"
                                         />
                                         {spot.category && (
                                             <span className="absolute top-4 left-4 inline-flex items-center gap-1.5 rounded-full bg-dark-brown/85 px-3 py-1.5 text-[0.7rem] font-extrabold tracking-[0.08em] text-gold uppercase backdrop-blur-sm">

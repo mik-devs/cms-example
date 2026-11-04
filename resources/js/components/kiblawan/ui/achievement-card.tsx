@@ -1,16 +1,17 @@
 import { Link } from '@inertiajs/react';
 import { Search } from 'lucide-react';
 import type { Achievement } from '@/types';
-import { KImage } from './k-image';
 
 export function AchievementCard({ achievement }: { achievement: Achievement }) {
     return (
         <div className="group flex h-full flex-col overflow-hidden rounded-[20px] border border-line bg-white shadow-k-card transition-colors duration-300 ease-k-smooth hover:border-primary/30 hover:shadow-k-glow">
             <div className="relative aspect-[4/3] overflow-hidden bg-image-bed">
-                <KImage
-                    src={achievement.image_url}
+                <img
+                    src={achievement.image_url || '/images/image.png'}
                     alt={achievement.title}
                     className="h-full w-full object-cover"
+                    loading="lazy"
+                    decoding="async"
                 />
                 <div className="absolute inset-0 z-[2] flex items-center justify-center bg-linear-to-b from-transparent to-dark-brown/90 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                     <Link

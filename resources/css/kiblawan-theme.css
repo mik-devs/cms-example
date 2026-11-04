@@ -217,13 +217,12 @@
 @utility k-typing-dot {
     animation: k-typing 1.2s ease-in-out infinite;
 }
-
 /* =========================================
-   HIGH CONTRAST MODE (Refined)
+   HIGH CONTRAST MODE (Softened)
    ========================================= */
 
 body.high-contrast {
-  background-color: #000000 !important;
+  background-color: #0E0E0E !important;
   color: #FFFFFF !important;
 }
 
@@ -233,28 +232,31 @@ body.high-contrast {
   color: #FFFFFF !important;
 }
 
-/* Cards, Sections, and Containers (Black with White Borders) */
-.high-contrast .bg-white, 
+/* Cards, Sections, and Containers (Elevated) */
+.high-contrast .card, .high-contrast .bg-white {
+  background-color: #1A1A1A !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5) !important;
+}
 .high-contrast .bg-cream, 
 .high-contrast .bg-forest,
 .high-contrast .bg-forest-deep,
 .high-contrast .bg-paper,
-.high-contrast section,
-.high-contrast .card {
-  background-color: #000000 !important;
-  border: 2px solid #FFFFFF !important;
-  box-shadow: none !important;
+.high-contrast section {
+  background-color: #0E0E0E !important;
 }
 
 /* Navigation */
 .high-contrast header, 
 .high-contrast nav, 
 .high-contrast #topbar {
-  background-color: #000000 !important;
+  background-color: #0E0E0E !important;
   border-bottom: 2px solid #FFFF00 !important;
 }
 .high-contrast nav a {
-  color: #FFFFFF !important;
+  color: #FFFF00 !important;
+  background-color: transparent !important;
+  border: 2px solid #FFFF00 !important;
 }
 .high-contrast nav a:hover, 
 .high-contrast nav a[data-active="true"] {
@@ -262,13 +264,21 @@ body.high-contrast {
   color: #000000 !important;
 }
 
-/* Buttons (Keep them Yellow so they are noticeable) */
-.high-contrast button, 
-.high-contrast .btn, 
-.high-contrast a[class*="bg-"] {
+/* Primary CTA Buttons (Solid Yellow) */
+.high-contrast .btn-primary,
+.high-contrast a[class*="bg-primary"] {
   background-color: #FFFF00 !important;
   color: #000000 !important;
   border: 2px solid #FFFFFF !important;
+  font-weight: bold !important;
+}
+
+/* Secondary Buttons / Generic Buttons (Transparent with Yellow Border) */
+.high-contrast button, 
+.high-contrast .btn {
+  background-color: transparent !important;
+  color: #FFFF00 !important;
+  border: 2px solid #FFFF00 !important;
   font-weight: bold !important;
 }
 
@@ -284,7 +294,7 @@ body.high-contrast {
 
 /* Footer */
 .high-contrast footer {
-  background-color: #000000 !important;
+  background-color: #0E0E0E !important;
   border-top: 2px solid #FFFF00 !important;
 }
 .high-contrast footer a {
@@ -295,7 +305,7 @@ body.high-contrast {
 .high-contrast input, 
 .high-contrast textarea, 
 .high-contrast select {
-  background-color: #000000 !important;
+  background-color: #1A1A1A !important;
   color: #FFFFFF !important;
   border: 2px solid #FFFFFF !important;
 }

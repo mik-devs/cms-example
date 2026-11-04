@@ -125,6 +125,15 @@ export default function Navbar() {
         };
     }, [mobileOpen]);
 
+    useEffect(() => {
+        if (!mobileOpen) {
+            // Remove focus from any element inside the menu when it closes
+            if (document.activeElement instanceof HTMLElement) {
+                document.activeElement.blur();
+            }
+        }
+    }, [mobileOpen]);
+
     return (
         <>
             <header className="fixed top-[36px] right-0 left-0 z-[90] border-b border-line bg-cream shadow-k-soft transition-all duration-[400ms]">
@@ -132,8 +141,10 @@ export default function Navbar() {
                     <Link href="/" className="group flex items-center gap-3.5">
                         <img
                             src="/images/image.png"
-                            alt="Kiblawan Seal"
+                            alt="Kiblawan Logo"
                             className="size-[60px] shrink-0 object-contain drop-shadow-[0_2px_6px_rgba(0,0,0,0.12)]"
+                            loading="eager"
+                            decoding="async"
                         />
                         <div className="leading-[1.1]">
                             <div className="font-display text-[1.15rem] font-bold text-primary">
@@ -247,6 +258,7 @@ export default function Navbar() {
                 id="kiblawan-mobile-nav"
                 aria-label="Mobile navigation"
                 aria-hidden={!mobileOpen}
+                inert={!mobileOpen}
                 className={cn(
                     'fixed top-[var(--nav-offset)] right-0 z-[80] k-scrollbar h-[calc(100vh-var(--nav-offset))] w-[min(88vw,380px)] overflow-y-auto bg-paper p-7 shadow-[-12px_0_40px_rgba(38,50,56,0.16)] transition-transform duration-[400ms]',
                     mobileOpen ? 'translate-x-0' : 'translate-x-full',

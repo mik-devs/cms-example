@@ -1,7 +1,6 @@
 import { Link } from '@inertiajs/react';
 import { Search } from 'lucide-react';
 import type { TourismSpot } from '@/types';
-import { KImage } from './k-image';
 
 export function TourCard({ spot }: { spot: TourismSpot }) {
     return (
@@ -9,10 +8,12 @@ export function TourCard({ spot }: { spot: TourismSpot }) {
             href={`/tourism/${spot.slug}`}
             className="group relative block aspect-[4/5] overflow-hidden rounded-[20px]"
         >
-            <KImage
+            <img
                 src={spot.image_url}
                 alt={spot.name}
                 className="absolute inset-0 z-[1] h-full w-full object-cover"
+                loading="lazy"
+                decoding="async"
             />
             <div className="absolute inset-x-0 bottom-0 z-[2] bg-linear-to-t from-dark-brown/95 via-dark-brown/60 to-transparent p-9 px-7 text-white">
                 <h4 className="m-0 mb-3 font-display text-xl text-gold">

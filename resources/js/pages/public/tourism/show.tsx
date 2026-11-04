@@ -1,7 +1,6 @@
 import { Link } from '@inertiajs/react';
 import { ArrowLeft, Check, MapPin, Navigation, Phone } from 'lucide-react';
 import { Container } from '@/components/kiblawan/ui/container';
-import { KImage } from '@/components/kiblawan/ui/k-image';
 import PublicLayout from '@/layouts/public/public-layout';
 import type { TourismSpot } from '@/types';
 
@@ -17,10 +16,12 @@ export default function TourismShow({ spot }: { spot: TourismSpot }) {
     return (
         <PublicLayout title={`${spot.name} | Tourism`}>
             <section className="relative h-[400px] w-full overflow-hidden md:h-[500px]">
-                <KImage
-                    src={spot.image_url}
+                <img
+                    src={spot.image_url || '/images/image.png'}
                     alt={spot.name}
                     className="absolute inset-0 h-full w-full object-cover"
+                    loading="eager"
+                    decoding="async"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-dark-brown/95 via-dark-brown/35 to-transparent" />
 
@@ -114,10 +115,12 @@ export default function TourismShow({ spot }: { spot: TourismSpot }) {
                                         rel="noopener noreferrer"
                                         className="group overflow-hidden rounded-[18px] border border-line-soft shadow-sm"
                                     >
-                                        <KImage
-                                            src={image.image_url}
+                                        <img
+                                            src={image.image_url || '/images/image.png'}
                                             alt={`${spot.name} photo`}
                                             className="aspect-[4/3] w-full object-cover transition-transform duration-500 ease-k-smooth group-hover:scale-105"
+                                            loading="lazy"
+                                            decoding="async"
                                         />
                                     </a>
                                 ))}

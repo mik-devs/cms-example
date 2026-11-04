@@ -90,7 +90,9 @@ export default function Footer() {
                             <img
                                 src="/images/image.png"
                                 alt="Kiblawan Seal"
-                                className="mb-5 size-20 drop-shadow-[0_4px_12px_rgba(0,0,0,0.4)]"
+                                className="mb-5 size-20 object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.4)]"
+                                loading="eager"
+                                decoding="async"
                             />
                             <h3 className="mb-2 font-display text-[1.4rem] font-bold tracking-[0.5px] text-white">
                                 {siteSettings.site_name ??

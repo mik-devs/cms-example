@@ -1,7 +1,6 @@
 import { Link } from '@inertiajs/react';
 import { ArrowLeft, Award, Facebook } from 'lucide-react';
 import { Container } from '@/components/kiblawan/ui/container';
-import { KImage } from '@/components/kiblawan/ui/k-image';
 import PublicLayout from '@/layouts/public/public-layout';
 import type { Achievement } from '@/types';
 
@@ -13,10 +12,12 @@ export default function AchievementShow({
     return (
         <PublicLayout title={`${achievement.title} | Achievements`}>
             <section className="relative flex h-[420px] w-full items-end overflow-hidden bg-dark-brown md:h-[520px]">
-                <KImage
-                    src={achievement.image_url}
+                <img
+                    src={achievement.image_url || '/images/image.png'}
                     alt={achievement.title}
                     className="absolute inset-0 h-full w-full object-contain"
+                    loading="eager"
+                    decoding="async"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-dark-brown via-dark-brown/45 to-transparent" />
 

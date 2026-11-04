@@ -2,7 +2,6 @@ import { Link } from '@inertiajs/react';
 import { Calendar, Search } from 'lucide-react';
 import { formatDate } from '@/lib/format-date';
 import type { News } from '@/types';
-import { KImage } from './k-image';
 
 export function NewsCard({ news }: { news: News }) {
     return (
@@ -11,10 +10,12 @@ export function NewsCard({ news }: { news: News }) {
             className="group relative block overflow-hidden rounded-[20px] border border-line bg-white shadow-k-card transition-colors duration-300 ease-k-smooth hover:border-primary/30 hover:shadow-k-glow"
         >
             <div className="overflow-hidden">
-                <KImage
-                    src={news.image_url}
+                <img
+                    src={news.image_url || '/images/image.png'}
                     alt={news.title}
                     className="aspect-[4/3] w-full object-cover"
+                    loading="lazy"
+                    decoding="async"
                 />
             </div>
 
@@ -27,7 +28,7 @@ export function NewsCard({ news }: { news: News }) {
                 {formatDate(news.published_at ?? news.created_at)}
             </strong>
 
-            <div className="absolute inset-0 flex items-center justify-center bg-linear-to-b from-transparent to-dark-brown/90 opacity-0 transition-opacity duration-300 ease-k-smooth group-hover:opacity-100">
+            <div className="absolute inset-0 z-10 flex items-center justify-center bg-linear-to-b from-transparent to-dark-brown/90 opacity-0 transition-opacity duration-300 ease-k-smooth group-hover:opacity-100">
                 <span className="inline-flex items-center gap-2 text-[0.85rem] font-extrabold tracking-[0.06em] text-white uppercase">
                     <Search className="size-4" /> View Details
                 </span>
