@@ -152,8 +152,8 @@ LANGUAGE RULE:
                     'Content-Type' => 'application/json',
                     'Authorization' => "Bearer {$apiKey}",
                 ])
-                    ->timeout(30)
-                    ->retry(2, 1000, function ($exception): bool {
+                    ->timeout(60)
+                    ->retry(3, 2000, function ($exception): bool {
                         return ! in_array($exception->response?->status(), self::MODEL_SWITCH_STATUSES, true);
                     }, throw: false);
 

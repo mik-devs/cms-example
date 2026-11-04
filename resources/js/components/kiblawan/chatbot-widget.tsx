@@ -1,5 +1,5 @@
 import { FormEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
-import { CheckCheck, CircleAlert, Clock3, Send, X } from 'lucide-react';
+import { CheckCheck, CircleAlert, Clock3, RefreshCw, Send, X } from 'lucide-react';
 import { useLanguage } from '@/context/language-context';
 import { cn } from '@/lib/utils';
 import type { Language } from '@/lib/translations';
@@ -105,6 +105,38 @@ export function ChatbotWidget() {
         textarea.style.height = `${Math.min(textarea.scrollHeight, 100)}px`;
     }, [input]);
 
+    async function requestChat(
+        message: string,
+        requestLanguage: Language,
+        attempt = 0,
+    ): Promise<Response> {
+        const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN':
+                    document
+                        .querySelector('meta[name="csrf-token"]')
+                        ?.getAttribute('content') ?? '',
+            },
+            body: JSON.stringify({ message, language: requestLanguage }),
+        });
+
+        if (
+            (response.status === 500 ||
+                response.status === 503 ||
+                response.status === 429) &&
+            attempt < 2
+        ) {
+            await new Promise((resolve) => setTimeout(resolve, 2000));
+
+            return requestChat(message, requestLanguage, attempt + 1);
+        }
+
+        return response;
+    }
+
     async function submitMessage(rawMessage: string) {
         const message = rawMessage.trim();
         const requestLanguage = lang;
@@ -126,18 +158,15 @@ export function ChatbotWidget() {
         setIsLoading(true);
 
         try {
-            const response = await fetch('/api/chat', {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ message, language: requestLanguage }),
-            });
+            const response = await requestChat(message, requestLanguage);
 
             const data = (await response.json().catch(() => null)) as {
                 reply?: string;
             } | null;
+
+            if (!response.ok) {
+                throw new Error('Request failed');
+            }
 
             const botMessage: ChatMessage = {
                 id: nextId.current++,
@@ -318,6 +347,19 @@ export function ChatbotWidget() {
                                                 )}
                                             </span>
                                         </div>
+                                        {isUser && message.status === 'failed' && (
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    void submitMessage(message.text)
+                                                }
+                                                disabled={isLoading}
+                                                className="mt-1 inline-flex items-center gap-1 rounded-full border border-red-200 bg-white px-2.5 py-1 text-[0.7rem] font-semibold text-red-600 shadow-sm transition-colors hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
+                                            >
+                                                <RefreshCw className="size-3" />
+                                                Retry
+                                            </button>
+                                        )}
                                     </div>
                                 </div>
                             );

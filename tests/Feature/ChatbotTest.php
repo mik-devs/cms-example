@@ -321,7 +321,7 @@ it('returns a friendly reply when the groq request fails', function () {
         ->assertStatus(503)
         ->assertJsonStructure(['reply']);
 
-    Http::assertSentCount(2);
+    Http::assertSentCount(3);
     Http::assertSent(fn ($request) => $request['model'] === 'openai/gpt-oss-120b');
 });
 
