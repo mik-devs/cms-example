@@ -29,7 +29,7 @@ export function AchievementCard({ achievement }: { achievement: Achievement }) {
                 <h4 className="m-0 mb-2.5 font-display text-[1.15rem] leading-tight text-primary">
                     {achievement.title}
                 </h4>
-                <p className="m-0 line-clamp-3 text-[0.88rem] leading-relaxed text-ink-muted">
+                <p className="m-0 line-clamp-3 text-sm leading-relaxed text-ink-muted">
                     {achievement.description}
                 </p>
             </div>

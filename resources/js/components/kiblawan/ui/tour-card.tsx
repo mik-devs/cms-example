@@ -18,7 +18,7 @@ export function TourCard({ spot }: { spot: TourismSpot }) {
                 <h4 className="m-0 mb-3 font-display text-xl text-gold">
                     {spot.name}
                 </h4>
-                <p className="m-0 text-[0.9rem] leading-snug text-cream/85">
+                <p className="m-0 text-sm leading-snug text-cream/85">
                     {spot.description}
                 </p>
             </div>

@@ -22,7 +22,7 @@ export function NewsCard({ news }: { news: News }) {
                 {news.title}
             </p>
 
-            <strong className="flex items-center gap-1.5 px-[1.3rem] pb-5 text-[0.78rem] font-semibold text-ink-muted">
+            <strong className="flex items-center gap-1.5 px-[1.3rem] pb-5 text-sm font-semibold text-ink-muted">
                 <Calendar className="size-3.5 text-primary" />
                 {formatDate(news.published_at ?? news.created_at)}
             </strong>

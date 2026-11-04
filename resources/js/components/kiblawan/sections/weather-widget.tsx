@@ -16,15 +16,16 @@ export function WeatherWidget() {
                 </div>
 
                 <div className="mx-auto max-w-5xl overflow-hidden rounded-[24px] border border-line-soft bg-white/90 p-2 shadow-k-soft backdrop-blur md:p-4">
-                    <div className="aspect-video w-full overflow-hidden rounded-xl bg-cream md:aspect-[21/9]">
+                    <div className="w-full h-[350px] md:h-[450px] rounded-xl overflow-hidden bg-gray-100">
                         <iframe
                             width="100%"
                             height="100%"
-                            src="https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=mm&metricTemp=°C&metricWind=km/h&zoom=10&overlay=rain&product=ecmwf&level=surface&lat=6.65&lon=125.20&detailLat=6.65&detailLon=125.20&detail=true"
+                            src="https://embed.windy.com/embed.html?type=map&location=coordinates&metricRain=mm&metricTemp=°C&metricWind=km/h&zoom=11&overlay=rain&product=ecmwf&level=surface&lat=6.65&lon=125.20&detailLat=6.65&detailLon=125.20&detail=true"
                             frameBorder="0"
                             title="Kiblawan Weather Forecast"
                             loading="lazy"
                             referrerPolicy="no-referrer-when-downgrade"
+                            className="w-full h-full border-0"
                         />
                     </div>
 

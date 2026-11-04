@@ -64,16 +64,16 @@ const navItems: NavItem[] = [
 ];
 
 const itemBase =
-    'inline-flex items-center gap-1.5 px-4 py-2.5 rounded-[16px] text-[0.88rem] font-semibold text-primary transition-all border border-transparent';
+    'inline-flex items-center gap-1.5 px-4 py-2.5 rounded-[16px] text-base font-semibold text-primary transition-all border border-transparent';
 const itemActive =
     'bg-primary text-white border-primary shadow-[0_4px_12px_rgba(122,41,38,0.25)]';
 const itemIdle =
     'hover:bg-primary/10 hover:text-primary hover:border-primary/15';
 const mobileBase =
-    'block px-3 py-3 rounded-[16px] text-[0.95rem] font-semibold text-primary transition-all border border-transparent';
+    'block px-3 py-3 rounded-[16px] text-base font-semibold text-primary transition-all border border-transparent';
 const mobileIdle = 'hover:bg-primary/10 hover:text-primary';
 const mobileChild =
-    'block px-3 py-2 rounded-[12px] text-[0.88rem] font-medium text-primary transition-all hover:bg-primary/5 hover:text-primary';
+    'block px-3 py-2 rounded-[12px] text-base font-medium text-primary transition-all hover:bg-primary/5 hover:text-primary';
 
 export default function Navbar() {
     const { url, props } = usePage();
@@ -204,7 +204,7 @@ export default function Navbar() {
                                                     <Link
                                                         key={child.href}
                                                         href={child.href}
-                                                        className="block rounded-[12px] px-3.5 py-2.5 text-[0.86rem] font-medium text-primary transition-all hover:bg-primary/5 hover:text-primary"
+                                                        className="block rounded-[12px] px-3.5 py-2.5 text-base font-medium text-primary transition-all hover:bg-primary/5 hover:text-primary"
                                                     >
                                                         {child.label}
                                                     </Link>
