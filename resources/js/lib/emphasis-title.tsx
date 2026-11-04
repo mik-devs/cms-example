@@ -1,50 +1,24 @@
-const EMPHASIS_SPLIT = /(<em>.*?<\/em>)/g;
-const EMPHASIS_MATCH = /^<em>(.*?)<\/em>$/;
-const EMPHASIS_TAG = /<\/?em>/i;
+export function renderEmphasisTitle(title: string, emphasis: string | null) {
+  if (!title) return title;
 
-function escapeRegExp(value: string): string {
-    return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
+  // 1. Strip old <em> tags from the title to clean legacy data
+  const cleanTitle = title.replace(/<\/?em>/gi, '');
 
-function renderLegacyEmphasis(input: string): React.ReactNode {
-    return input.split(EMPHASIS_SPLIT).map((part, index) => {
-        const match = part.match(EMPHASIS_MATCH);
+  // 2. If there's no emphasis, just return the clean title
+  if (!emphasis) return cleanTitle;
+  
+  const wordsToHighlight = emphasis.split(',').map(w => w.trim()).filter(Boolean);
+  if (wordsToHighlight.length === 0) return cleanTitle;
 
-        if (match) {
-            return (
-                <em key={index} className="text-gold not-italic">
-                    {match[1]}
-                </em>
-            );
-        }
-
-        return part;
-    });
-}
-
-export function renderEmphasisTitle(
-    input: string,
-    emphasis?: string | null,
-): React.ReactNode {
-    const trimmedEmphasis = emphasis?.trim();
-
-    if (trimmedEmphasis && !EMPHASIS_TAG.test(input)) {
-        const emphasisPattern = new RegExp(
-            `(${escapeRegExp(trimmedEmphasis)})`,
-            'gi',
-        );
-        const lowerEmphasis = trimmedEmphasis.toLowerCase();
-
-        return input.split(emphasisPattern).map((part, index) =>
-            part.toLowerCase() === lowerEmphasis ? (
-                <em key={index} className="text-gold not-italic">
-                    {part}
-                </em>
-            ) : (
-                part
-            ),
-        );
-    }
-
-    return renderLegacyEmphasis(input);
+  // 3. Highlight the words based on the emphasis field
+  const escapedWords = wordsToHighlight.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  const regex = new RegExp(`\\b(${escapedWords.join('|')})\\b`, 'gi');
+  
+  const parts = cleanTitle.split(regex);
+  
+  return parts.map((part, index) => {
+    const isHighlighted = wordsToHighlight.some(w => w.toLowerCase() === part.toLowerCase());
+    return isHighlighted 
+      ? <span key={index} className="text-gold not-italic">{part}</span>       : part;
+  });
 }
