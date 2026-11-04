@@ -72,7 +72,7 @@
 
 @layer base {
     html {
-        scroll-behavior: smooth;
+        /* scroll-behavior: smooth; */ /* <--- COMMENT THIS OUT */
     }
 
     html[data-a11y-size='sm'] {
