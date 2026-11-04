@@ -11,7 +11,13 @@ const tabTitles: Record<string, string> = {
     directories: 'Office Directories',
 };
 
-export default function Government({ tab }: { tab: string | null }) {
+export default function Government({
+    tab,
+    settings,
+}: {
+    tab: string | null;
+    settings: Record<string, string | null>;
+}) {
     const activeTab = tab ?? 'overview';
     const title = tabTitles[activeTab] ?? 'Government of Kiblawan';
 
@@ -20,14 +26,40 @@ export default function Government({ tab }: { tab: string | null }) {
             <PageHeader title="Government" />
             <Container className="py-12 md:py-16">
                 <GovernmentNavigation activeTab={activeTab} />
-                <article className="rounded-[20px] border border-line bg-white p-6 shadow-k-soft md:p-9">
-                    <h2 className="mb-4 font-display text-2xl font-bold text-primary">
-                        {title}
-                    </h2>
-                    <p className="m-0 text-ink-muted">
-                        Content coming soon. This section will be populated via
-                        the CMS.
+                <article className="rounded-[24px] border border-line-soft bg-white p-6 shadow-sm md:p-9">
+                    <h1 className="mb-2 font-display text-3xl font-bold text-primary">
+                        The Government of Kiblawan
+                    </h1>
+                    <p className="mb-6 text-lg font-semibold text-forest">
+                        Dedicated to transparent, efficient, and people-centered
+                        governance.
                     </p>
+
+                    <h2 className="mb-3 font-display text-xl font-bold text-primary">
+                        About the Government
+                    </h2>
+                    <p className="mb-8 leading-relaxed text-ink-muted">
+                        {settings.gov_welcome_text}
+                    </p>
+
+                    <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                        <div>
+                            <h3 className="mb-2 font-display text-lg font-bold text-forest">
+                                Vision
+                            </h3>
+                            <p className="leading-relaxed text-ink-muted">
+                                {settings.gov_vision}
+                            </p>
+                        </div>
+                        <div>
+                            <h3 className="mb-2 font-display text-lg font-bold text-forest">
+                                Mission
+                            </h3>
+                            <p className="leading-relaxed text-ink-muted">
+                                {settings.gov_mission}
+                            </p>
+                        </div>
+                    </div>
                 </article>
             </Container>
         </PublicLayout>

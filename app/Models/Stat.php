@@ -18,7 +18,7 @@ class Stat extends Model
     protected function casts(): array
     {
         return [
-            'value' => 'integer',
+            'value' => 'float',
             'order' => 'integer',
             'is_active' => 'boolean',
         ];

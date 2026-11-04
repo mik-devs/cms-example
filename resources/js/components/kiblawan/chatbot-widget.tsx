@@ -1,5 +1,6 @@
 import { FormEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
-import { CheckCheck, CircleAlert, Clock3, RefreshCw, Send, X } from 'lucide-react';
+import { Link } from '@inertiajs/react';
+import { ArrowRight, CheckCheck, CircleAlert, Clock3, RefreshCw, Send, X } from 'lucide-react';
 import { useLanguage } from '@/context/language-context';
 import { cn } from '@/lib/utils';
 import type { Language } from '@/lib/translations';
@@ -10,6 +11,7 @@ interface ChatMessage {
     text: string;
     time: string;
     status?: 'sending' | 'sent' | 'failed';
+    actions?: { label: string; url: string }[];
 }
 
 const FALLBACK_REPLIES: Record<Language, string> = {
@@ -161,18 +163,45 @@ export function ChatbotWidget() {
             const response = await requestChat(message, requestLanguage);
 
             const data = (await response.json().catch(() => null)) as {
-                reply?: string;
+                reply?:
+                    | string
+                    | {
+                          message?: string;
+                          actions?: { label?: string; url?: string }[];
+                      };
             } | null;
 
             if (!response.ok) {
                 throw new Error('Request failed');
             }
 
+            const replyData = data?.reply;
+            const replyMessage =
+                typeof replyData === 'string'
+                    ? replyData
+                    : replyData?.message ?? FALLBACK_REPLIES[requestLanguage];
+            const replyActions =
+                typeof replyData === 'string'
+                    ? []
+                    : (replyData?.actions ?? [])
+                          .filter(
+                              (action) =>
+                                  typeof action?.label === 'string' &&
+                                  typeof action?.url === 'string' &&
+                                  action.url.startsWith('/') &&
+                                  !action.url.includes('//'),
+                          )
+                          .map((action) => ({
+                              label: action.label as string,
+                              url: action.url as string,
+                          }));
+
             const botMessage: ChatMessage = {
                 id: nextId.current++,
                 role: 'bot',
-                text: data?.reply ?? FALLBACK_REPLIES[requestLanguage],
+                text: replyMessage,
                 time: formatTime(),
+                actions: replyActions,
             };
 
             setMessages((current) => [
@@ -331,6 +360,24 @@ export function ChatbotWidget() {
                                             <p className="whitespace-pre-line">
                                                 {message.text}
                                             </p>
+                                            {!isUser &&
+                                                (message.actions?.length ?? 0) >
+                                                    0 && (
+                                                    <div className="mt-2 flex flex-wrap gap-2">
+                                                        {message.actions?.map(
+                                                            (action, index) => (
+                                                                <Link
+                                                                    key={`${action.url}-${index}`}
+                                                                    href={action.url}
+                                                                    className="inline-flex items-center rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-primary-dark"
+                                                                >
+                                                                    {action.label}
+                                                                    <ArrowRight className="ml-1 size-3" />
+                                                                </Link>
+                                                            ),
+                                                        )}
+                                                    </div>
+                                                )}
                                             <span
                                                 className={cn(
                                                     'mt-1.5 flex items-center justify-end gap-1 text-[0.65rem] leading-none',

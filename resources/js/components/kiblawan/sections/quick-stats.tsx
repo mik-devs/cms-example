@@ -16,7 +16,6 @@ export function QuickStats({ stats }: { stats: Stat[] }) {
                             <StatCounter
                                 label={stat.label}
                                 value={stat.value}
-                                suffix={stat.suffix}
                             />
                         </div>
                     ))}

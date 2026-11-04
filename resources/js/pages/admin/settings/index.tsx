@@ -16,6 +16,9 @@ interface SettingsFormData {
     office_hours: string;
     map_embed: string;
     kiblawan_history: string;
+    gov_welcome_text: string;
+    gov_vision: string;
+    gov_mission: string;
 }
 
 export default function SettingsIndex({
@@ -32,6 +35,9 @@ export default function SettingsIndex({
         office_hours: settings.office_hours ?? '',
         map_embed: settings.map_embed ?? '',
         kiblawan_history: settings.kiblawan_history ?? '',
+        gov_welcome_text: settings.gov_welcome_text ?? '',
+        gov_vision: settings.gov_vision ?? '',
+        gov_mission: settings.gov_mission ?? '',
     });
 
     function handleSubmit(event: FormEvent<HTMLFormElement>): void {
@@ -231,6 +237,71 @@ export default function SettingsIndex({
                                 className="min-h-28 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:border-destructive"
                             />
                             <InputError message={form.errors.map_embed} />
+                        </div>
+                    </section>
+
+                    <section className="space-y-5 rounded-2xl border border-line bg-card p-6 shadow-sm">
+                        <div>
+                            <h2 className="text-lg font-semibold">
+                                Government Page
+                            </h2>
+                            <p className="text-sm text-muted-foreground">
+                                Content shown on the public Government page.
+                            </p>
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="gov_welcome_text">
+                                Welcome Text
+                            </Label>
+                            <textarea
+                                id="gov_welcome_text"
+                                rows={4}
+                                value={form.data.gov_welcome_text}
+                                onChange={(event) =>
+                                    form.setData(
+                                        'gov_welcome_text',
+                                        event.target.value,
+                                    )
+                                }
+                                aria-invalid={Boolean(
+                                    form.errors.gov_welcome_text,
+                                )}
+                                className="w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:border-destructive"
+                            />
+                            <InputError
+                                message={form.errors.gov_welcome_text}
+                            />
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="gov_vision">Vision</Label>
+                            <textarea
+                                id="gov_vision"
+                                rows={3}
+                                value={form.data.gov_vision}
+                                onChange={(event) =>
+                                    form.setData('gov_vision', event.target.value)
+                                }
+                                aria-invalid={Boolean(form.errors.gov_vision)}
+                                className="w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:border-destructive"
+                            />
+                            <InputError message={form.errors.gov_vision} />
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="gov_mission">Mission</Label>
+                            <textarea
+                                id="gov_mission"
+                                rows={3}
+                                value={form.data.gov_mission}
+                                onChange={(event) =>
+                                    form.setData(
+                                        'gov_mission',
+                                        event.target.value,
+                                    )
+                                }
+                                aria-invalid={Boolean(form.errors.gov_mission)}
+                                className="w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:border-destructive"
+                            />
+                            <InputError message={form.errors.gov_mission} />
                         </div>
                     </section>
 

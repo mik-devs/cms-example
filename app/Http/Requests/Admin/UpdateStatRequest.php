@@ -19,8 +19,7 @@ class UpdateStatRequest extends FormRequest
     {
         return [
             'label' => ['required', 'string', 'max:255'],
-            'value' => ['required', 'integer'],
-            'suffix' => ['nullable', 'string', 'max:50'],
+            'value' => ['required', 'numeric', 'min:0'],
             'order' => ['required', 'integer'],
             'is_active' => ['boolean'],
         ];

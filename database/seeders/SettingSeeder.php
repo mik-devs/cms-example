@@ -57,5 +57,23 @@ TEXT,
                 'group' => 'general',
             ]
         );
+
+        Setting::updateOrCreate(['key' => 'gov_welcome_text'], [
+            'value' => 'The Municipality of Kiblawan is led by the Municipal Mayor, who heads the Executive branch, alongside the Vice Mayor and the Sangguniang Bayan, who form the Legislative branch. Together, they work to enact ordinances, deliver public services, and ensure the continuous progress of our municipality.',
+            'type' => 'text',
+            'group' => 'government',
+        ]);
+
+        Setting::updateOrCreate(['key' => 'gov_vision'], [
+            'value' => 'A progressive, resilient, and inclusive Municipality of Kiblawan where every citizen enjoys a sustainable and quality life.',
+            'type' => 'text',
+            'group' => 'government',
+        ]);
+
+        Setting::updateOrCreate(['key' => 'gov_mission'], [
+            'value' => 'To provide efficient and transparent public service, promote sustainable economic growth, and protect our natural and cultural heritage for future generations.',
+            'type' => 'text',
+            'group' => 'government',
+        ]);
     }
 }

@@ -230,7 +230,7 @@ it('creates and updates stats reflected on the home page', function () {
 
     $stat->refresh();
     expect($stat->label)->toBe('Residents');
-    expect($stat->value)->toBe(53000);
+    expect($stat->value)->toBe(53000.0);
 
     $this->get(route('home'))
         ->assertOk()

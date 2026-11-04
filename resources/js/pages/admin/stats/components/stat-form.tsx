@@ -10,7 +10,6 @@ import { Label } from '@/components/ui/label';
 export interface StatFormData {
     label: string;
     value: number;
-    suffix: string;
     order: number;
     is_active: boolean;
 }
@@ -27,7 +26,6 @@ export default function StatForm({
     const form = useForm<StatFormData>({
         label: initialValues?.label ?? '',
         value: initialValues?.value ?? 0,
-        suffix: initialValues?.suffix ?? '',
         order: initialValues?.order ?? 0,
         is_active: initialValues?.is_active ?? true,
     });
@@ -58,7 +56,7 @@ export default function StatForm({
                 <Input
                     id="value"
                     type="number"
-                    step={1}
+                    step={0.01}
                     required
                     value={form.data.value}
                     onChange={(event) =>
@@ -74,24 +72,11 @@ export default function StatForm({
                 <InputError message={form.errors.value} />
             </div>
             <div className="grid gap-2 sm:max-w-xs">
-                <Label htmlFor="suffix">Suffix</Label>
-                <Input
-                    id="suffix"
-                    maxLength={50}
-                    value={form.data.suffix}
-                    onChange={(event) =>
-                        form.setData('suffix', event.target.value)
-                    }
-                    aria-invalid={Boolean(form.errors.suffix)}
-                />
-                <InputError message={form.errors.suffix} />
-            </div>
-            <div className="grid gap-2 sm:max-w-xs">
                 <Label htmlFor="order">Order</Label>
                 <Input
                     id="order"
                     type="number"
-                    step={1}
+                    step={0.01}
                     required
                     value={form.data.order}
                     onChange={(event) =>

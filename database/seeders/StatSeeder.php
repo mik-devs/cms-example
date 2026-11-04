@@ -12,7 +12,7 @@ class StatSeeder extends Seeder
         $stats = [
             ['label' => 'Population', 'value' => 52400, 'suffix' => null],
             ['label' => 'Barangays', 'value' => 30, 'suffix' => null],
-            ['label' => 'Land Area (km²)', 'value' => 293, 'suffix' => null],
+            ['label' => 'Land Area (km²)', 'value' => 390.07, 'suffix' => null],
             ['label' => 'Public Services', 'value' => 12, 'suffix' => null],
         ];
 

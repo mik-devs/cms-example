@@ -20,6 +20,9 @@ class SettingController extends Controller
         'office_hours',
         'map_embed',
         'kiblawan_history',
+        'gov_welcome_text',
+        'gov_vision',
+        'gov_mission',
     ];
 
     public function index(): Response
@@ -47,6 +50,9 @@ class SettingController extends Controller
                 'max:2048',
             ],
             'kiblawan_history' => ['nullable', 'string', 'max:3000'],
+            'gov_welcome_text' => ['nullable', 'string'],
+            'gov_vision' => ['nullable', 'string'],
+            'gov_mission' => ['nullable', 'string'],
         ]);
 
         foreach ($validated as $key => $value) {

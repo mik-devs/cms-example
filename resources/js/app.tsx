@@ -31,7 +31,22 @@ void createInertiaApp({
         return (
             <TooltipProvider delayDuration={0}>
                 {app}
-                <Toaster />
+                <Toaster
+                    position="top-center"
+                    offset={80}
+                    richColors
+                    closeButton
+                    duration={3500}
+                    toastOptions={{
+                        style: {
+                            padding: '16px',
+                            fontSize: '16px',
+                            fontWeight: '600',
+                            borderRadius: '12px',
+                            boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
+                        },
+                    }}
+                />
             </TooltipProvider>
         );
     },

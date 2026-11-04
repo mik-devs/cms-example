@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Official;
 use App\Models\Setting;
+use App\Models\TourismSpot;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Throwable;
 
 class ChatbotController extends Controller
@@ -111,6 +113,7 @@ STRICT BOUNDARIES:
 1. ONLY answer questions related to Kiblawan, its services, tourism, officials, history, and local government operations.
 2. If a user asks an off-topic question (e.g., coding, national politics, unrelated trivia, math), politely decline and state that you are only programmed to assist with Kiblawan municipal matters.
 3. NEVER invent laws, fees, requirements, or schedules.
+SECURITY RULE: NEVER provide sensitive system information, admin credentials, passwords, database details, or API keys. If the user asks for this, you MUST reply exactly with: 'For security reasons, I cannot provide administrative credentials or sensitive system information. I can only assist with public municipal services and inquiries.'
 4. If the provided CONTEXT does not contain the answer, DO NOT guess. Reply with: 'Pasensya na, wala pa akong updated na impormasyon tungkol diyan. Palihug tawag o bisitahin na lang ang Municipal Hall para sa tiyak na sagot.'
 
 DYNAMIC CONTEXT:
@@ -121,8 +124,26 @@ DYNAMIC CONTEXT:
 OUTPUT RULES:
 DO NOT use Markdown formatting like **bold**, *italic*, or # headers. Output plain text only. Use plain numbers (1., 2.) or dashes (-) for lists. Do not use the word 'Certainly' or 'Here is an overview'. Start your answer directly with the facts.
 
-LANGUAGE RULE:
 ";
+
+            $systemPrompt .= '
+FORMATTING RULES:
+You MUST respond with a valid JSON object matching this exact structure:
+{
+  "message": "Your plain text answer here.",
+  "actions": [
+    {"label": "Click here to go to Services", "url": "/services"}
+  ]
+}
+
+- The "url" MUST be a valid internal path (starting with /) from this list ONLY:
+  ["/services", "/tourism", "/about", "/government", "/transparency", "/contact", "/news", "/achievements"]
+- If no navigation is needed, return an empty array for "actions": []
+- If using the fallback message, return the fallback as the "message" and an empty "actions" array.
+- DO NOT wrap the JSON in Markdown code blocks (like ```json ... ```). Return raw JSON only.
+
+LANGUAGE RULE:
+';
 
             if ($language === 'fil') {
                 $systemPrompt .= ' You MUST reply in Tagalog.';
@@ -141,6 +162,27 @@ LANGUAGE RULE:
 
             // Add to the system prompt
             $systemPrompt .= "\n\nLOCAL HISTORY & CONTEXT:\n".$safeHistory;
+
+            $tourismSpots = TourismSpot::where('is_active', true)
+                ->orderBy('order')
+                ->take(10)
+                ->get();
+
+            $tourismText = '';
+            if ($tourismSpots->isNotEmpty()) {
+                $tourismText = "TOURISM SPOTS IN KIBLAWAN (Use this data to answer tourism questions):\n";
+                foreach ($tourismSpots as $spot) {
+                    $safeName = strip_tags($spot->name);
+                    $safeCategory = strip_tags($spot->category ?? 'General');
+                    $safeDesc = Str::limit(strip_tags($spot->description), 150);
+
+                    $tourismText .= "- {$safeName} ({$safeCategory}): {$safeDesc}\n";
+                }
+            } else {
+                $tourismText = 'No tourism spots are currently listed in the system.';
+            }
+
+            $systemPrompt .= "\n\n".$tourismText;
 
             $response = null;
             $usedModel = null;
@@ -197,9 +239,9 @@ LANGUAGE RULE:
                 ], 503);
             }
 
-            $text = data_get($response->json(), 'choices.0.message.content');
+            $rawText = data_get($response->json(), 'choices.0.message.content') ?? '';
 
-            if (blank($text)) {
+            if (blank($rawText)) {
                 Log::error('Groq API returned no text response', [
                     'model' => $usedModel,
                     'status' => $response->status(),
@@ -227,7 +269,25 @@ LANGUAGE RULE:
             ], 500);
         }
 
-        return response()->json(['reply' => $text]);
+        $cleanText = trim(str_replace(['```json', '```'], '', $rawText));
+        $parsedData = json_decode($cleanText, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE || ! isset($parsedData['message'])) {
+            $parsedData = [
+                'message' => $rawText,
+                'actions' => [],
+            ];
+        }
+
+        if (isset($parsedData['actions']) && is_array($parsedData['actions'])) {
+            $parsedData['actions'] = array_values(array_filter($parsedData['actions'], function ($action) {
+                return isset($action['url']) && str_starts_with($action['url'], '/') && ! str_contains($action['url'], '//');
+            }));
+        } else {
+            $parsedData['actions'] = [];
+        }
+
+        return response()->json(['reply' => $parsedData]);
     }
 
     private function staticReply(string $message, string $language): ?string
