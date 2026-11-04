@@ -29,8 +29,12 @@ class HeroSlide extends Model
         ];
     }
 
-    public function getImageUrlAttribute(): string
+    public function getImageUrlAttribute(): ?string
     {
+        if (blank($this->image)) {
+            return null;
+        }
+
         return str_starts_with($this->image, 'hero/')
             ? Storage::disk('public')->url($this->image)
             : $this->image;

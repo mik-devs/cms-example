@@ -6,7 +6,7 @@ import { KImage } from './k-image';
 export function AchievementCard({ achievement }: { achievement: Achievement }) {
     return (
         <div className="group flex h-full flex-col overflow-hidden rounded-[20px] border border-line bg-white shadow-k-card transition-colors duration-300 ease-k-smooth hover:border-primary/30 hover:shadow-k-glow">
-            <div className="relative aspect-[16/10] overflow-hidden bg-image-bed">
+            <div className="relative aspect-[4/3] overflow-hidden bg-image-bed">
                 <KImage
                     src={achievement.image_url}
                     alt={achievement.title}
@@ -29,7 +29,7 @@ export function AchievementCard({ achievement }: { achievement: Achievement }) {
                 <h4 className="m-0 mb-2.5 font-display text-[1.15rem] leading-tight text-primary">
                     {achievement.title}
                 </h4>
-                <p className="m-0 text-[0.88rem] leading-relaxed text-ink-muted">
+                <p className="m-0 line-clamp-3 text-[0.88rem] leading-relaxed text-ink-muted">
                     {achievement.description}
                 </p>
             </div>

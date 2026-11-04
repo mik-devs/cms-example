@@ -69,6 +69,7 @@ export interface Achievement {
     image: string | null;
     image_url: string | null;
     badge_year: string;
+    facebook_url: string | null;
     order: number;
     is_active: boolean;
 }
@@ -153,6 +154,28 @@ export interface AnnualReport {
     pdf_url: string | null;
     year: number;
     date_posted: string;
+}
+
+// Mirrors App\Models\CitizenCharter
+export interface CitizenCharter {
+    id: number;
+    title: string;
+    description: string | null;
+    file_path: string;
+    file_url: string | null;
+    order: number;
+}
+
+// Mirrors App\Models\Office
+export interface Office {
+    id: number;
+    name: string;
+    head: string | null;
+    contact_number: string | null;
+    email: string | null;
+    location: string | null;
+    order: number;
+    is_active: boolean;
 }
 
 // Mirrors App\Models\Official

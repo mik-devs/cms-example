@@ -130,11 +130,13 @@ it('stores achievement images and replaces or deletes uploaded images', function
         'badge_year' => '2026',
         'order' => 1,
         'is_active' => true,
+        'facebook_url' => 'https://www.facebook.com/kiblawan/posts/1',
         'image' => UploadedFile::fake()->image('award.png'),
     ])->assertRedirect(route('admin.achievements.index'));
 
     $achievement = Achievement::query()->firstOrFail();
     expect($achievement->image)->not->toBeNull();
+    expect($achievement->facebook_url)->toBe('https://www.facebook.com/kiblawan/posts/1');
 
     $this->put(route('admin.achievements.update', $achievement), [
         'title' => 'Regional Award',

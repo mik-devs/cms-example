@@ -26,6 +26,7 @@ class UpdateAchievementRequest extends FormRequest
             'title' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
             'badge_year' => ['required', 'string', 'max:10'],
+            'facebook_url' => ['nullable', 'url', 'max:255'],
             'order' => ['required', 'integer', 'min:0'],
             'is_active' => ['boolean'],
             'image' => ['nullable', 'image', 'max:2048'],

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CitizenCharter;
+use App\Models\Office;
 use App\Models\Official;
 use App\Models\Setting;
 use Illuminate\Database\Eloquent\Collection;
@@ -18,6 +20,27 @@ class GovernmentController extends Controller
                 ->pluck('value', 'key')
                 ->toArray(),
             'tab' => $tab,
+        ]);
+    }
+
+    public function citizensCharter(): Response
+    {
+        return Inertia::render('public/government/citizens-charter', [
+            'charters' => CitizenCharter::query()
+                ->orderBy('order')
+                ->orderBy('id')
+                ->get(),
+        ]);
+    }
+
+    public function directories(): Response
+    {
+        return Inertia::render('public/government/directories', [
+            'offices' => Office::query()
+                ->where('is_active', true)
+                ->orderBy('order')
+                ->orderBy('id')
+                ->get(),
         ]);
     }
 

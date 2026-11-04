@@ -3,6 +3,7 @@ import { ArrowRight, Compass, MapPin } from 'lucide-react';
 import { Container } from '@/components/kiblawan/ui/container';
 import { KImage } from '@/components/kiblawan/ui/k-image';
 import { PageHeader } from '@/components/kiblawan/ui/page-header';
+import { WeatherWidget } from '@/components/kiblawan/sections/weather-widget';
 import PublicLayout from '@/layouts/public/public-layout';
 import type { TourismSpot } from '@/types';
 
@@ -95,6 +96,7 @@ export default function TourismIndex({ spots }: { spots: TourismSpot[] }) {
                     </div>
                 )}
             </Container>
+            <WeatherWidget />
         </PublicLayout>
     );
 }

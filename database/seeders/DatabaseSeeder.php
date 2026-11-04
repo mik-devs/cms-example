@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
             RolePermissionSeeder::class,
             SettingSeeder::class,
             OfficialSeeder::class,
+            CitizenCharterSeeder::class,
+            OfficeSeeder::class,
             HeroSlideSeeder::class,
             StatSeeder::class,
             ServiceSeeder::class,

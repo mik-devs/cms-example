@@ -9,6 +9,7 @@ import { NewsCarousel } from '@/components/kiblawan/sections/news-carousel';
 import { QuickStats } from '@/components/kiblawan/sections/quick-stats';
 import { TourismHighlights } from '@/components/kiblawan/sections/tourism-highlights';
 import { TransparencySeal } from '@/components/kiblawan/sections/transparency-seal';
+import { WeatherWidget } from '@/components/kiblawan/sections/weather-widget';
 import PublicLayout from '@/layouts/public/public-layout';
 import type {
     Achievement,
@@ -72,6 +73,7 @@ export default function Home({
                 videoSrc="/video/kiblawan-hymn.mp4"
                 posterSrc="/images/image.png"
             />
+            <WeatherWidget />
             <TransparencySeal bids={bids} annualReports={annualReports} />
             <EmergencyHotlines contacts={emergencyContacts} />
         </PublicLayout>

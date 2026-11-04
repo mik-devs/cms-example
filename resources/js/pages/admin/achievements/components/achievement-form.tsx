@@ -11,6 +11,7 @@ export interface AchievementFormData {
     title: string;
     description: string;
     badge_year: string;
+    facebook_url: string;
     order: number;
     is_active: boolean;
     image: File | null;
@@ -29,6 +30,7 @@ export default function AchievementForm({
         title: initialValues?.title ?? '',
         description: initialValues?.description ?? '',
         badge_year: initialValues?.badge_year ?? '',
+        facebook_url: initialValues?.facebook_url ?? '',
         order: initialValues?.order ?? 0,
         is_active: initialValues?.is_active ?? true,
         image: null,
@@ -87,6 +89,23 @@ export default function AchievementForm({
                     className="min-h-32 w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:border-destructive"
                 />
                 <InputError message={form.errors.description} />
+            </div>
+            <div className="grid gap-2">
+                <Label htmlFor="facebook_url">
+                    Facebook Post Link (Optional)
+                </Label>
+                <Input
+                    id="facebook_url"
+                    name="facebook_url"
+                    type="url"
+                    placeholder="https://facebook.com/..."
+                    value={form.data.facebook_url}
+                    onChange={(event) =>
+                        form.setData('facebook_url', event.target.value)
+                    }
+                    aria-invalid={Boolean(form.errors.facebook_url)}
+                />
+                <InputError message={form.errors.facebook_url} />
             </div>
             <div className="grid gap-2 sm:max-w-xs">
                 <Label htmlFor="badge_year">

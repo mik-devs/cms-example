@@ -14,6 +14,7 @@ class Achievement extends Model
         'description',
         'image',
         'badge_year',
+        'facebook_url',
         'order',
         'is_active',
     ];

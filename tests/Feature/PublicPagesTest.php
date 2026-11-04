@@ -1,7 +1,10 @@
 <?php
 
+use App\Models\Achievement;
 use App\Models\Barangay;
+use App\Models\CitizenCharter;
 use App\Models\News;
+use App\Models\Office;
 use App\Models\Official;
 use App\Models\TourismSpot;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -21,8 +24,8 @@ it('renders each public navigation route', function (string $path, string $compo
     'government vision and mission' => ['/government/vision-mission', 'public/government'],
     'government officials' => ['/government/officials', 'public/elected-officials'],
     'sangguniang bayan' => ['/government/sangguniang-bayan', 'public/sangguniang-bayan'],
-    'citizens charter' => ['/government/citizens-charter', 'public/government'],
-    'directories' => ['/government/directories', 'public/government'],
+    'citizens charter' => ['/government/citizens-charter', 'public/government/citizens-charter'],
+    'directories' => ['/government/directories', 'public/government/directories'],
     'services' => ['/services', 'public/services'],
     'transparency' => ['/transparency', 'public/transparency'],
     'bids' => ['/transparency/bids', 'public/transparency'],
@@ -32,7 +35,7 @@ it('renders each public navigation route', function (string $path, string $compo
     'careers placeholder' => ['/careers', 'public/coming-soon'],
     'tourism' => ['/tourism', 'public/tourism/index'],
     'mayors corner' => ['/mayors-corner', 'public/mayors-corner'],
-    'achievements placeholder' => ['/achievements', 'public/coming-soon'],
+    'achievements' => ['/achievements', 'public/achievements/index'],
     'barangays placeholder' => ['/barangays', 'public/coming-soon'],
 ]);
 
@@ -285,4 +288,137 @@ it('renders active tourism details and hides inactive or unknown spots', functio
 
     $this->get(route('tourism.show', 'unknown-spot'))
         ->assertNotFound();
+});
+
+it('lists active achievements in order', function () {
+    Achievement::query()->create([
+        'title' => 'Second Achievement',
+        'description' => 'The second award.',
+        'badge_year' => '2025',
+        'image' => '/achievements/second.png',
+        'order' => 2,
+        'is_active' => true,
+    ]);
+
+    Achievement::query()->create([
+        'title' => 'First Achievement',
+        'description' => 'The first award.',
+        'badge_year' => '2024',
+        'image' => '/achievements/first.png',
+        'order' => 1,
+        'is_active' => true,
+    ]);
+
+    Achievement::query()->create([
+        'title' => 'Hidden Achievement',
+        'description' => 'Do not show.',
+        'badge_year' => '2023',
+        'image' => '/achievements/hidden.png',
+        'order' => 3,
+        'is_active' => false,
+    ]);
+
+    $this->get(route('achievements'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('public/achievements/index')
+            ->has('achievements', 2)
+            ->where('achievements.0.title', 'First Achievement')
+            ->where('achievements.1.title', 'Second Achievement'));
+});
+
+it('renders active achievement details and hides inactive achievements', function () {
+    $achievement = Achievement::query()->create([
+        'title' => '2025 LCPC Functionality Assessment - IDEAL Level of Functionality',
+        'description' => 'Congratulations to the Municipal Council for the Protection of Children.',
+        'badge_year' => '2025',
+        'facebook_url' => 'https://facebook.com/kiblawan/posts/123',
+        'image' => '/achievements/ideal.png',
+        'order' => 1,
+        'is_active' => true,
+    ]);
+
+    $hiddenAchievement = Achievement::query()->create([
+        'title' => 'Hidden Achievement',
+        'description' => 'An inactive achievement.',
+        'badge_year' => '2024',
+        'image' => '/achievements/hidden.png',
+        'order' => 2,
+        'is_active' => false,
+    ]);
+
+    $this->get(route('achievements.show', $achievement->id))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('public/achievements/show')
+            ->where('achievement.title', $achievement->title)
+            ->where('achievement.badge_year', '2025')
+            ->where('achievement.facebook_url', 'https://facebook.com/kiblawan/posts/123'));
+
+    $this->get(route('achievements.show', $hiddenAchievement->id))
+        ->assertNotFound();
+
+    $this->get(route('achievements.show', 999999))
+        ->assertNotFound();
+});
+
+it('lists active office directories in order', function () {
+    Office::query()->create([
+        'name' => "Treasurer's Office",
+        'head' => 'Municipal Treasurer',
+        'contact_number' => '(082) 000-0001',
+        'email' => 'treasurer@kiblawan.example.gov.ph',
+        'location' => 'Kiblawan Municipal Hall',
+        'order' => 2,
+        'is_active' => true,
+    ]);
+
+    Office::query()->create([
+        'name' => 'Office of the Municipal Mayor',
+        'head' => 'Municipal Mayor',
+        'contact_number' => '(082) 000-0000',
+        'email' => 'mayor@kiblawan.example.gov.ph',
+        'location' => 'Kiblawan Municipal Hall',
+        'order' => 1,
+        'is_active' => true,
+    ]);
+
+    Office::query()->create([
+        'name' => 'Hidden Office',
+        'head' => 'Hidden Head',
+        'order' => 3,
+        'is_active' => false,
+    ]);
+
+    $this->get(route('government.directories'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('public/government/directories')
+            ->has('offices', 2)
+            ->where('offices.0.name', 'Office of the Municipal Mayor')
+            ->where('offices.1.name', "Treasurer's Office"));
+});
+
+it('lists citizen charters in order on the public page', function () {
+    CitizenCharter::query()->create([
+        'title' => 'Public Hearing Charter',
+        'description' => 'Second charter.',
+        'file_path' => 'charters/public-hearing.pdf',
+        'order' => 2,
+    ]);
+
+    CitizenCharter::query()->create([
+        'title' => "Mayor's Citizen Charter",
+        'description' => 'First charter.',
+        'file_path' => 'charters/mayor.pdf',
+        'order' => 1,
+    ]);
+
+    $this->get(route('government.citizens-charter'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('public/government/citizens-charter')
+            ->has('charters', 2)
+            ->where('charters.0.title', "Mayor's Citizen Charter")
+            ->where('charters.1.title', 'Public Hearing Charter'));
 });

@@ -66,6 +66,8 @@ class HeroSlideController extends Controller
             }
 
             $validated['image'] = $imagePath;
+        } else {
+            unset($validated['image']);
         }
 
         $heroSlide->update($validated);

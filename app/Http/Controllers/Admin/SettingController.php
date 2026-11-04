@@ -19,6 +19,7 @@ class SettingController extends Controller
         'email',
         'office_hours',
         'map_embed',
+        'kiblawan_history',
     ];
 
     public function index(): Response
@@ -45,6 +46,7 @@ class SettingController extends Controller
                 'regex:/^https:\/\/(?:(?:www\.)?google\.com|maps\.google\.com)\/maps\/embed(?:[?#]|$)/i',
                 'max:2048',
             ],
+            'kiblawan_history' => ['nullable', 'string', 'max:3000'],
         ]);
 
         foreach ($validated as $key => $value) {

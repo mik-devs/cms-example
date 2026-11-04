@@ -1,15 +1,18 @@
 <?php
 
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\AchievementController as PublicAchievementController;
 use App\Http\Controllers\Admin\AchievementController;
 use App\Http\Controllers\Admin\AnnualReportController;
 use App\Http\Controllers\Admin\BarangayController;
 use App\Http\Controllers\Admin\BidController;
+use App\Http\Controllers\Admin\CitizenCharterController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EmergencyContactController;
 use App\Http\Controllers\Admin\HeroSlideController;
 use App\Http\Controllers\Admin\JobController;
 use App\Http\Controllers\Admin\MayorMessageController;
+use App\Http\Controllers\Admin\OfficeController;
 use App\Http\Controllers\Admin\OfficialController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SettingController;
@@ -44,11 +47,9 @@ Route::get('/government/officials', [GovernmentController::class, 'officials'])
     ->name('government.officials');
 Route::get('/government/sangguniang-bayan', [GovernmentController::class, 'sanggunianBayan'])
     ->name('government.sangguniang-bayan');
-Route::get('/government/citizens-charter', [GovernmentController::class, 'index'])
-    ->defaults('tab', 'citizens-charter')
+Route::get('/government/citizens-charter', [GovernmentController::class, 'citizensCharter'])
     ->name('government.citizens-charter');
-Route::get('/government/directories', [GovernmentController::class, 'index'])
-    ->defaults('tab', 'directories')
+Route::get('/government/directories', [GovernmentController::class, 'directories'])
     ->name('government.directories');
 
 Route::get('/services', [ServicesController::class, 'index'])->name('services');
@@ -72,13 +73,18 @@ Route::get('/tourism', [TourismController::class, 'index'])
     ->name('tourism');
 Route::get('/tourism/{slug}', [TourismController::class, 'show'])
     ->name('tourism.show');
-Route::get('/achievements', fn () => Inertia::render('public/coming-soon', ['title' => 'Achievements']))
+Route::get('/achievements', [PublicAchievementController::class, 'index'])
     ->name('achievements');
+Route::get('/achievements/{id}', [PublicAchievementController::class, 'show'])
+    ->whereNumber('id')
+    ->name('achievements.show');
 Route::get('/barangays', fn () => Inertia::render('public/coming-soon', ['title' => 'Barangays']))
     ->name('barangays');
 Route::get('/barangays/{slug}', [PublicBarangayController::class, 'show'])
     ->name('barangays.show');
 
+Route::inertia('/privacy-policy', 'public/privacy-policy')->name('privacy-policy');
+Route::inertia('/terms-of-use', 'public/terms-of-use')->name('terms-of-use');
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('admin', [DashboardController::class, 'index'])->name('dashboard');
 });
@@ -129,6 +135,10 @@ Route::prefix('admin')
         });
         Route::middleware('can:manage settings')->group(function () {
             Route::resource('barangays', BarangayController::class)
+                ->except('show');
+            Route::resource('citizen-charters', CitizenCharterController::class)
+                ->except('show');
+            Route::resource('offices', OfficeController::class)
                 ->except('show');
             Route::get('settings', [SettingController::class, 'index'])
                 ->name('settings.index');

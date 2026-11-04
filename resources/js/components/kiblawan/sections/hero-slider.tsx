@@ -1,3 +1,4 @@
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from '@inertiajs/react';
 
 import { Container } from '@/components/kiblawan/ui/container';
@@ -38,14 +39,14 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                     aria-label={`${i + 1} of ${slides.length}`}
                     aria-hidden={i !== index}
                     className={cn(
-                        'absolute inset-0 bg-cover bg-center transition-opacity duration-[1000ms] ease-k-smooth will-change-[opacity]',
+                        'absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-[1000ms] ease-k-smooth will-change-[opacity]',
                         i === index
                             ? 'z-10 opacity-100'
                             : 'pointer-events-none z-0 opacity-0',
                     )}
                     style={{ backgroundImage: `url(${slide.image_url})` }}
                 >
-                    <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(84,42,32,0.9)_0%,rgba(84,42,32,0.55)_50%,rgba(84,42,32,0.2)_100%)]" />
+                    <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(26,26,26,0.9)_0%,rgba(26,26,26,0.4)_50%,transparent_100%)]" />
 
                     <Container className="relative z-[2] flex h-full w-full flex-col items-start justify-center px-4 py-8 text-left text-white sm:px-4 lg:px-4">
                         <div className="w-full max-w-3xl text-left">
@@ -81,16 +82,24 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                 </div>
             ))}
 
-            <div className="absolute right-0 bottom-7 left-0 z-[3] flex items-center justify-center gap-8">
-                <button
-                    type="button"
-                    onClick={prev}
-                    aria-label="Previous slide"
-                    className="size-12 rounded-full border border-white/40 bg-black/30 text-lg text-white transition-colors duration-300 ease-k-smooth hover:border-gold hover:bg-gold hover:text-primary-dark"
-                >
-                    ‹
-                </button>
+            <button
+                type="button"
+                onClick={prev}
+                aria-label="Previous slide"
+                className="absolute top-1/2 left-4 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/20 text-white backdrop-blur-md transition-all duration-300 hover:border-gold hover:bg-gold hover:text-primary-dark md:left-8"
+            >
+                <ChevronLeft className="size-6" aria-hidden="true" />
+            </button>
+            <button
+                type="button"
+                onClick={next}
+                aria-label="Next slide"
+                className="absolute top-1/2 right-4 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/20 text-white backdrop-blur-md transition-all duration-300 hover:border-gold hover:bg-gold hover:text-primary-dark md:right-8"
+            >
+                <ChevronRight className="size-6" aria-hidden="true" />
+            </button>
 
+            <div className="absolute right-0 bottom-7 left-0 z-[3] flex items-center justify-center gap-8">
                 <div
                     role="tablist"
                     aria-label="Slide navigation"
@@ -113,15 +122,6 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                         />
                     ))}
                 </div>
-
-                <button
-                    type="button"
-                    onClick={next}
-                    aria-label="Next slide"
-                    className="size-12 rounded-full border border-white/40 bg-black/30 text-lg text-white transition-colors duration-300 ease-k-smooth hover:border-gold hover:bg-gold hover:text-primary-dark"
-                >
-                    ›
-                </button>
             </div>
         </section>
     );

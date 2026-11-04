@@ -15,6 +15,7 @@ interface SettingsFormData {
     email: string;
     office_hours: string;
     map_embed: string;
+    kiblawan_history: string;
 }
 
 export default function SettingsIndex({
@@ -30,6 +31,7 @@ export default function SettingsIndex({
         email: settings.email ?? '',
         office_hours: settings.office_hours ?? '',
         map_embed: settings.map_embed ?? '',
+        kiblawan_history: settings.kiblawan_history ?? '',
     });
 
     function handleSubmit(event: FormEvent<HTMLFormElement>): void {
@@ -168,6 +170,42 @@ export default function SettingsIndex({
                                 aria-invalid={Boolean(form.errors.office_hours)}
                             />
                             <InputError message={form.errors.office_hours} />
+                        </div>
+                    </section>
+
+                    <section className="space-y-5 rounded-2xl border border-line bg-card p-6 shadow-sm">
+                        <div>
+                            <h2 className="text-lg font-semibold">
+                                AI Knowledge
+                            </h2>
+                            <p className="text-sm text-muted-foreground">
+                                Provide the chatbot with verified historical
+                                background about Kiblawan.
+                            </p>
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="kiblawan_history">
+                                Kiblawan History / About
+                            </Label>
+                            <textarea
+                                id="kiblawan_history"
+                                rows={10}
+                                maxLength={3000}
+                                value={form.data.kiblawan_history}
+                                onChange={(event) =>
+                                    form.setData(
+                                        'kiblawan_history',
+                                        event.target.value,
+                                    )
+                                }
+                                aria-invalid={Boolean(
+                                    form.errors.kiblawan_history,
+                                )}
+                                className="w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:border-destructive"
+                            />
+                            <InputError
+                                message={form.errors.kiblawan_history}
+                            />
                         </div>
                     </section>
 
