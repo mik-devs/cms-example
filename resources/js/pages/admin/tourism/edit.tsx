@@ -3,7 +3,6 @@ import {
     index,
     update,
 } from '@/actions/App/Http/Controllers/Admin/TourismController';
-import AdminFormPage from '@/components/kiblawan/admin/admin-form-page';
 import TourismForm from '@/pages/admin/tourism/components/tourism-form';
 import type { TourismSpot } from '@/types';
 
@@ -15,20 +14,15 @@ export default function EditTourismSpot({
     return (
         <>
             <Head title={`Edit ${tourismSpot.name}`} />
-            <AdminFormPage
+            <TourismForm
                 title="Edit Tourism Spot"
-                description={`Update ${tourismSpot.name}.`}
                 backHref={index.url()}
-                backLabel="Tourism"
-            >
-                <TourismForm
-                    initialValues={tourismSpot}
-                    onSubmit={(form) =>
-                        form.put(update.url({ tourism: tourismSpot.id }))
-                    }
-                    submitLabel="Save Changes"
-                />
-            </AdminFormPage>
+                initialValues={tourismSpot}
+                onSubmit={(form) =>
+                    form.put(update.url({ tourism: tourismSpot.id }))
+                }
+                submitLabel="Save Changes"
+            />
         </>
     );
 }

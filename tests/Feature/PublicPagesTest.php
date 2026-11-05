@@ -97,6 +97,7 @@ it('shows only the vice mayor and legislative members on the Sangguniang Bayan p
     Official::query()->create([
         'name' => 'Council Member',
         'position' => 'Sangguniang Bayan Member',
+        'committee' => 'Committee on Education',
         'order' => 3,
     ]);
 
@@ -107,6 +108,7 @@ it('shows only the vice mayor and legislative members on the Sangguniang Bayan p
             ->where('viceMayor.name', 'Presiding Vice Mayor')
             ->has('members', 1)
             ->where('members.0.name', 'Council Member')
+            ->where('members.0.committee', 'Committee on Education')
             ->missing('mayor'));
 });
 

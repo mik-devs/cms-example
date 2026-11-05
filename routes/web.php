@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\JobController;
 use App\Http\Controllers\Admin\MayorMessageController;
 use App\Http\Controllers\Admin\OfficeController;
 use App\Http\Controllers\Admin\OfficialController;
+use App\Http\Controllers\Admin\OfficialVideoController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SettingController;
@@ -145,6 +146,8 @@ Route::prefix('admin')
             Route::resource('citizen-charters', CitizenCharterController::class)
                 ->except('show');
             Route::resource('offices', OfficeController::class)
+                ->except('show');
+            Route::resource('videos', OfficialVideoController::class)
                 ->except('show');
             Route::get('pages', [PageController::class, 'index'])
                 ->name('pages.index');

@@ -10,6 +10,7 @@ class Official extends Model
     protected $fillable = [
         'name',
         'position',
+        'committee',
         'photo',
         'facebook_url',
         'instagram_url',

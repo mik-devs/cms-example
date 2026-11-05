@@ -22,7 +22,7 @@ const columns: ResourceTableColumn<HeroSlide>[] = [
             <img
                 src={slide.image_url}
                 alt=""
-                className="size-20 rounded-md object-cover"
+                className="h-20 w-20 rounded-lg border border-line-soft object-cover shadow-sm"
             />
         ),
     },

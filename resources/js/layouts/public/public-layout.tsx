@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Footer from '@/components/kiblawan/layout/footer';
 import Navbar from '@/components/kiblawan/layout/navbar';
 import TopBar from '@/components/kiblawan/layout/top-bar';
 import { ChatbotWidget } from '@/components/kiblawan/chatbot-widget';
-import { useA11y } from '@/hooks/use-a11y';
+
 import { LanguageProvider } from '@/context/language-context';
 
 interface PublicLayoutProps {
@@ -12,22 +12,28 @@ interface PublicLayoutProps {
 }
 
 export default function PublicLayout({ children, title }: PublicLayoutProps) {
-    const { size, setSize, contrast, toggleContrast } = useA11y();
+    const [isScrolled, setIsScrolled] = useState(false);
 
     useEffect(() => {
         document.title = title ?? 'Municipality of Kiblawan';
     }, [title]);
 
+    useEffect(() => {
+        const handleScroll = (): void => {
+            setIsScrolled(window.scrollY > 40);
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll();
+
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
     return (
         <LanguageProvider>
             <div className="min-h-screen overflow-x-hidden bg-cream pt-[var(--nav-offset)] font-sans leading-[1.8] tracking-[0.005em] text-ink">
-                <TopBar
-                    size={size}
-                    onSizeChange={setSize}
-                    contrast={contrast}
-                    onToggleContrast={toggleContrast}
-                />
-                <Navbar />
+                <TopBar isScrolled={isScrolled} />
+                <Navbar isScrolled={isScrolled} />
                 <main>{children}</main>
                 <Footer />
                 <ChatbotWidget />

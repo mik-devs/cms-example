@@ -11,6 +11,7 @@ use App\Models\HeroSlide;
 use App\Models\JobPosting;
 use App\Models\MayorMessage;
 use App\Models\News;
+use App\Models\OfficialVideo;
 use App\Models\Service;
 use App\Models\Setting;
 use App\Models\Stat;
@@ -87,6 +88,10 @@ class HomeController extends Controller
                 ->orderByDesc('year')
                 ->orderByDesc('date_posted')
                 ->take(4)
+                ->get(),
+            'officialVideos' => OfficialVideo::query()
+                ->where('is_active', true)
+                ->orderBy('order')
                 ->get(),
             'mayorMessage' => $latestMayorMessage,
         ]);

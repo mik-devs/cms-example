@@ -8,6 +8,38 @@ use Illuminate\Database\Seeder;
 class PageSeeder extends Seeder
 {
     /**
+     * The default content blocks for the History page.
+     *
+     * @var array<int, array<string, string>>
+     */
+    public const HISTORY_BLOCKS = [
+        [
+            'image' => '/images/about/kiblawan-thriving-municiplality.png',
+            'kicker' => 'Overview',
+            'title' => 'From Tribal Lands to a Thriving Municipality',
+            'subtitle' => 'Honoring Indigenous Traditions While Moving Toward Progress',
+            'body' => "Historically, Kiblawan was inhabited by the B'laan indigenous tribe, who lived off the land through hunting, farming, and trading.",
+            'image_position' => 'left',
+        ],
+        [
+            'image' => '/images/about/kiblawan-agri.png',
+            'kicker' => 'History',
+            'title' => 'A Municipality Shaped by Change',
+            'subtitle' => 'Agriculture, Mining, and a Growing Community',
+            'body' => 'With the arrival of Christian settlers, the town expanded its agricultural and mining industries. Today, Kiblawan remains a culturally rich and economically growing municipality, balancing its indigenous heritage with modern development.',
+            'image_position' => 'left',
+        ],
+        [
+            'image' => '/images/about/kiblawan-tradition.png',
+            'kicker' => 'Culture',
+            'title' => "A Stronghold of B'laan Indigenous Traditions",
+            'subtitle' => 'Preserving Ancestral Ways While Embracing Development',
+            'body' => "Kiblawan's culture is deeply influenced by its B'laan roots, with many locals continuing to practice traditional weaving, beadwork, and music. Festivals and community gatherings highlight tribal dances, rituals, and storytelling, showcasing the rich cultural heritage of the town.",
+            'image_position' => 'left',
+        ],
+    ];
+
+    /**
      * Seed the About Kiblawan pages without overwriting admin edits.
      */
     public function run(): void
@@ -16,60 +48,10 @@ class PageSeeder extends Seeder
             [
                 'slug' => 'history',
                 'title' => 'History of Kiblawan',
-                'content' => <<<'HTML'
-<p>Discover the rich heritage and timeline of our municipality.</p>
-
-<p><strong>Overview</strong></p>
-<h2>From Tribal Lands to a Thriving Municipality</h2>
-<p><strong>Honoring Indigenous Traditions While Moving Toward Progress</strong></p>
-<p>Historically, Kiblawan was inhabited by the B'laan indigenous tribe, who lived off the land through hunting, farming, and trading.</p>
-<figure>
-    <img src="/images/about/kiblawan-thriving-municiplality.png" alt="Kiblawan, a thriving municipality">
-    <figcaption>Kiblawan, a thriving municipality</figcaption>
-</figure>
-
-<p><strong>History</strong></p>
-<h2>A Municipality Shaped by Change</h2>
-<p><strong>Agriculture, Mining, and a Growing Community</strong></p>
-<p>With the arrival of Christian settlers, the town expanded its agricultural and mining industries. Today, Kiblawan remains a culturally rich and economically growing municipality, balancing its indigenous heritage with modern development.</p>
-<figure>
-    <img src="/images/about/kiblawan-agri.png" alt="Agriculture and community life in Kiblawan">
-    <figcaption>Agriculture and community life in Kiblawan</figcaption>
-</figure>
-
-<p><strong>Culture</strong></p>
-<h2>A Stronghold of B'laan Indigenous Traditions</h2>
-<p><strong>Preserving Ancestral Ways While Embracing Development</strong></p>
-<p>Kiblawan's culture is deeply influenced by its B'laan roots, with many locals continuing to practice traditional weaving, beadwork, and music. Festivals and community gatherings highlight tribal dances, rituals, and storytelling, showcasing the rich cultural heritage of the town.</p>
-<figure>
-    <img src="/images/about/kiblawan-tradition.png" alt="B'laan traditions and culture in Kiblawan">
-    <figcaption>B'laan traditions and culture in Kiblawan</figcaption>
-</figure>
-
-<h2>Festivals of Kiblawan</h2>
-<p><strong>Culture &amp; celebration</strong></p>
-
-<h3>Araw ng Kiblawan</h3>
-<p>The municipality's foundation day, featuring trade fairs, cultural performances, and sports competitions.</p>
-<figure>
-    <img src="/images/about/araw-kiblawan.png" alt="Araw ng Kiblawan">
-    <figcaption>Araw ng Kiblawan</figcaption>
-</figure>
-
-<h3>Kaduwaan Festival</h3>
-<p>A vibrant B'laan festival showcasing tribal traditions, music, and dance.</p>
-<figure>
-    <img src="/images/about/kaduwaan-festival.png" alt="Kaduwaan Festival">
-    <figcaption>Kaduwaan Festival</figcaption>
-</figure>
-
-<h3>Harvest Festival</h3>
-<p>A thanksgiving celebration for farmers and their agricultural contributions.</p>
-<figure>
-    <img src="/images/about/Kiblawan---Harvest-Festival.png" alt="Harvest Festival">
-    <figcaption>Harvest Festival</figcaption>
-</figure>
-HTML,
+                'content' => json_encode(
+                    self::HISTORY_BLOCKS,
+                    JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE,
+                ),
             ],
             [
                 'slug' => 'demographic',

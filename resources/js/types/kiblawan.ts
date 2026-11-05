@@ -21,6 +21,18 @@ export interface HeroSlide {
     is_active: boolean;
 }
 
+// Mirrors App\Models\OfficialVideo
+export interface OfficialVideo {
+    id: number;
+    title: string;
+    video_file: string;
+    video_url: string;
+    order: number;
+    is_active: boolean;
+    created_at?: string;
+    updated_at?: string;
+}
+
 // Mirrors App\Models\Stat
 export interface Stat {
     id: number;
@@ -183,6 +195,7 @@ export interface Official {
     id: number;
     name: string;
     position: string;
+    committee?: string | null;
     photo: string | null;
     photo_url: string | null;
     facebook_url: string | null;

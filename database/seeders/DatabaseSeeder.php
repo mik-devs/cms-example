@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
             EmergencyContactSeeder::class,
             BidSeeder::class,
             AnnualReportSeeder::class,
+            OfficialVideoSeeder::class,
         ]);
     }
 }

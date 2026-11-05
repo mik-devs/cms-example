@@ -75,7 +75,7 @@ const mobileIdle = 'hover:bg-primary/10 hover:text-primary';
 const mobileChild =
     'block px-3 py-2 rounded-[12px] text-base font-medium text-primary transition-all hover:bg-primary/5 hover:text-primary';
 
-export default function Navbar() {
+export default function Navbar({ isScrolled = false }: { isScrolled?: boolean }) {
     const { url, props } = usePage();
     const { t } = useLanguage();
     const siteSettings = props.siteSettings;
@@ -136,7 +136,7 @@ export default function Navbar() {
 
     return (
         <>
-            <header className="fixed top-[36px] right-0 left-0 z-[90] border-b border-line bg-cream shadow-k-soft transition-all duration-[400ms]">
+            <header className={`fixed right-0 left-0 z-[90] border-b border-line bg-cream shadow-k-soft transition-all duration-300 ${isScrolled ? 'top-0' : 'top-[36px]'}`}>
                 <div className="mx-auto flex min-h-[86px] max-w-[1320px] items-center justify-between px-4">
                     <Link href="/" className="group flex items-center gap-3.5">
                         <img

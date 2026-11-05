@@ -20,6 +20,7 @@ class UpdateOfficialRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'position' => ['required', 'string', 'max:255'],
+            'committee' => ['nullable', 'string', 'max:255'],
             'photo' => ['nullable', 'image', 'max:2048'],
             'facebook_url' => ['nullable', 'url'],
             'instagram_url' => ['nullable', 'url'],

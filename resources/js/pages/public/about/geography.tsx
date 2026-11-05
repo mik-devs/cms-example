@@ -5,6 +5,15 @@ import { Container } from '@/components/kiblawan/ui/container';
 import { PageHeader } from '@/components/kiblawan/ui/page-header';
 import { Section } from '@/components/kiblawan/ui/section';
 import PublicLayout from '@/layouts/public/public-layout';
+import type { Page } from '@/types';
+
+const fallbackLeftTitle = 'A Land of Valleys, Mountains, and Agricultural Prosperity';
+const fallbackLeftSubtitle = 'Spanning Over 258 Square Kilometers of Diverse Terrain';
+const fallbackLeftBody =
+    'Kiblawan covers 258 square kilometers, featuring fertile lowlands for farming, rugged hills for livestock, and mineral-rich mountains. The Digos-Malalag Mountain Range provides essential resources for agriculture, mining, and eco-tourism, making it a vital part of Davao del Sur’s economy.';
+const fallbackMapImage = '/images/about/kiblawan-farm.png';
+
+const fallbackFacts: { label: string; value: string }[] = [];
 
 const travelCards = [
     {
@@ -25,11 +34,69 @@ const travelCards = [
     },
 ];
 
-export default function AboutGeography() {
+type GeoContent = {
+    leftText: string;
+    mapImage: string;
+    facts: { label: string; value: string }[];
+};
+
+function parseGeoContent(content: string | null | undefined): GeoContent {
+    if (!content) {
+        return { leftText: '', mapImage: '', facts: [] };
+    }
+
+    try {
+        const parsed: unknown = JSON.parse(content);
+
+        if (typeof parsed !== 'object' || parsed === null) {
+            return { leftText: '', mapImage: '', facts: [] };
+        }
+
+        const data = parsed as Record<string, unknown>;
+        const facts = Array.isArray(data.facts)
+            ? data.facts.map((fact) => {
+                  const item =
+                      typeof fact === 'object' && fact !== null
+                          ? (fact as Record<string, unknown>)
+                          : {};
+
+                  return {
+                      label: typeof item.label === 'string' ? item.label : '',
+                      value: typeof item.value === 'string' ? item.value : '',
+                  };
+              })
+            : [];
+
+        return {
+            leftText:
+                typeof data.left_text === 'string'
+                    ? data.left_text
+                    : typeof data.left === 'string'
+                      ? data.left
+                      : '',
+            mapImage:
+                typeof data.map_image === 'string'
+                    ? data.map_image
+                    : typeof data.image === 'string'
+                      ? data.image
+                      : '',
+            facts,
+        };
+    } catch {
+        return { leftText: '', mapImage: '', facts: [] };
+    }
+}
+
+export default function AboutGeography({ page }: { page?: Page | null }) {
+    const parsed = parseGeoContent(page?.content);
+    const leftText = parsed.leftText || fallbackLeftBody;
+    const mapImage = parsed.mapImage || fallbackMapImage;
+    const facts = parsed.facts.length > 0 ? parsed.facts : fallbackFacts;
+
     return (
         <PublicLayout title="Geography | About Kiblawan">
             <PageHeader
-                title="Physical / Geographical Profile"
+                title={page?.title || 'Physical / Geographical Profile'}
                 subtitle="Explore the landscapes, topography, and natural features of our town."
             />
             <Section className="bg-cream py-16 md:py-24">
@@ -46,30 +113,32 @@ export default function AboutGeography() {
                                         Place & landscape
                                     </span>
                                     <h2 className="font-display text-[clamp(1.8rem,3vw,2.6rem)] leading-tight font-bold text-forest">
-                                        A Land of Valleys, Mountains, and
-                                        Agricultural Prosperity
+                                        {fallbackLeftTitle}
                                     </h2>
                                     <p className="mt-4 text-lg leading-7 font-semibold text-gold">
-                                        Spanning Over 258 Square Kilometers of
-                                        Diverse Terrain
+                                        {fallbackLeftSubtitle}
                                     </p>
                                     <p className="mt-6 text-base leading-8 text-ink-muted">
-                                        Kiblawan covers 258 square kilometers,
-                                        featuring fertile lowlands for farming,
-                                        rugged hills for livestock, and
-                                        mineral-rich mountains. The
-                                        Digos-Malalag Mountain Range provides
-                                        essential resources for agriculture,
-                                        mining, and eco-tourism, making it a
-                                        vital part of Davao del Sur&apos;s
-                                        economy.
+                                        {leftText}
                                     </p>
+                                    {facts.length > 0 && (
+                                        <ul className="mt-6 space-y-2 text-base text-ink-muted">
+                                            {facts.map((fact, index) => (
+                                                <li key={`${fact.label}-${index}`}>
+                                                    <strong className="text-forest">
+                                                        {fact.label}:
+                                                    </strong>{' '}
+                                                    {fact.value}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
                                 </div>
                             }
                             right={
                                 <div className="group relative min-h-80 overflow-hidden rounded-[24px] shadow-k-card md:min-h-[34rem]">
                                     <img
-                                        src="/images/about/kiblawan-farm.png"
+                                        src={mapImage}
                                         alt="Agricultural landscape in Kiblawan"
                                         className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-105"
                                     />

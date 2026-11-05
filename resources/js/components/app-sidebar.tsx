@@ -20,6 +20,7 @@ import {
     Settings,
     Siren,
     Users,
+    Video,
 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -166,6 +167,12 @@ const navGroups: AdminNavGroup[] = [
                 href: '/admin/hero-slides',
                 icon: Image,
                 permission: 'manage hero',
+            },
+            {
+                title: 'Official Videos',
+                href: '/admin/videos',
+                icon: Video,
+                permission: 'manage settings',
             },
             {
                 title: 'Stats',

@@ -4,6 +4,8 @@ use App\Models\Page;
 use App\Models\User;
 use Database\Seeders\PageSeeder;
 use Database\Seeders\RolePermissionSeeder;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia as Assert;
 
 it('requires authentication and verification for page management', function () {
@@ -92,6 +94,127 @@ HTML;
             ->component('public/about/history')
             ->where('page.title', 'Updated History')
             ->where('page.content', $page->content));
+});
+
+it('allows administrators to create and update content blocks with uploaded images', function () {
+    Storage::fake('public');
+
+    $this->actingAs(superAdminUser());
+
+    $page = Page::factory()->create([
+        'slug' => 'history',
+        'title' => 'History of Kiblawan',
+        'content' => '<p>Legacy HTML</p>',
+    ]);
+
+    $this->put(route('admin.pages.update', $page->slug), [
+        'title' => 'History of Kiblawan',
+        'mode' => 'blocks',
+        'blocks' => [
+            [
+                'kicker' => '<b>Overview</b>',
+                'title' => 'From Tribal Lands to a Thriving Municipality',
+                'subtitle' => 'Honoring Indigenous Traditions',
+                'body' => "Historically, <script>alert(1)</script> the B'laan tribe.",
+                'image_position' => 'right',
+                'existing_image' => '',
+                'image' => UploadedFile::fake()->image('story.png'),
+            ],
+        ],
+    ])->assertRedirect(route('admin.pages.index'));
+
+    $blocks = json_decode($page->refresh()->content, true, 512, JSON_THROW_ON_ERROR);
+    $createdImage = $blocks[0]['image'];
+    $createdImagePath = str_replace('/storage/', '', $createdImage);
+
+    expect($blocks)->toHaveCount(1);
+    expect($blocks[0]['kicker'])->toBe('Overview');
+    expect($blocks[0]['body'])->toContain("the B'laan tribe.")->not->toContain('<script');
+    expect($blocks[0]['image_position'])->toBe('right');
+    expect($createdImage)->toStartWith('/storage/pages/history/');
+    Storage::disk('public')->assertExists($createdImagePath);
+
+    $this->put(route('admin.pages.update', $page->slug), [
+        'title' => 'History of Kiblawan',
+        'mode' => 'blocks',
+        'blocks' => [
+            [
+                'kicker' => 'Overview',
+                'title' => 'Updated Title',
+                'subtitle' => 'Honoring Indigenous Traditions',
+                'body' => 'Updated body',
+                'image_position' => 'left',
+                'existing_image' => $createdImage,
+            ],
+        ],
+    ])->assertRedirect(route('admin.pages.index'));
+
+    $blocks = json_decode($page->refresh()->content, true, 512, JSON_THROW_ON_ERROR);
+
+    expect($blocks[0]['title'])->toBe('Updated Title');
+    expect($blocks[0]['image'])->toBe($createdImage);
+    Storage::disk('public')->assertExists($createdImagePath);
+
+    $this->put(route('admin.pages.update', $page->slug), [
+        'title' => 'History of Kiblawan',
+        'mode' => 'blocks',
+        'blocks' => [
+            [
+                'kicker' => 'Overview',
+                'title' => 'Updated Title',
+                'subtitle' => 'Honoring Indigenous Traditions',
+                'body' => 'Updated body',
+                'image_position' => 'left',
+                'existing_image' => $createdImage,
+                'image' => UploadedFile::fake()->image('replacement.png'),
+            ],
+        ],
+    ])->assertRedirect(route('admin.pages.index'));
+
+    $blocks = json_decode($page->refresh()->content, true, 512, JSON_THROW_ON_ERROR);
+
+    expect($blocks[0]['image'])->not->toBe($createdImage);
+    Storage::disk('public')->assertExists(str_replace('/storage/', '', $blocks[0]['image']));
+    Storage::disk('public')->assertMissing($createdImagePath);
+});
+
+it('requires an image and at least one block when saving in blocks mode', function () {
+    $this->actingAs(superAdminUser());
+
+    $page = Page::factory()->create([
+        'slug' => 'history',
+        'title' => 'History of Kiblawan',
+        'content' => '<p>Legacy HTML</p>',
+    ]);
+
+    $block = [
+        'kicker' => 'Overview',
+        'title' => 'From Tribal Lands to a Thriving Municipality',
+        'subtitle' => 'Honoring Indigenous Traditions',
+        'body' => 'Historically, Kiblawan was inhabited by the B\'laan tribe.',
+        'image_position' => 'left',
+        'existing_image' => '',
+    ];
+
+    $this->put(route('admin.pages.update', $page->slug), [
+        'title' => 'History of Kiblawan',
+        'mode' => 'blocks',
+        'blocks' => [$block],
+    ])->assertSessionHasErrors('blocks.0.image');
+
+    $this->put(route('admin.pages.update', $page->slug), [
+        'title' => 'History of Kiblawan',
+        'mode' => 'blocks',
+        'blocks' => [],
+    ])->assertSessionHasErrors('blocks');
+
+    $this->put(route('admin.pages.update', $page->slug), [
+        'title' => 'History of Kiblawan',
+        'mode' => 'blocks',
+        'blocks' => [array_merge($block, ['existing_image' => 'images/about/story.png'])],
+    ])->assertSessionHasErrors('blocks.0.existing_image');
+
+    expect($page->refresh()->content)->toBe('<p>Legacy HTML</p>');
 });
 
 it('forbids users without the manage settings permission from editing pages', function () {

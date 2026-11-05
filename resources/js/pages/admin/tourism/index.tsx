@@ -22,7 +22,7 @@ const columns: ResourceTableColumn<TourismSpot>[] = [
             <img
                 src={spot.image_url}
                 alt=""
-                className="size-14 rounded-md object-cover"
+                className="h-14 w-14 rounded-lg border border-line-soft object-cover shadow-sm"
             />
         ),
     },

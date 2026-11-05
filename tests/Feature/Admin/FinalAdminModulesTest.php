@@ -166,6 +166,7 @@ it('stores and cleans up uploaded files across all final CMS modules', function 
     $this->post(route('admin.officials.store'), [
         'name' => 'Alex Santos',
         'position' => 'Mayor',
+        'committee' => 'Committee on Finance',
         'photo' => UploadedFile::fake()->image('official.png'),
         'facebook_url' => 'https://facebook.com/alexsantos',
         'instagram_url' => 'https://instagram.com/alexsantos',
@@ -174,17 +175,20 @@ it('stores and cleans up uploaded files across all final CMS modules', function 
 
     $official = Official::query()->firstOrFail();
     expect($official->facebook_url)->toBe('https://facebook.com/alexsantos')
-        ->and($official->instagram_url)->toBe('https://instagram.com/alexsantos');
+        ->and($official->instagram_url)->toBe('https://instagram.com/alexsantos')
+        ->and($official->committee)->toBe('Committee on Finance');
     $originalPhoto = $official->photo;
     Storage::disk('public')->assertExists($originalPhoto);
     $this->put(route('admin.officials.update', $official), [
         'name' => 'Alex Santos',
         'position' => 'Municipal Mayor',
+        'committee' => 'Committee on Education',
         'photo' => null,
         'order' => 1,
     ])->assertRedirect(route('admin.officials.index'));
     $official->refresh();
-    expect($official->photo)->toBe($originalPhoto);
+    expect($official->photo)->toBe($originalPhoto)
+        ->and($official->committee)->toBe('Committee on Education');
     $this->put(route('admin.officials.update', $official), [
         'name' => 'Alex Santos',
         'position' => 'Municipal Mayor',

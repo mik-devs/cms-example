@@ -5,15 +5,6 @@ import { PageHeader } from '@/components/kiblawan/ui/page-header';
 import PublicLayout from '@/layouts/public/public-layout';
 import type { Official } from '@/types';
 
-const committeeChairmanships = [
-    'Committee on Finance',
-    'Committee on Education',
-    'Committee on Health',
-    'Committee on Agriculture',
-    'Committee on Infrastructure',
-    'Committee on Peace and Order',
-];
-
 export default function SangguniangBayan({
     viceMayor,
     members,
@@ -99,7 +90,7 @@ export default function SangguniangBayan({
                     </h2>
                     {members.length > 0 ? (
                         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                            {members.map((member, index) => (
+                            {members.map((member) => (
                                 <article
                                     key={member.id}
                                     className="overflow-hidden rounded-[20px] border border-line bg-white shadow-k-card"
@@ -142,17 +133,16 @@ export default function SangguniangBayan({
                                                 </a>
                                             )}
                                         </div>
-                                        <p className="m-0 text-sm font-semibold text-primary">
-                                            Committee Chairmanship
-                                        </p>
-                                        <p className="mt-1 mb-0 text-sm text-ink-muted">
-                                            {
-                                                committeeChairmanships[
-                                                    index %
-                                                        committeeChairmanships.length
-                                                ]
-                                            }
-                                        </p>
+                                        {member.committee && (
+                                            <>
+                                                <p className="m-0 text-sm font-semibold text-primary">
+                                                    Committee Chairmanship
+                                                </p>
+                                                <p className="mt-1 mb-0 text-sm text-ink-muted">
+                                                    {member.committee}
+                                                </p>
+                                            </>
+                                        )}
                                     </div>
                                 </article>
                             ))}

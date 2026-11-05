@@ -1,23 +1,26 @@
 import { Link } from '@inertiajs/react';
 import { ArrowLeft } from 'lucide-react';
+import type { ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 
-interface PageBannerProps {
+export interface PageBannerProps {
     title: string;
     subtitle: string;
     backHref?: string;
     backLabel?: string;
     actionLabel?: string;
     actionHref?: string;
+    children?: ReactNode;
 }
 
-export default function PageBanner({
+export function PageBanner({
     title,
     subtitle,
     backHref,
     backLabel,
     actionLabel,
     actionHref,
+    children,
 }: PageBannerProps) {
     return (
         <section className="relative min-h-[200px] shrink-0 overflow-hidden rounded-[24px] border-l-4 border-gold bg-primary p-8 text-white select-none md:min-h-[180px] md:px-12 md:py-10">
@@ -27,10 +30,14 @@ export default function PageBanner({
                 aria-hidden="true"
                 className="pointer-events-none absolute -right-4 -bottom-8 w-40 opacity-10 md:w-56"
             />
-            {backHref ? (
+            {children ? (
+                <div className="absolute top-6 left-6 z-20 md:left-12">
+                    {children}
+                </div>
+            ) : backHref ? (
                 <Link
                     href={backHref}
-                    className="absolute top-6 left-6 z-20 inline-flex items-center gap-1 text-sm text-white/80 transition-colors hover:text-white md:left-12"
+                    className="absolute top-6 left-6 z-20 inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white/80 backdrop-blur-sm transition-colors hover:text-gold md:left-12"
                 >
                     <ArrowLeft className="h-4 w-4" />
                     Back to {backLabel ?? 'Admin'}
@@ -57,3 +64,5 @@ export default function PageBanner({
         </section>
     );
 }
+
+export default PageBanner;

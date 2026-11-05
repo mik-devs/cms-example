@@ -4,7 +4,7 @@ import { BarangayMap } from '@/components/kiblawan/sections/barangay-map';
 import { CitizenServices } from '@/components/kiblawan/sections/citizen-services';
 import { EmergencyHotlines } from '@/components/kiblawan/sections/emergency-hotlines';
 import { HeroSlider } from '@/components/kiblawan/sections/hero-slider';
-import { KiblawanHymn } from '@/components/kiblawan/sections/kiblawan-hymn';
+import { KiblawanVideos } from '@/components/kiblawan/sections/kiblawan-hymn';
 import { MayorCorner } from '@/components/kiblawan/sections/mayor-corner';
 import { NewsCarousel } from '@/components/kiblawan/sections/news-carousel';
 import { QuickStats } from '@/components/kiblawan/sections/quick-stats';
@@ -22,6 +22,7 @@ import type {
     JobPosting,
     MayorMessage,
     News,
+    OfficialVideo,
     Service,
     Stat,
     TourismSpot,
@@ -40,6 +41,7 @@ interface HomeProps {
     emergencyContacts: EmergencyContact[];
     bids: Bid[];
     annualReports: AnnualReport[];
+    officialVideos?: OfficialVideo[];
     mayorMessage: MayorMessage | null;
 }
 
@@ -56,6 +58,7 @@ export default function Home({
     emergencyContacts,
     bids,
     annualReports,
+    officialVideos = [],
     mayorMessage,
 }: HomeProps) {
     const mapEmbedUrl = settings.map_embed ?? '';
@@ -86,10 +89,7 @@ export default function Home({
             <BarangayMap barangays={barangays} mapEmbedUrl={mapEmbedUrl} />
             <TourismHighlights spots={tourismSpots} />
             <MayorCorner message={mayorMessage} jobs={latestJobs} />
-            <KiblawanHymn
-                videoSrc="/video/kiblawan-hymn.mp4"
-                posterSrc="/images/image.png"
-            />
+            <KiblawanVideos videos={officialVideos} />
             <WeatherWidget />
             <TransparencySeal bids={bids} annualReports={annualReports} />
             <EmergencyHotlines contacts={emergencyContacts} />

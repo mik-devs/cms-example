@@ -1,6 +1,6 @@
 import { Link, router } from '@inertiajs/react';
 import { useState, type ReactNode } from 'react';
-import { MoreVertical, Pencil, Trash2 } from 'lucide-react';
+import { Image as ImageIcon, MoreVertical, Pencil, Trash2 } from 'lucide-react';
 import PageBanner from '@/components/kiblawan/admin/page-banner';
 import { Button } from '@/components/ui/button';
 import {
@@ -72,11 +72,13 @@ function ResourceTableRow<T extends ResourceItem>({
     const itemLabel = getItemLabel?.(item) ?? item.title ?? String(item.id);
 
     return (
-        <TableRow>
+        <TableRow className="border-b border-line-soft transition-colors hover:bg-cream/30 group">
             {columns.map((column) => (
-                <TableCell key={column.label}>{column.render(item)}</TableCell>
+                <TableCell key={column.label} className="px-4 py-3">
+                    {column.render(item)}
+                </TableCell>
             ))}
-            <TableCell>
+            <TableCell className="px-4 py-3">
                 <Dialog
                     open={isDeleteDialogOpen}
                     onOpenChange={setIsDeleteDialogOpen}
@@ -164,14 +166,19 @@ export default function ResourceTable<T extends ResourceItem>({
 
             <div className="overflow-hidden rounded-[20px] border border-line bg-white shadow-sm">
                 <Table>
-                    <TableHeader>
+                    <TableHeader className="bg-cream/80">
                         <TableRow>
                             {columns.map((column) => (
-                                <TableHead key={column.label}>
+                                <TableHead
+                                    key={column.label}
+                                    className="border-b border-line-soft px-4 py-3 text-xs font-bold tracking-wider text-forest uppercase"
+                                >
                                     {column.label}
                                 </TableHead>
                             ))}
-                            <TableHead>Actions</TableHead>
+                            <TableHead className="border-b border-line-soft px-4 py-3 text-xs font-bold tracking-wider text-forest uppercase">
+                                Actions
+                            </TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -190,9 +197,22 @@ export default function ResourceTable<T extends ResourceItem>({
                             <TableRow>
                                 <TableCell
                                     colSpan={columns.length + 1}
-                                    className="h-24 text-center text-muted-foreground"
+                                    className="h-48 text-center"
                                 >
-                                    {emptyMessage}
+                                    <div className="flex flex-col items-center justify-center gap-3">
+                                        <div className="flex size-16 items-center justify-center rounded-full bg-cream/60 text-ink-muted">
+                                            <ImageIcon className="size-8" />
+                                        </div>
+                                        <p className="text-sm font-medium text-ink-muted">
+                                            {emptyMessage}
+                                        </p>
+                                        <Button asChild>
+                                            <Link href={createHref}>
+                                                Create your first{' '}
+                                                {title.slice(0, -1)}
+                                            </Link>
+                                        </Button>
+                                    </div>
                                 </TableCell>
                             </TableRow>
                         )}
@@ -214,10 +234,10 @@ export default function ResourceTable<T extends ResourceItem>({
                             key={`${link.label}-${index}`}
                             href={link.url}
                             aria-current={link.active ? 'page' : undefined}
-                            className={`rounded-md border px-3 py-2 text-sm ${
+                            className={`rounded-md border px-3 py-2 text-sm transition-colors ${
                                 link.active
-                                    ? 'bg-primary text-primary-foreground'
-                                    : 'hover:bg-accent'
+                                    ? 'bg-maroon text-white border-maroon'
+                                    : 'hover:bg-cream/50'
                             }`}
                         >
                             {label}

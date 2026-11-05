@@ -2,9 +2,18 @@ import { useForm, type InertiaForm } from '@inertiajs/react';
 import type { FormEvent } from 'react';
 import type { Bid } from '@/types';
 import InputError from '@/components/input-error';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
+import { FormWrapper } from '@/components/kiblawan/ui/form-wrapper';
+import { DatePicker } from '@/components/kiblawan/ui/date-picker';
+import { format } from 'date-fns';
 
 export interface BidFormData {
     title: string;
@@ -13,15 +22,21 @@ export interface BidFormData {
     status: 'open' | 'closed';
 }
 
+interface BidFormProps {
+    initialValues?: Bid;
+    onSubmit: (form: InertiaForm<BidFormData>) => void;
+    submitLabel: string;
+    title?: string;
+    backHref?: string;
+}
+
 export default function BidForm({
     initialValues,
     onSubmit,
     submitLabel,
-}: {
-    initialValues?: Bid;
-    onSubmit: (form: InertiaForm<BidFormData>) => void;
-    submitLabel: string;
-}) {
+    title = submitLabel,
+    backHref,
+}: BidFormProps) {
     const form = useForm<BidFormData>({
         title: initialValues?.title ?? '',
         pdf_path: null,
@@ -35,80 +50,96 @@ export default function BidForm({
     }
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid gap-2">
-                <Label htmlFor="title">Title</Label>
-                <Input
-                    id="title"
-                    value={form.data.title}
-                    onChange={(event) =>
-                        form.setData('title', event.target.value)
-                    }
-                    aria-invalid={Boolean(form.errors.title)}
-                />
-                <InputError message={form.errors.title} />
-            </div>
-            <div className="grid gap-2">
-                <Label htmlFor="pdf_path">PDF Document</Label>
-                <Input
-                    id="pdf_path"
-                    type="file"
-                    accept="application/pdf,.pdf"
-                    onChange={(event) =>
-                        form.setData(
-                            'pdf_path',
-                            event.target.files?.[0] ?? null,
-                        )
-                    }
-                    aria-invalid={Boolean(form.errors.pdf_path)}
-                />
-                {initialValues?.pdf_url && (
-                    <a
-                        href={initialValues.pdf_url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-sm text-primary underline"
-                    >
-                        View current PDF
-                    </a>
-                )}
-                <InputError message={form.errors.pdf_path} />
-            </div>
-            <div className="grid gap-2 sm:max-w-xs">
-                <Label htmlFor="date_posted">Date Posted</Label>
-                <Input
-                    id="date_posted"
-                    type="date"
-                    value={form.data.date_posted}
-                    onChange={(event) =>
-                        form.setData('date_posted', event.target.value)
-                    }
-                    aria-invalid={Boolean(form.errors.date_posted)}
-                />
-                <InputError message={form.errors.date_posted} />
-            </div>
-            <div className="grid gap-2 sm:max-w-xs">
-                <Label htmlFor="status">Status</Label>
-                <select
-                    id="status"
-                    value={form.data.status}
-                    onChange={(event) => {
-                        const status = event.target.value;
-
-                        if (status === 'open' || status === 'closed') {
-                            form.setData('status', status);
+        <FormWrapper
+            title={title}
+            backHref={backHref}
+            onSubmit={handleSubmit}
+            processing={form.processing}
+            submitLabel={submitLabel}
+        >
+            <div className="space-y-6 lg:col-span-2">
+                <div className="grid gap-2">
+                    <Label htmlFor="title">Title</Label>
+                    <Input
+                        id="title"
+                        value={form.data.title}
+                        onChange={(event) =>
+                            form.setData('title', event.target.value)
                         }
-                    }}
-                    className="h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
-                >
-                    <option value="open">Open</option>
-                    <option value="closed">Closed</option>
-                </select>
-                <InputError message={form.errors.status} />
+                        aria-invalid={Boolean(form.errors.title)}
+                    />
+                    <InputError message={form.errors.title} />
+                </div>
+                <div className="grid gap-2">
+                    <Label htmlFor="pdf_path">PDF Document</Label>
+                    <Input
+                        id="pdf_path"
+                        type="file"
+                        accept="application/pdf,.pdf"
+                        onChange={(event) =>
+                            form.setData(
+                                'pdf_path',
+                                event.target.files?.[0] ?? null,
+                            )
+                        }
+                        aria-invalid={Boolean(form.errors.pdf_path)}
+                    />
+                    {initialValues?.pdf_url && (
+                        <a
+                            href={initialValues.pdf_url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-sm text-primary underline"
+                        >
+                            View current PDF
+                        </a>
+                    )}
+                    <InputError message={form.errors.pdf_path} />
+                </div>
             </div>
-            <Button type="submit" disabled={form.processing}>
-                {form.processing ? 'Saving...' : submitLabel}
-            </Button>
-        </form>
+
+            <div className="space-y-6 bg-cream/50 p-6 rounded-[16px] border border-line-soft h-fit lg:col-span-1">
+                <div className="grid gap-2">
+                    <Label htmlFor="date_posted">Date Posted</Label>
+                    <DatePicker
+                        value={
+                            form.data.date_posted
+                                ? new Date(form.data.date_posted + 'T00:00:00')
+                                : undefined
+                        }
+                        onChange={(date) =>
+                            form.setData(
+                                'date_posted',
+                                date ? format(date, 'yyyy-MM-dd') : '',
+                            )
+                        }
+                    />
+                    <InputError message={form.errors.date_posted} />
+                </div>
+                <div className="grid gap-2 sm:max-w-xs">
+                    <Label htmlFor="status">Status</Label>
+                    <Select
+                        value={form.data.status}
+                        onValueChange={(value) => {
+                            if (value === 'open' || value === 'closed') {
+                                form.setData('status', value);
+                            }
+                        }}
+                    >
+                        <SelectTrigger
+                            id="status"
+                            aria-invalid={Boolean(form.errors.status)}
+                        >
+                            <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="open">Open</SelectItem>
+                            <SelectItem value="closed">Closed</SelectItem>
+                        </SelectContent>
+                    </Select>
+                    <InputError message={form.errors.status} />
+                </div>
+            </div>
+        </FormWrapper>
     );
 }
