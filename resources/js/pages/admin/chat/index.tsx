@@ -1,0 +1,466 @@
+import { Head, router, usePage } from '@inertiajs/react';
+import { MessageSquare, Search, Send, Users } from 'lucide-react';
+import {
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+    type KeyboardEvent,
+} from 'react';
+import {
+    index as chatIndex,
+    store as chatStore,
+} from '@/actions/App/Http/Controllers/Admin/ChatController';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Input } from '@/components/ui/input';
+import { useInitials } from '@/hooks/use-initials';
+import { cn } from '@/lib/utils';
+
+interface ChatUser {
+    id: number;
+    name: string;
+    email: string;
+}
+
+interface ChatMessage {
+    id: number;
+    sender_id: number;
+    receiver_id: number;
+    message: string;
+    created_at: string | null;
+}
+
+interface MessageSentBroadcast extends ChatMessage {
+    sender?: {
+        id: number | null;
+        name: string | null;
+    } | null;
+}
+
+interface ChatIndexProps {
+    users: ChatUser[];
+    activeUserId: number | null;
+    messages: ChatMessage[];
+}
+
+function formatTime(value: string | null): string {
+    if (!value) {
+        return '';
+    }
+
+    return new Intl.DateTimeFormat(undefined, {
+        hour: 'numeric',
+        minute: '2-digit',
+    }).format(new Date(value));
+}
+
+export default function ChatIndex({
+    users,
+    activeUserId,
+    messages: initialMessages,
+}: ChatIndexProps) {
+    const { auth } = usePage().props;
+    const currentUser = auth?.user ?? null;
+    const getInitials = useInitials();
+
+    const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
+    const [message, setMessage] = useState('');
+    const [search, setSearch] = useState('');
+    const [isSending, setIsSending] = useState(false);
+    const [unreadByUser, setUnreadByUser] = useState<Record<number, number>>(
+        {},
+    );
+
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+    const messageInputRef = useRef<HTMLTextAreaElement>(null);
+
+    const activeUser = useMemo(
+        () => users.find((user) => user.id === activeUserId) ?? null,
+        [activeUserId, users],
+    );
+
+    const filteredUsers = useMemo(() => {
+        const searchTerm = search.trim().toLowerCase();
+
+        if (!searchTerm) {
+            return users;
+        }
+
+        return users.filter(
+            (user) =>
+                user.name.toLowerCase().includes(searchTerm) ||
+                user.email.toLowerCase().includes(searchTerm),
+        );
+    }, [search, users]);
+
+    useEffect(() => {
+        setMessages(initialMessages);
+    }, [initialMessages]);
+
+    useEffect(() => {
+        if (activeUserId === null) {
+            return;
+        }
+
+        setUnreadByUser((current) => {
+            if (!current[activeUserId]) {
+                return current;
+            }
+
+            const next = { ...current };
+            delete next[activeUserId];
+
+            return next;
+        });
+    }, [activeUserId]);
+
+    useEffect(() => {
+        const echo = window.Echo;
+        const currentUserId = currentUser?.id;
+
+        if (!echo || !currentUserId) {
+            return;
+        }
+
+        const channel = echo.private(`chat.${currentUserId}`);
+
+        channel.listen('MessageSent', (event: MessageSentBroadcast) => {
+            if (activeUserId === event.sender_id) {
+                setMessages((current) => {
+                    if (current.some((item) => item.id === event.id)) {
+                        return current;
+                    }
+
+                    return [...current, event];
+                });
+
+                return;
+            }
+
+            setUnreadByUser((current) => ({
+                ...current,
+                [event.sender_id]: (current[event.sender_id] ?? 0) + 1,
+            }));
+        });
+
+        return () => {
+            echo.leave(`chat.${currentUserId}`);
+        };
+    }, [activeUserId, currentUser?.id]);
+
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({
+            behavior: window.matchMedia('(prefers-reduced-motion: reduce)')
+                .matches
+                ? 'auto'
+                : 'smooth',
+        });
+    }, [messages]);
+
+    useEffect(() => {
+        messageInputRef.current?.focus();
+    }, [activeUserId]);
+
+    function selectUser(userId: number): void {
+        router.get(
+            chatIndex.url({ query: { user_id: userId } }),
+            {},
+            {
+                preserveScroll: true,
+                preserveState: true,
+                replace: true,
+            },
+        );
+    }
+
+    function sendMessage(): void {
+        const body = message.trim();
+
+        if (!body || activeUserId === null || isSending) {
+            return;
+        }
+
+        setIsSending(true);
+
+        router.post(
+            chatStore.url(),
+            {
+                receiver_id: activeUserId,
+                message: body,
+            },
+            {
+                preserveScroll: true,
+                preserveState: true,
+                onSuccess: () => setMessage(''),
+                onFinish: () => setIsSending(false),
+            },
+        );
+    }
+
+    function handleKeyDown(event: KeyboardEvent<HTMLTextAreaElement>): void {
+        if (
+            event.key === 'Enter' &&
+            !event.shiftKey &&
+            !event.nativeEvent.isComposing
+        ) {
+            event.preventDefault();
+            sendMessage();
+        }
+    }
+
+    return (
+        <>
+            <Head title="Internal Chat" />
+            <div className="flex h-[calc(100dvh-4rem)] overflow-hidden bg-(--color-bg-light)">
+                <aside className="flex w-64 shrink-0 flex-col border-r border-line bg-white sm:w-72">
+                    <div className="border-b border-line px-4 py-4">
+                        <div className="flex items-center gap-2">
+                            <span className="flex size-9 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                                <MessageSquare className="size-4" />
+                            </span>
+                            <div className="min-w-0">
+                                <h1 className="font-display text-lg font-bold text-primary">
+                                    Internal Chat
+                                </h1>
+                                <p className="text-[11px] text-ink-muted">
+                                    LGU staff messages
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="relative mt-3">
+                            <Search className="pointer-events-none absolute top-1/2 left-3 size-3.5 -translate-y-1/2 text-ink-muted" />
+                            <Input
+                                value={search}
+                                onChange={(event) =>
+                                    setSearch(event.target.value)
+                                }
+                                placeholder="Search staff..."
+                                className="h-9 pl-8 text-sm"
+                                aria-label="Search staff"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="k-scrollbar min-h-0 flex-1 overflow-y-auto p-2">
+                        {filteredUsers.length === 0 ? (
+                            <div className="flex flex-col items-center gap-2 px-4 py-10 text-center">
+                                <Users className="size-6 text-ink-muted/60" />
+                                <p className="text-xs text-ink-muted">
+                                    No staff found.
+                                </p>
+                            </div>
+                        ) : (
+                            <ul className="space-y-1">
+                                {filteredUsers.map((user) => {
+                                    const isActive = user.id === activeUserId;
+                                    const unread = unreadByUser[user.id] ?? 0;
+
+                                    return (
+                                        <li key={user.id}>
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    selectUser(user.id)
+                                                }
+                                                className={cn(
+                                                    'flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-left transition-colors',
+                                                    isActive
+                                                        ? 'bg-primary text-white shadow-sm'
+                                                        : 'text-ink hover:bg-(--color-bg-light)',
+                                                )}
+                                            >
+                                                <Avatar className="size-9 shrink-0 border border-line/60">
+                                                    <AvatarFallback
+                                                        className={cn(
+                                                            'text-[11px] font-semibold',
+                                                            isActive
+                                                                ? 'bg-white/15 text-white'
+                                                                : 'bg-primary text-white',
+                                                        )}
+                                                    >
+                                                        {getInitials(user.name)}
+                                                    </AvatarFallback>
+                                                </Avatar>
+                                                <span className="min-w-0 flex-1">
+                                                    <span className="block truncate text-sm font-semibold">
+                                                        {user.name}
+                                                    </span>
+                                                    <span
+                                                        className={cn(
+                                                            'block truncate text-[11px]',
+                                                            isActive
+                                                                ? 'text-white/70'
+                                                                : 'text-ink-muted',
+                                                        )}
+                                                    >
+                                                        {user.email}
+                                                    </span>
+                                                </span>
+                                                {unread > 0 && (
+                                                    <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-gold text-[10px] font-bold text-ink">
+                                                        {unread > 9
+                                                            ? '9+'
+                                                            : unread}
+                                                    </span>
+                                                )}
+                                            </button>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        )}
+                    </div>
+                </aside>
+
+                <section className="flex min-w-0 flex-1 flex-col">
+                    {activeUser ? (
+                        <>
+                            <header className="flex h-16 shrink-0 items-center gap-3 border-b border-line bg-white px-4 shadow-sm sm:px-5">
+                                <Avatar className="size-10 border border-line">
+                                    <AvatarFallback className="bg-primary text-xs font-semibold text-white">
+                                        {getInitials(activeUser.name)}
+                                    </AvatarFallback>
+                                </Avatar>
+                                <div className="min-w-0 flex-1">
+                                    <p className="truncate text-sm font-bold text-primary">
+                                        {activeUser.name}
+                                    </p>
+                                    <p className="flex items-center gap-1.5 truncate text-[11px] text-ink-muted">
+                                        <span className="size-1.5 rounded-full bg-green" />
+                                        Active now
+                                    </p>
+                                </div>
+                            </header>
+
+                            <div className="k-scrollbar min-h-0 flex-1 space-y-3 overflow-y-auto px-4 py-5 sm:px-6">
+                                <div className="flex justify-center">
+                                    <span className="rounded-full border border-line bg-white px-3 py-1 text-[10px] font-semibold text-ink-muted">
+                                        Conversation with {activeUser.name}
+                                    </span>
+                                </div>
+
+                                {messages.length === 0 ? (
+                                    <div className="flex h-full flex-col items-center justify-center gap-2 text-center">
+                                        <MessageSquare className="size-8 text-primary/20" />
+                                        <p className="text-sm font-semibold text-primary">
+                                            Start the conversation
+                                        </p>
+                                        <p className="max-w-xs text-xs text-ink-muted">
+                                            Send a message to {activeUser.name}.
+                                        </p>
+                                    </div>
+                                ) : (
+                                    messages.map((item) => {
+                                        const isOwn =
+                                            item.sender_id === currentUser?.id;
+
+                                        return (
+                                            <div
+                                                key={item.id}
+                                                className={cn(
+                                                    'flex',
+                                                    isOwn
+                                                        ? 'justify-end'
+                                                        : 'justify-start',
+                                                )}
+                                            >
+                                                <div
+                                                    className={cn(
+                                                        'flex max-w-[85%] flex-col sm:max-w-[70%]',
+                                                        isOwn
+                                                            ? 'items-end'
+                                                            : 'items-start',
+                                                    )}
+                                                >
+                                                    <div
+                                                        className={cn(
+                                                            'rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed break-words shadow-sm',
+                                                            isOwn
+                                                                ? 'rounded-br-md bg-primary text-white'
+                                                                : 'rounded-bl-md border border-line bg-white text-ink',
+                                                        )}
+                                                    >
+                                                        <p className="whitespace-pre-line">
+                                                            {item.message}
+                                                        </p>
+                                                        <span
+                                                            className={cn(
+                                                                'mt-1 flex items-center justify-end text-[10px] leading-none',
+                                                                isOwn
+                                                                    ? 'text-white/70'
+                                                                    : 'text-ink-muted',
+                                                            )}
+                                                        >
+                                                            {formatTime(
+                                                                item.created_at,
+                                                            )}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        );
+                                    })
+                                )}
+
+                                <div ref={messagesEndRef} />
+                            </div>
+
+                            <form
+                                onSubmit={(event) => {
+                                    event.preventDefault();
+                                    sendMessage();
+                                }}
+                                className="shrink-0 border-t border-line bg-white px-4 py-3 sm:px-5"
+                            >
+                                <div className="flex items-end gap-2 rounded-2xl border border-line bg-(--color-bg-light) p-1.5 pr-2 transition-colors focus-within:border-primary/30 focus-within:ring-2 focus-within:ring-primary/10">
+                                    <textarea
+                                        ref={messageInputRef}
+                                        value={message}
+                                        onChange={(event) =>
+                                            setMessage(event.target.value)
+                                        }
+                                        onKeyDown={handleKeyDown}
+                                        placeholder={`Message ${activeUser.name}...`}
+                                        rows={1}
+                                        maxLength={2000}
+                                        autoComplete="off"
+                                        aria-label="Chat message"
+                                        className="max-h-32 w-full min-w-0 flex-1 resize-none overflow-y-auto bg-transparent px-2.5 py-2 text-sm leading-6 text-ink outline-none placeholder:text-ink-muted"
+                                    />
+                                    <button
+                                        type="submit"
+                                        disabled={!message.trim() || isSending}
+                                        aria-label="Send message"
+                                        className="flex size-9 shrink-0 items-center justify-center rounded-full bg-primary text-white transition-colors hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-40"
+                                    >
+                                        <Send className="size-4" />
+                                    </button>
+                                </div>
+                                <p className="mt-1.5 px-2 text-[10px] text-ink-muted">
+                                    Press Enter to send, Shift + Enter for a new
+                                    line.
+                                </p>
+                            </form>
+                        </>
+                    ) : (
+                        <div className="flex flex-1 flex-col items-center justify-center gap-3 px-6 text-center">
+                            <span className="flex size-16 items-center justify-center rounded-full bg-primary/10 text-primary">
+                                <MessageSquare className="size-7" />
+                            </span>
+                            <div>
+                                <h2 className="font-display text-xl font-bold text-primary">
+                                    Your messages
+                                </h2>
+                                <p className="mt-1 max-w-sm text-sm text-ink-muted">
+                                    Select a staff member from the left to start
+                                    a private conversation.
+                                </p>
+                            </div>
+                        </div>
+                    )}
+                </section>
+            </div>
+        </>
+    );
+}

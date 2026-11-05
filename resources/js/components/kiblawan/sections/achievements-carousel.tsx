@@ -8,6 +8,7 @@ import type { Achievement } from '@/types';
 const CARD_GAP = 20;
 const AUTOPLAY_TIMEOUT = 3000;
 const END_THRESHOLD = 5;
+const REPEAT_COUNT = 5;
 
 export function AchievementsCarousel({
     achievements,
@@ -16,26 +17,10 @@ export function AchievementsCarousel({
 }) {
     const trackRef = useRef<HTMLDivElement>(null);
     const [isPaused, setIsPaused] = useState(false);
-    const repeatedAchievements = [
-        ...achievements,
-        ...achievements,
-        ...achievements,
-    ];
-
-    const getSetWidth = useCallback(
-        (el: HTMLDivElement): number => {
-            const cards = el.querySelectorAll<HTMLElement>('[data-card]');
-            const firstCard = cards[0];
-            const nextSetFirstCard = cards[achievements.length];
-
-            if (!firstCard || !nextSetFirstCard) {
-                return 0;
-            }
-
-            return nextSetFirstCard.offsetLeft - firstCard.offsetLeft;
-        },
-        [achievements.length],
-    );
+    const repeatedAchievements = Array.from(
+        { length: REPEAT_COUNT },
+        () => achievements,
+    ).flat();
 
     const scrollByStep = useCallback((direction: 1 | -1): void => {
         const el = trackRef.current;
@@ -57,11 +42,23 @@ export function AchievementsCarousel({
             return;
         }
 
-        const setWidth = getSetWidth(el);
+        const cards = el.querySelectorAll<HTMLElement>('[data-card]');
+        const firstCard = cards[0];
+        const secondSetFirstCard = cards[achievements.length];
+        const thirdSetFirstCard = cards[achievements.length * 2];
 
-        if (setWidth === 0) {
+        if (!firstCard || !secondSetFirstCard || !thirdSetFirstCard) {
             return;
         }
+
+        const getContentLeft = (card: HTMLElement): number =>
+            card.getBoundingClientRect().left -
+            el.getBoundingClientRect().left +
+            el.scrollLeft;
+
+        let firstSetStart = getContentLeft(firstCard);
+        let secondSetStart = getContentLeft(secondSetFirstCard);
+        let thirdSetStart = getContentLeft(thirdSetFirstCard);
 
         const setScrollLeftImmediately = (scrollLeft: number): void => {
             const previousScrollBehavior = el.style.scrollBehavior;
@@ -70,22 +67,32 @@ export function AchievementsCarousel({
             el.style.scrollBehavior = previousScrollBehavior;
         };
 
-        setScrollLeftImmediately(setWidth);
+        const measure = (): void => {
+            firstSetStart = getContentLeft(firstCard);
+            secondSetStart = getContentLeft(secondSetFirstCard);
+            thirdSetStart = getContentLeft(thirdSetFirstCard);
+        };
+
+        setScrollLeftImmediately(secondSetStart);
 
         const handleScroll = (): void => {
-            const maxScrollLeft = el.scrollWidth - el.clientWidth;
-
-            if (el.scrollLeft <= END_THRESHOLD) {
-                setScrollLeftImmediately(el.scrollLeft + setWidth);
-            } else if (el.scrollLeft >= maxScrollLeft - END_THRESHOLD) {
-                setScrollLeftImmediately(el.scrollLeft - setWidth);
+            if (el.scrollLeft <= firstSetStart + END_THRESHOLD) {
+                setScrollLeftImmediately(secondSetStart);
+            } else if (el.scrollLeft >= thirdSetStart - END_THRESHOLD) {
+                setScrollLeftImmediately(secondSetStart);
             }
         };
 
+        const resizeObserver = new ResizeObserver(measure);
+
+        resizeObserver.observe(el);
         el.addEventListener('scroll', handleScroll);
 
-        return () => el.removeEventListener('scroll', handleScroll);
-    }, [achievements.length, getSetWidth]);
+        return () => {
+            resizeObserver.disconnect();
+            el.removeEventListener('scroll', handleScroll);
+        };
+    }, [achievements.length]);
 
     useEffect(() => {
         if (isPaused || achievements.length === 0) {

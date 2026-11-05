@@ -78,24 +78,23 @@ export default function AboutHistory() {
                                         <img
                                             src={story.image}
                                             alt={story.imageAlt}
-                                            className="aspect-[4/3] w-full rounded-[24px] object-cover shadow-k-card transition-transform duration-700"
                                             loading="lazy"
-                                            decoding="async"
+                                            className="aspect-[4/3] w-full rounded-[24px] object-cover shadow-k-card transition-transform duration-700 hover:scale-[1.015]"
                                         />
                                     }
                                     right={
                                         <>
-                                            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-2 text-xs font-extrabold tracking-[0.12em] text-primary uppercase">
+                                            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-2 text-xs font-extrabold tracking-[0.12em] text-forest uppercase">
                                                 <Icon
-                                                    className="h-4 w-4 text-primary"
+                                                    className="w-4 h-4 text-gold"
                                                     aria-hidden="true"
                                                 />
                                                 {story.eyebrow}
                                             </span>
-                                            <h2 className="font-display text-3xl leading-tight font-bold text-primary">
+                                            <h2 className="font-display text-3xl leading-tight font-bold text-forest">
                                                 {story.title}
                                             </h2>
-                                            <p className="mt-4 text-lg leading-relaxed font-semibold text-primary">
+                                            <p className="mt-4 text-lg leading-relaxed font-semibold text-gold">
                                                 {story.subtitle}
                                             </p>
                                             <p className="mt-5 text-lg leading-relaxed text-ink-muted">
@@ -110,16 +109,16 @@ export default function AboutHistory() {
                         <section aria-labelledby="kiblawan-festivals">
                             <header className="mb-8 flex flex-wrap items-end justify-between gap-5">
                                 <div>
-                                    <span className="mb-3 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-2 text-xs font-extrabold tracking-[0.12em] text-primary uppercase">
+                                    <span className="mb-3 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-2 text-xs font-extrabold tracking-[0.12em] text-forest uppercase">
                                         <Palette
-                                            className="h-4 w-4 text-primary"
+                                            className="w-4 h-4 text-gold"
                                             aria-hidden="true"
                                         />
                                         Culture & celebration
                                     </span>
                                     <h2
                                         id="kiblawan-festivals"
-                                        className="font-display text-3xl font-bold text-primary md:text-4xl"
+                                        className="font-display text-3xl font-bold text-forest md:text-4xl"
                                     >
                                         Festivals of Kiblawan
                                     </h2>
@@ -129,19 +128,18 @@ export default function AboutHistory() {
                                 {festivals.map((festival) => (
                                     <article
                                         key={festival.title}
-                                        className="group overflow-hidden rounded-[24px] border border-line bg-white shadow-k-card transition-all duration-300 hover:shadow-k-glow"
+                                        className="group overflow-hidden rounded-[24px] border border-line-soft bg-white/80 shadow-k-card backdrop-blur-[14px] transition-all duration-300 hover:-translate-y-2 hover:shadow-k-glow"
                                     >
                                         <div className="overflow-hidden">
                                             <img
                                                 src={festival.image}
                                                 alt={festival.title}
-                                                className="aspect-square w-full object-cover transition-transform duration-700"
                                                 loading="lazy"
-                                                decoding="async"
+                                                className="aspect-square w-full object-cover transition-transform duration-700 group-hover:scale-105"
                                             />
                                         </div>
                                         <div className="p-6 md:p-8">
-                                            <h3 className="font-display text-xl font-bold text-primary">
+                                            <h3 className="font-display text-xl font-bold text-forest">
                                                 {festival.title}
                                             </h3>
                                             <p className="mt-3 leading-relaxed text-ink-muted">

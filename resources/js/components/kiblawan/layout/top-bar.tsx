@@ -11,15 +11,15 @@ interface TopBarProps {
 }
 
 const sizeOptions: { label: string; value: A11ySize; ariaLabel: string }[] = [
-    { label: 'A-', value: 'sm', ariaLabel: 'Decrease text size' },
-    { label: 'A', value: 'md', ariaLabel: 'Reset text size' },
-    { label: 'A+', value: 'lg', ariaLabel: 'Increase text size' },
+    { label: 'A-', value: 'sm', ariaLabel: 'Decrease text size (A-)' },
+    { label: 'A', value: 'md', ariaLabel: 'Reset text size (A)' },
+    { label: 'A+', value: 'lg', ariaLabel: 'Increase text size (A+)' },
 ];
 
 const languages: { code: Language; label: string; ariaLabel: string }[] = [
-    { code: 'en', label: 'EN', ariaLabel: 'English' },
-    { code: 'fil', label: 'FIL', ariaLabel: 'Filipino' },
-    { code: 'ceb', label: 'CEB', ariaLabel: 'Cebuano' },
+    { code: 'en', label: 'EN', ariaLabel: 'English (EN)' },
+    { code: 'fil', label: 'FIL', ariaLabel: 'Filipino (FIL)' },
+    { code: 'ceb', label: 'CEB', ariaLabel: 'Cebuano (CEB)' },
 ];
 
 export default function TopBar({

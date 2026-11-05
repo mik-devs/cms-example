@@ -25,7 +25,8 @@ export function MayorCorner({
     return (
         <Section
             id="mayor-corner"
-            className="relative overflow-hidden bg-[url('/images/kib.png')] bg-cover bg-center bg-no-repeat"
+            className="relative overflow-hidden bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: 'url(/images/kib.png)' }}
         >
             {/* Light overlay so the background isn't too distracting */}
             <div className="absolute inset-0 z-0 bg-cream/90" />

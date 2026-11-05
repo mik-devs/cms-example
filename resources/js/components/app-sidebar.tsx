@@ -2,6 +2,7 @@ import { Link, router, usePage } from '@inertiajs/react';
 import {
     Award,
     BarChart3,
+    BookOpen,
     BriefcaseBusiness,
     Building2,
     FileText,
@@ -12,6 +13,7 @@ import {
     LogOut,
     MapPin,
     MapPinned,
+    MessageSquare,
     Mic,
     Newspaper,
     ScrollText,
@@ -91,6 +93,12 @@ const navGroups: AdminNavGroup[] = [
                 permission: 'manage settings',
             },
             {
+                title: 'About Pages',
+                href: '/admin/pages',
+                icon: BookOpen,
+                permission: 'manage settings',
+            },
+            {
                 title: 'Services',
                 href: '/admin/services',
                 icon: Landmark,
@@ -123,13 +131,24 @@ const navGroups: AdminNavGroup[] = [
                 title: 'Bids',
                 href: '/admin/bids',
                 icon: Gavel,
-                permission: 'manage bids',
+                permission: 'manage transparency',
             },
             {
                 title: 'Reports',
                 href: '/admin/annual-reports',
                 icon: FileText,
-                permission: 'manage reports',
+                permission: 'manage transparency',
+            },
+        ],
+    },
+    {
+        label: 'Communication',
+        items: [
+            {
+                title: 'Internal Chat',
+                href: '/admin/chat',
+                icon: MessageSquare,
+                permission: 'access internal chat',
             },
         ],
     },

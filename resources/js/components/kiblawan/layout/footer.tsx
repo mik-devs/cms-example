@@ -165,7 +165,7 @@ export default function Footer() {
                                     >
                                         <contact.icon className="mt-1 size-4 shrink-0 text-gold" />
                                         <div>
-                                            <span className="mb-0.5 block text-[0.75rem] tracking-wide text-white/50 uppercase">
+                                            <span className="mb-0.5 block text-[0.75rem] tracking-wide text-white/70 uppercase">
                                                 {contact.label}
                                             </span>
                                             {contact.href ? (
@@ -189,7 +189,7 @@ export default function Footer() {
 
             <div className="border-t border-white/5 bg-black/25 py-6 text-[0.8rem]">
                 <div className="mx-auto flex max-w-[1320px] flex-col flex-wrap items-center justify-center gap-4 px-4 text-center md:flex-row md:justify-between md:text-left">
-                    <p className="m-0 text-white/45">
+                    <p className="m-0 text-white/65">
                         © 2026{' '}
                         {siteSettings.site_name ?? 'Municipality of Kiblawan'}.
                         All rights reserved.
@@ -199,7 +199,7 @@ export default function Footer() {
                             <Link
                                 key={link.label}
                                 href={link.href}
-                                className="text-white/45 transition-colors hover:text-gold"
+                                className="text-white/65 transition-colors hover:text-gold"
                             >
                                 {link.label}
                             </Link>

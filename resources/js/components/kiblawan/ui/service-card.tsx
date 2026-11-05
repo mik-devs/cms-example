@@ -11,9 +11,9 @@ export function ServiceCard({ service }: { service: Service }) {
             <div className="mx-auto mb-5 flex size-[66px] items-center justify-center rounded-full bg-green-soft text-green-dark ring-1 ring-green/10 transition-colors duration-300 ease-k-smooth group-hover:bg-green group-hover:text-white">
                 <DynamicIcon name={service.icon} className="size-6" />
             </div>
-            <h4 className="mb-3 font-sans text-[1.05rem] font-extrabold tracking-[0.01em] text-primary">
+            <h3 className="mb-3 font-sans text-[1.05rem] font-extrabold tracking-[0.01em] text-primary">
                 {service.title}
-            </h4>
+            </h3>
             <p className="m-0 text-[0.84rem] leading-snug text-ink-muted">
                 {service.description}
             </p>

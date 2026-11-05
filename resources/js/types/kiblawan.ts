@@ -201,6 +201,16 @@ export interface MayorMessage {
     published_at: string | null;
 }
 
+// Mirrors App\Models\Page
+export interface Page {
+    id: number;
+    slug: string;
+    title: string;
+    content: string;
+    created_at: string;
+    updated_at: string;
+}
+
 // Mirrors App\Http\Controllers\Public\HomeController::index() props
 export interface HomePageProps {
     settings: Record<string, string>;

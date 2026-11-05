@@ -12,8 +12,8 @@ class HeroSlideSeeder extends Seeder
         $slides = [
             [
                 'kicker' => 'The Friendly and Disciplined Municipality',
-                'title' => 'Welcome to the Municipality of Kiblawan',
-                'title_emphasis' => 'Municipality, Kiblawan',
+                'title' => 'Welcome to the <em>Municipality</em> of <em>Kiblawan</em>',
+                'title_emphasis' => 'Municipality', // Inayos para mag-match sa <em>
                 'subtitle' => 'Home to a united, disciplined, and hospitable community driving toward sustainable progress.',
                 'image' => '/images/kib.png',
                 'cta_text' => 'Explore Services',
@@ -22,9 +22,9 @@ class HeroSlideSeeder extends Seeder
             ],
             [
                 'kicker' => 'Tourism',
-                'title' => 'Discover the Beauty of Kiblawan',
-                'title_emphasis' => 'Beauty, Kiblawan',
-                'subtitle' => 'From lush mountains to serene waterfalls, Kiblawan offers unforgettable natural wonders and rich agricultural heritage.',
+                'title' => 'Discover the <em>Beauty</em> of Kiblawan',
+                'title_emphasis' => 'Beauty', // Inayos para mag-match
+                'subtitle' => 'Unveiling the breath-taking landscapes, rich heritage, and hidden gems of our town.',
                 'image' => '/tourism/spot.png',
                 'cta_text' => 'Plan Your Visit',
                 'cta_link' => '/tourism',
@@ -32,23 +32,13 @@ class HeroSlideSeeder extends Seeder
             ],
             [
                 'kicker' => 'Araw ng Kiblawan',
-                'title' => 'Celebrate the Town\'s Heritage',
-                'title_emphasis' => 'Town, Heritage',
+                'title' => 'Celebrate the <em>Town</em>\'s Heritage',
+                'title_emphasis' => 'Town',
                 'subtitle' => 'A grand showcase of unity, rich traditions, and a bountiful harvest at the Kastifun Festival.',
                 'image' => '/images/araw.png',
                 'cta_text' => 'View Events',
                 'cta_link' => '/events/araw-ng-kiblawan',
                 'order' => 3,
-            ],
-            [
-                'kicker' => 'Award & Recognition',
-                'title' => 'Kiblawan Achieves IDEAL Level of Functionality',
-                'title_emphasis' => 'Kiblawan, IDEAL',
-                'subtitle' => 'Congratulations to the Municipal Council for the Protection of Children for this outstanding achievement.',
-                'image' => '/images/award/ideal.png',
-                'cta_text' => 'View Achievements',
-                'cta_link' => '/achievements',
-                'order' => 4,
             ],
         ];
 

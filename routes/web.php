@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AchievementController;
 use App\Http\Controllers\Admin\AnnualReportController;
 use App\Http\Controllers\Admin\BarangayController;
 use App\Http\Controllers\Admin\BidController;
+use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\Admin\CitizenCharterController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EmergencyContactController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\Admin\JobController;
 use App\Http\Controllers\Admin\MayorMessageController;
 use App\Http\Controllers\Admin\OfficeController;
 use App\Http\Controllers\Admin\OfficialController;
+use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\StatController;
@@ -119,13 +121,17 @@ Route::prefix('admin')
             Route::resource('emergency-contacts', EmergencyContactController::class)
                 ->except('show');
         });
-        Route::middleware('can:manage bids')->group(function () {
+        Route::middleware('can:manage transparency')->group(function () {
             Route::resource('bids', BidController::class)
                 ->except('show');
-        });
-        Route::middleware('can:manage reports')->group(function () {
             Route::resource('annual-reports', AnnualReportController::class)
                 ->except('show');
+        });
+        Route::middleware('can:access internal chat')->group(function () {
+            Route::get('chat', [ChatController::class, 'index'])
+                ->name('chat.index');
+            Route::post('chat', [ChatController::class, 'store'])
+                ->name('chat.store');
         });
         Route::middleware('can:manage officials')->group(function () {
             Route::resource('officials', OfficialController::class)
@@ -140,6 +146,12 @@ Route::prefix('admin')
                 ->except('show');
             Route::resource('offices', OfficeController::class)
                 ->except('show');
+            Route::get('pages', [PageController::class, 'index'])
+                ->name('pages.index');
+            Route::get('pages/{slug}/edit', [PageController::class, 'edit'])
+                ->name('pages.edit');
+            Route::put('pages/{slug}', [PageController::class, 'update'])
+                ->name('pages.update');
             Route::get('settings', [SettingController::class, 'index'])
                 ->name('settings.index');
             Route::put('settings', [SettingController::class, 'update'])

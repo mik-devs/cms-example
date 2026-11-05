@@ -16,9 +16,9 @@ export function TourCard({ spot }: { spot: TourismSpot }) {
                 decoding="async"
             />
             <div className="absolute inset-x-0 bottom-0 z-[2] bg-linear-to-t from-dark-brown/95 via-dark-brown/60 to-transparent p-9 px-7 text-white">
-                <h4 className="m-0 mb-3 font-display text-xl text-gold">
+                <h3 className="m-0 mb-3 font-display text-xl text-gold">
                     {spot.name}
-                </h4>
+                </h3>
                 <p className="m-0 text-sm leading-snug text-cream/85">
                     {spot.description}
                 </p>

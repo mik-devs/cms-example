@@ -33,7 +33,6 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
         >
             {slides.map((slide, index) => {
                 const isActive = index === current;
-                const isNext = index === (current + 1) % slides.length;
 
                 return (
                     <div
@@ -42,6 +41,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                         aria-roledescription="slide"
                         aria-label={`${index + 1} of ${slides.length}`}
                         aria-hidden={!isActive}
+                        inert={!isActive}
                         className={cn(
                             'absolute inset-0 transition-opacity duration-[1000ms] ease-k-smooth',
                             isActive

@@ -8,26 +8,15 @@ import type { News } from '@/types';
 const CARD_GAP = 20;
 const AUTOPLAY_TIMEOUT = 3000;
 const END_THRESHOLD = 5;
+const REPEAT_COUNT = 5;
 
 export function NewsCarousel({ news }: { news: News[] }) {
     const trackRef = useRef<HTMLDivElement>(null);
     const [isPaused, setIsPaused] = useState(false);
-    const repeatedNews = [...news, ...news, ...news];
-
-    const getSetWidth = useCallback(
-        (el: HTMLDivElement): number => {
-            const cards = el.querySelectorAll<HTMLElement>('[data-card]');
-            const firstCard = cards[0];
-            const nextSetFirstCard = cards[news.length];
-
-            if (!firstCard || !nextSetFirstCard) {
-                return 0;
-            }
-
-            return nextSetFirstCard.offsetLeft - firstCard.offsetLeft;
-        },
-        [news.length],
-    );
+    const repeatedNews = Array.from(
+        { length: REPEAT_COUNT },
+        () => news,
+    ).flat();
 
     const scrollByStep = useCallback((direction: 1 | -1): void => {
         const el = trackRef.current;
@@ -49,11 +38,23 @@ export function NewsCarousel({ news }: { news: News[] }) {
             return;
         }
 
-        const setWidth = getSetWidth(el);
+        const cards = el.querySelectorAll<HTMLElement>('[data-card]');
+        const firstCard = cards[0];
+        const secondSetFirstCard = cards[news.length];
+        const thirdSetFirstCard = cards[news.length * 2];
 
-        if (setWidth === 0) {
+        if (!firstCard || !secondSetFirstCard || !thirdSetFirstCard) {
             return;
         }
+
+        const getContentLeft = (card: HTMLElement): number =>
+            card.getBoundingClientRect().left -
+            el.getBoundingClientRect().left +
+            el.scrollLeft;
+
+        let firstSetStart = getContentLeft(firstCard);
+        let secondSetStart = getContentLeft(secondSetFirstCard);
+        let thirdSetStart = getContentLeft(thirdSetFirstCard);
 
         const setScrollLeftImmediately = (scrollLeft: number): void => {
             const previousScrollBehavior = el.style.scrollBehavior;
@@ -62,22 +63,32 @@ export function NewsCarousel({ news }: { news: News[] }) {
             el.style.scrollBehavior = previousScrollBehavior;
         };
 
-        setScrollLeftImmediately(setWidth);
+        const measure = (): void => {
+            firstSetStart = getContentLeft(firstCard);
+            secondSetStart = getContentLeft(secondSetFirstCard);
+            thirdSetStart = getContentLeft(thirdSetFirstCard);
+        };
+
+        setScrollLeftImmediately(secondSetStart);
 
         const handleScroll = (): void => {
-            const maxScrollLeft = el.scrollWidth - el.clientWidth;
-
-            if (el.scrollLeft <= END_THRESHOLD) {
-                setScrollLeftImmediately(el.scrollLeft + setWidth);
-            } else if (el.scrollLeft >= maxScrollLeft - END_THRESHOLD) {
-                setScrollLeftImmediately(el.scrollLeft - setWidth);
+            if (el.scrollLeft <= firstSetStart + END_THRESHOLD) {
+                setScrollLeftImmediately(secondSetStart);
+            } else if (el.scrollLeft >= thirdSetStart - END_THRESHOLD) {
+                setScrollLeftImmediately(secondSetStart);
             }
         };
 
+        const resizeObserver = new ResizeObserver(measure);
+
+        resizeObserver.observe(el);
         el.addEventListener('scroll', handleScroll);
 
-        return () => el.removeEventListener('scroll', handleScroll);
-    }, [getSetWidth, news.length]);
+        return () => {
+            resizeObserver.disconnect();
+            el.removeEventListener('scroll', handleScroll);
+        };
+    }, [news.length]);
 
     useEffect(() => {
         if (isPaused || news.length === 0) {

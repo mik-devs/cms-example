@@ -38,18 +38,18 @@ export default function AboutGeography() {
                         <AboutRevealRow
                             left={
                                 <div className="flex flex-col justify-center">
-                                    <span className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-2 text-xs font-extrabold tracking-[0.12em] text-primary uppercase">
+                                    <span className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-2 text-xs font-extrabold tracking-[0.12em] text-forest uppercase">
                                         <Globe
-                                            className="h-4 w-4 text-primary"
+                                            className="w-4 h-4 text-gold"
                                             aria-hidden="true"
                                         />
                                         Place & landscape
                                     </span>
-                                    <h2 className="font-display text-[clamp(1.8rem,3vw,2.6rem)] leading-tight font-bold text-primary">
+                                    <h2 className="font-display text-[clamp(1.8rem,3vw,2.6rem)] leading-tight font-bold text-forest">
                                         A Land of Valleys, Mountains, and
                                         Agricultural Prosperity
                                     </h2>
-                                    <p className="mt-4 text-lg leading-7 font-semibold text-primary">
+                                    <p className="mt-4 text-lg leading-7 font-semibold text-gold">
                                         Spanning Over 258 Square Kilometers of
                                         Diverse Terrain
                                     </p>
@@ -71,12 +71,10 @@ export default function AboutGeography() {
                                     <img
                                         src="/images/about/kiblawan-farm.png"
                                         alt="Agricultural landscape in Kiblawan"
-                                        loading="lazy"
-                                        decoding="async"
-                                        className="absolute inset-0 size-full object-cover transition-transform duration-700"
+                                        className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-105"
                                     />
-                                    <div className="absolute inset-0 bg-linear-to-t from-primary/45 via-transparent to-transparent" />
-                                    <span className="absolute right-5 bottom-5 rounded-full border border-white/40 bg-primary/70 px-4 py-2 text-sm font-semibold text-white">
+                                    <div className="absolute inset-0 bg-gradient-to-t from-forest/45 via-transparent to-transparent" />
+                                    <span className="absolute right-5 bottom-5 rounded-full border border-white/40 bg-forest/70 px-4 py-2 text-sm font-semibold text-white backdrop-blur-md">
                                         Kiblawan, Davao del Sur
                                     </span>
                                 </div>
@@ -85,16 +83,16 @@ export default function AboutGeography() {
 
                         <section aria-labelledby="geography-travel">
                             <header className="mb-8 max-w-3xl">
-                                <span className="mb-3 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-2 text-xs font-extrabold tracking-[0.12em] text-primary uppercase">
+                                <span className="mb-3 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-2 text-xs font-extrabold tracking-[0.12em] text-forest uppercase">
                                     <Globe
-                                        className="h-4 w-4 text-primary"
+                                        className="w-4 h-4 text-gold"
                                         aria-hidden="true"
                                     />
                                     Getting here & getting around
                                 </span>
                                 <h2
                                     id="geography-travel"
-                                    className="font-display text-[clamp(1.8rem,3vw,2.6rem)] leading-tight font-bold text-primary"
+                                    className="font-display text-[clamp(1.8rem,3vw,2.6rem)] leading-tight font-bold text-forest"
                                 >
                                     Climate & Transportation
                                 </h2>
@@ -110,15 +108,14 @@ export default function AboutGeography() {
                                     }) => (
                                         <article
                                             key={title}
-                                            className="group grid overflow-hidden rounded-[24px] border border-line bg-white shadow-k-card transition-all duration-300 hover:shadow-k-glow sm:grid-cols-[minmax(12rem,0.8fr)_1.2fr]"
+                                            className="group grid overflow-hidden rounded-[24px] border border-line-soft bg-white/80 shadow-k-card backdrop-blur-[14px] transition-all duration-300 hover:-translate-y-1 hover:shadow-k-glow sm:grid-cols-[minmax(12rem,0.8fr)_1.2fr]"
                                         >
                                             <div className="relative min-h-52 overflow-hidden bg-green-soft/50">
                                                 <img
                                                     src={image}
                                                     alt={imageAlt}
                                                     loading="lazy"
-                                                    decoding="async"
-                                                    className={`absolute inset-0 size-full transition-transform duration-700 ${
+                                                    className={`absolute inset-0 size-full transition-transform duration-700 group-hover:scale-105 ${
                                                         title.startsWith(
                                                             'Transportation',
                                                         )
@@ -126,7 +123,7 @@ export default function AboutGeography() {
                                                             : 'object-cover'
                                                     }`}
                                                 />
-                                                <div className="absolute top-4 left-4 flex size-11 items-center justify-center rounded-full border border-white/70 bg-white text-primary shadow-k-soft">
+                                                <div className="absolute top-4 left-4 flex size-11 items-center justify-center rounded-full border border-white/70 bg-white/85 text-gold shadow-k-soft backdrop-blur-md">
                                                     <Icon
                                                         className="size-5"
                                                         aria-hidden="true"
@@ -134,7 +131,7 @@ export default function AboutGeography() {
                                                 </div>
                                             </div>
                                             <div className="p-6 md:p-8">
-                                                <h3 className="font-display text-xl font-bold text-primary">
+                                                <h3 className="font-display text-xl font-bold text-forest">
                                                     {title}
                                                 </h3>
                                                 <p className="mt-3 leading-7 text-ink-muted">

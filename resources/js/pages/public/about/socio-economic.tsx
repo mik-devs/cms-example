@@ -1,6 +1,4 @@
 import { ArrowUpRight, Compass, Sprout } from 'lucide-react';
-import { useInView } from '@/hooks/use-in-view';
-import { cn } from '@/lib/utils';
 import { AboutReadNext } from '@/components/kiblawan/ui/about-read-next';
 import { Container } from '@/components/kiblawan/ui/container';
 import { PageHeader } from '@/components/kiblawan/ui/page-header';
@@ -71,20 +69,11 @@ export default function AboutSocioEconomic() {
                                 eyebrow="Local economy"
                                 title="Livelihoods rooted in land and enterprise"
                                 description="Agriculture, natural resources, and local producers support Kiblawan’s economy and connect the municipality with markets across Mindanao."
-                                icon={
-                                    <Sprout className="h-4 w-4 text-primary" />
-                                }
+                                icon={<Sprout className="w-4 h-4 text-gold" />}
                             />
                             <div className="grid gap-8 md:grid-cols-2">
-                                {economy.map((item, index) => (
-                                    <ScrollSlideIn
-                                        key={item.title}
-                                        direction={
-                                            index % 2 === 0 ? 'left' : 'right'
-                                        }
-                                    >
-                                        <ImageCard item={item} />
-                                    </ScrollSlideIn>
+                                {economy.map((item) => (
+                                    <ImageCard key={item.title} item={item} />
                                 ))}
                             </div>
                         </section>
@@ -95,20 +84,11 @@ export default function AboutSocioEconomic() {
                                 eyebrow="Places & experiences"
                                 title="Discover Kiblawan"
                                 description="Mountain scenery, cultural heritage, and natural attractions create memorable ways to experience the municipality."
-                                icon={
-                                    <Compass className="h-4 w-4 text-primary" />
-                                }
+                                icon={<Compass className="w-4 h-4 text-gold" />}
                             />
                             <div className="grid gap-8 md:grid-cols-3">
-                                {tourism.map((item, index) => (
-                                    <ScrollSlideIn
-                                        key={item.title}
-                                        direction={
-                                            index % 2 === 0 ? 'left' : 'right'
-                                        }
-                                    >
-                                        <ImageCard item={item} />
-                                    </ScrollSlideIn>
+                                {tourism.map((item) => (
+                                    <ImageCard key={item.title} item={item} />
                                 ))}
                             </div>
                         </section>
@@ -118,29 +98,6 @@ export default function AboutSocioEconomic() {
                 </Container>
             </Section>
         </PublicLayout>
-    );
-}
-
-function ScrollSlideIn({
-    children,
-    direction,
-}: {
-    children: React.ReactNode;
-    direction: 'left' | 'right';
-}) {
-    const { ref, inView } = useInView<HTMLDivElement>({ threshold: 0.12 });
-
-    return (
-        <div
-            ref={ref}
-            className={cn(
-                'h-full',
-                direction === 'left' ? 'slide-in-left' : 'slide-in-right',
-                inView && 'is-visible',
-            )}
-        >
-            {children}
-        </div>
     );
 }
 
@@ -160,13 +117,13 @@ function SectionHeading({
     return (
         <header className="mb-8 flex flex-col gap-5 md:mb-10 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">
-                <span className="mb-3 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-2 text-xs font-extrabold tracking-[0.12em] text-primary uppercase">
+                <span className="mb-3 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-2 text-xs font-extrabold tracking-[0.12em] text-forest uppercase">
                     {icon}
                     {eyebrow}
                 </span>
                 <h2
                     id={id}
-                    className="font-display text-[clamp(1.8rem,3vw,2.6rem)] leading-tight font-bold text-primary"
+                    className="font-display text-[clamp(1.8rem,3vw,2.6rem)] leading-tight font-bold text-forest"
                 >
                     {title}
                 </h2>
@@ -175,7 +132,7 @@ function SectionHeading({
                 </p>
             </div>
             <ArrowUpRight
-                className="hidden size-8 shrink-0 text-primary md:block"
+                className="hidden size-8 shrink-0 text-gold md:block"
                 aria-hidden="true"
             />
         </header>
@@ -188,18 +145,17 @@ function ImageCard({
     item: { title: string; image: string; description: string };
 }) {
     return (
-        <article className="group flex h-full flex-col overflow-hidden rounded-[24px] border border-line bg-white shadow-k-card transition-all duration-300 hover:shadow-k-glow">
+        <article className="group flex h-full flex-col overflow-hidden rounded-[24px] border border-line-soft bg-white/80 shadow-k-card backdrop-blur-[14px] transition-all duration-300 hover:-translate-y-1 hover:shadow-k-glow">
             <div className="overflow-hidden">
                 <img
                     src={item.image}
                     alt={item.title}
                     loading="lazy"
-                    decoding="async"
-                    className="aspect-[16/10] w-full object-cover transition-transform duration-700"
+                    className="aspect-[16/10] w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
             </div>
             <div className="flex flex-1 flex-col p-6 md:p-8">
-                <h3 className="font-display text-xl leading-snug font-bold text-primary">
+                <h3 className="font-display text-xl leading-snug font-bold text-forest">
                     {item.title}
                 </h3>
                 <p className="mt-3 flex-1 leading-7 text-ink-muted">

@@ -1,3 +1,4 @@
+import { Head } from '@inertiajs/react';
 import { AchievementsCarousel } from '@/components/kiblawan/sections/achievements-carousel';
 import { BarangayMap } from '@/components/kiblawan/sections/barangay-map';
 import { CitizenServices } from '@/components/kiblawan/sections/citizen-services';
@@ -58,9 +59,25 @@ export default function Home({
     mayorMessage,
 }: HomeProps) {
     const mapEmbedUrl = settings.map_embed ?? '';
+    const lcpImage = heroSlides[0]?.image_url;
 
     return (
         <PublicLayout title="Municipality of Kiblawan">
+            <Head>
+                <meta
+                    head-key="description"
+                    name="description"
+                    content="Official Website of the Municipality of Kiblawan, Davao del Sur. Serbisyong Mabilis, Bayang Maasahan."
+                />
+                {lcpImage && (
+                    <link
+                        rel="preload"
+                        as="image"
+                        href={lcpImage}
+                        fetchPriority="high"
+                    />
+                )}
+            </Head>
             <HeroSlider slides={heroSlides} />
             <QuickStats stats={stats} />
             <CitizenServices services={services} />

@@ -27,9 +27,9 @@ export function AchievementCard({ achievement }: { achievement: Achievement }) {
                 <div className="absolute -top-[1.1rem] right-6 z-[3] rounded-full bg-gold px-3.5 py-1 font-sans text-[0.78rem] font-extrabold text-primary shadow-sm">
                     {achievement.badge_year}
                 </div>
-                <h4 className="m-0 mb-2.5 font-display text-[1.15rem] leading-tight text-primary">
+                <h3 className="m-0 mb-2.5 font-display text-[1.15rem] leading-tight text-primary">
                     {achievement.title}
-                </h4>
+                </h3>
                 <p className="m-0 line-clamp-3 text-sm leading-relaxed text-ink-muted">
                     {achievement.description}
                 </p>
