@@ -1,7 +1,7 @@
-# Base Image
-FROM php:8.3-cli
+# Base Image (PHP 8.5 para tumugma sa local setup mo)
+FROM php:8.5-cli
 
-# Install system dependencies (Inalis ang mga dev libraries dahil si mlocati na ang bahala)
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Use MLocati's installer for PHP extensions (Fixes OOM crash)
+# Use MLocati's installer for PHP extensions (Prevents OOM crashes)
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 RUN install-php-extensions pdo_pgsql pgsql mbstring exif pcntl bcmath gd
 
@@ -43,5 +43,5 @@ RUN php artisan storage:link || true
 # Expose ports
 EXPOSE 8000
 
-# Start Laravel using PHP's built-in server (Fixes the "Not Found" routing error)
+# Start Laravel using PHP's built-in server
 CMD php -S 0.0.0.0:${PORT:-8000} -t public
