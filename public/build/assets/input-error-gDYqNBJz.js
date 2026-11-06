@@ -1,0 +1,1 @@
+import{n as e,o as t}from"./createLucideIcon-BMCFxNhx.js";var n=t();function r({message:t,className:r=``,...i}){return t?(0,n.jsx)(`p`,{...i,className:e(`text-sm text-red-600 dark:text-red-400`,r),children:t}):null}export{r as t};

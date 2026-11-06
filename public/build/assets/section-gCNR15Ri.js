@@ -1,0 +1,1 @@
+import{n as e,o as t}from"./createLucideIcon-BMCFxNhx.js";var n=t();function r({className:t,children:r,id:i,as:a=`section`,style:o}){return(0,n.jsx)(a,{id:i,className:e(`relative py-20 max-[991px]:py-12 max-[575px]:py-12`,t),style:o,children:r})}export{r as t};
