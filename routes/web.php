@@ -17,10 +17,12 @@ use App\Http\Controllers\Admin\OfficeController;
 use App\Http\Controllers\Admin\OfficialController;
 use App\Http\Controllers\Admin\OfficialVideoController;
 use App\Http\Controllers\Admin\PageController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\StatController;
 use App\Http\Controllers\Admin\TourismController as AdminTourismController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\BarangayController as PublicBarangayController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GovernmentController;
@@ -133,6 +135,8 @@ Route::prefix('admin')
                 ->name('chat.index');
             Route::post('chat', [ChatController::class, 'store'])
                 ->name('chat.store');
+            Route::post('chat/typing', [ChatController::class, 'typing'])
+                ->name('chat.typing');
         });
         Route::middleware('can:manage officials')->group(function () {
             Route::resource('officials', OfficialController::class)
@@ -167,6 +171,12 @@ Route::prefix('admin')
         Route::middleware('can:manage stats')->group(function () {
             Route::resource('stats', StatController::class)
                 ->except('show');
+        });
+        Route::middleware('role:super_admin')->group(function () {
+            Route::resource('users', UserController::class)
+                ->except('show');
+            Route::resource('roles', RoleController::class)
+                ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
         });
     });
 

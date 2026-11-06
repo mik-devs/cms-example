@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Events\MessageSent;
+use App\Events\UserTyping;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreMessageRequest;
 use App\Models\Message;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -57,14 +59,41 @@ class ChatController extends Controller
 
     public function store(StoreMessageRequest $request): RedirectResponse
     {
+        $attachmentPath = null;
+        $attachmentName = null;
+
+        if ($request->hasFile('attachment')) {
+            $file = $request->file('attachment');
+            $attachmentPath = $file->store('chat-attachments', 'public');
+            $attachmentName = $file->getClientOriginalName();
+        }
+
         $message = Message::query()->create([
             'sender_id' => $request->user()->getKey(),
             'receiver_id' => $request->integer('receiver_id'),
-            'message' => $request->string('message')->toString(),
+            'message' => $request->filled('message') ? $request->string('message')->toString() : null,
+            'attachment_path' => $attachmentPath,
+            'attachment_name' => $attachmentName,
         ]);
 
         MessageSent::dispatch($message->loadMissing('sender'));
 
         return back();
+    }
+
+    public function typing(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'receiver_id' => ['required', 'integer', 'exists:users,id'],
+            'is_typing' => ['required', 'boolean'],
+        ]);
+
+        UserTyping::dispatch(
+            $request->user()->getKey(),
+            $validated['receiver_id'],
+            (bool) $validated['is_typing'],
+        );
+
+        return response()->json(['ok' => true]);
     }
 }

@@ -136,4 +136,3 @@ it('passes official videos to the public home page', function () {
                 ->where('officialVideos.1.title', 'First Active Video')
         );
 });
-

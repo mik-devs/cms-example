@@ -1,5 +1,16 @@
 import { Head, router, usePage } from '@inertiajs/react';
-import { MessageSquare, Search, Send, Users } from 'lucide-react';
+import axios from 'axios';
+import {
+    ArrowLeft,
+    Download,
+    FileText,
+    MessageSquare,
+    Paperclip,
+    Search,
+    Send,
+    Users,
+    X,
+} from 'lucide-react';
 import {
     useEffect,
     useMemo,
@@ -10,6 +21,7 @@ import {
 import {
     index as chatIndex,
     store as chatStore,
+    typing as chatTyping,
 } from '@/actions/App/Http/Controllers/Admin/ChatController';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
@@ -26,7 +38,10 @@ interface ChatMessage {
     id: number;
     sender_id: number;
     receiver_id: number;
-    message: string;
+    message: string | null;
+    attachment_path?: string | null;
+    attachment_name?: string | null;
+    attachment_url?: string | null;
     created_at: string | null;
 }
 
@@ -54,6 +69,36 @@ function formatTime(value: string | null): string {
     }).format(new Date(value));
 }
 
+function isImageAttachment(filenameOrPath: string | null | undefined): boolean {
+    if (!filenameOrPath) {
+        return false;
+    }
+
+    const ext = filenameOrPath.split('.').pop()?.toLowerCase();
+    return ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'bmp'].includes(
+        ext ?? '',
+    );
+}
+
+function getAttachmentUrl(item: ChatMessage): string {
+    if (item.attachment_url) {
+        return item.attachment_url;
+    }
+
+    if (!item.attachment_path) {
+        return '#';
+    }
+
+    if (
+        item.attachment_path.startsWith('http') ||
+        item.attachment_path.startsWith('/')
+    ) {
+        return item.attachment_path;
+    }
+
+    return `/storage/${item.attachment_path}`;
+}
+
 export default function ChatIndex({
     users,
     activeUserId,
@@ -67,12 +112,55 @@ export default function ChatIndex({
     const [message, setMessage] = useState('');
     const [search, setSearch] = useState('');
     const [isSending, setIsSending] = useState(false);
+    const [showChatMobile, setShowChatMobile] = useState(false);
     const [unreadByUser, setUnreadByUser] = useState<Record<number, number>>(
         {},
     );
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const messageInputRef = useRef<HTMLTextAreaElement>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const [isTyping, setIsTyping] = useState(false);
+    const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    const [attachment, setAttachment] = useState<File | null>(null);
+    const [attachmentPreview, setAttachmentPreview] = useState<string | null>(
+        null,
+    );
+
+    function sendTypingStatus(receiverId: number, isTypingNow: boolean): void {
+        axios
+            .post('/admin/chat/typing', {
+                receiver_id: receiverId,
+                is_typing: isTypingNow,
+            })
+            .catch(() => {
+                // Silently ignore typing status errors so it doesn't break the UI
+            });
+    }
+
+    function clearAttachment(): void {
+        setAttachment(null);
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+        }
+    }
+
+    useEffect(() => {
+        if (!attachment) {
+            setAttachmentPreview(null);
+            return;
+        }
+
+        if (attachment.type.startsWith('image/')) {
+            const url = URL.createObjectURL(attachment);
+            setAttachmentPreview(url);
+            return () => URL.revokeObjectURL(url);
+        }
+
+        setAttachmentPreview(null);
+    }, [attachment]);
 
     const activeUser = useMemo(
         () => users.find((user) => user.id === activeUserId) ?? null,
@@ -143,6 +231,29 @@ export default function ChatIndex({
             }));
         });
 
+        channel.listen('UserTyping', (e: { sender_id: number; is_typing: boolean }) => {
+            if (e.sender_id !== activeUserId) {
+                return;
+            }
+
+            setIsTyping(e.is_typing);
+
+            if (e.is_typing) {
+                if (typingTimeoutRef.current) {
+                    clearTimeout(typingTimeoutRef.current);
+                }
+
+                typingTimeoutRef.current = setTimeout(() => {
+                    setIsTyping(false);
+                }, 3000);
+            }else {
+                if (typingTimeoutRef.current) {
+                    clearTimeout(typingTimeoutRef.current);
+                    typingTimeoutRef.current = null;
+                }
+            }
+        });
+
         return () => {
             echo.leave(`chat.${currentUserId}`);
         };
@@ -159,15 +270,18 @@ export default function ChatIndex({
 
     useEffect(() => {
         messageInputRef.current?.focus();
+        clearAttachment();
     }, [activeUserId]);
 
     function selectUser(userId: number): void {
+        setShowChatMobile(true);
         router.get(
             chatIndex.url({ query: { user_id: userId } }),
             {},
             {
                 preserveScroll: true,
                 preserveState: true,
+                forceFormData: Boolean(attachment),
                 replace: true,
             },
         );
@@ -176,22 +290,33 @@ export default function ChatIndex({
     function sendMessage(): void {
         const body = message.trim();
 
-        if (!body || activeUserId === null || isSending) {
+        if ((!body && !attachment) || activeUserId === null || isSending) {
             return;
         }
 
         setIsSending(true);
+
+        if (typingTimeoutRef.current) {
+            clearTimeout(typingTimeoutRef.current);
+            typingTimeoutRef.current = null;
+        }
+        sendTypingStatus(activeUserId, false);
 
         router.post(
             chatStore.url(),
             {
                 receiver_id: activeUserId,
                 message: body,
+                attachment: attachment ?? undefined,
             },
             {
                 preserveScroll: true,
                 preserveState: true,
-                onSuccess: () => setMessage(''),
+                forceFormData: Boolean(attachment),
+                onSuccess: () => {
+                    setMessage('');
+                    clearAttachment();
+                },
                 onFinish: () => setIsSending(false),
             },
         );
@@ -212,7 +337,12 @@ export default function ChatIndex({
         <>
             <Head title="Internal Chat" />
             <div className="flex h-[calc(100dvh-4rem)] overflow-hidden bg-(--color-bg-light)">
-                <aside className="flex w-64 shrink-0 flex-col border-r border-line bg-white sm:w-72">
+                <aside
+                    className={cn(
+                        'w-full flex-col border-r border-line bg-white md:flex md:w-64 md:shrink-0 lg:w-72',
+                        showChatMobile ? 'hidden md:flex' : 'flex',
+                    )}
+                >
                     <div className="border-b border-line px-4 py-4">
                         <div className="flex items-center gap-2">
                             <span className="flex size-9 items-center justify-center rounded-xl bg-primary/10 text-primary">
@@ -313,10 +443,24 @@ export default function ChatIndex({
                     </div>
                 </aside>
 
-                <section className="flex min-w-0 flex-1 flex-col">
+                <section
+                    className={cn(
+                        'min-w-0 flex-1 flex-col',
+                        showChatMobile ? 'flex' : 'hidden md:flex',
+                    )}
+                >
                     {activeUser ? (
                         <>
                             <header className="flex h-16 shrink-0 items-center gap-3 border-b border-line bg-white px-4 shadow-sm sm:px-5">
+                                <button
+                                    type="button"
+                                    onClick={() => setShowChatMobile(false)}
+                                    className="flex size-9 shrink-0 items-center justify-center rounded-xl text-ink-muted transition-colors hover:bg-(--color-bg-light) hover:text-primary md:hidden"
+                                    aria-label="Back to Staff List"
+                                    title="Back to Staff List"
+                                >
+                                    <ArrowLeft className="size-5" />
+                                </button>
                                 <Avatar className="size-10 border border-line">
                                     <AvatarFallback className="bg-primary text-xs font-semibold text-white">
                                         {getInitials(activeUser.name)}
@@ -382,6 +526,60 @@ export default function ChatIndex({
                                                         )}
                                                     >
                                                         <p className="whitespace-pre-line">
+                                                            {item.attachment_path && (
+                                                                <span className="mb-2 block">
+                                                                    {isImageAttachment(
+                                                                        item.attachment_name ||
+                                                                            item.attachment_path,
+                                                                    ) ? (
+                                                                        <a
+                                                                            href={getAttachmentUrl(
+                                                                                item,
+                                                                            )}
+                                                                            target="_blank"
+                                                                            rel="noopener noreferrer"
+                                                                            className="block overflow-hidden rounded-xl"
+                                                                        >
+                                                                            <img
+                                                                                src={getAttachmentUrl(
+                                                                                    item,
+                                                                                )}
+                                                                                alt={
+                                                                                    item.attachment_name ??
+                                                                                    'Attachment'
+                                                                                }
+                                                                                className="max-h-60 max-w-full rounded-xl object-cover transition-opacity hover:opacity-95"
+                                                                                loading="lazy"
+                                                                            />
+                                                                        </a>
+                                                                    ) : (
+                                                                        <a
+                                                                            href={getAttachmentUrl(
+                                                                                item,
+                                                                            )}
+                                                                            target="_blank"
+                                                                            rel="noopener noreferrer"
+                                                                            download={
+                                                                                item.attachment_name ??
+                                                                                undefined
+                                                                            }
+                                                                            className={cn(
+                                                                                'inline-flex items-center gap-2 rounded-xl border px-3 py-2 text-xs font-semibold transition-colors',
+                                                                                isOwn
+                                                                                    ? 'border-white/20 bg-white/10 text-white hover:bg-white/20'
+                                                                                    : 'border-line bg-(--color-bg-light) text-primary hover:bg-cream',
+                                                                            )}
+                                                                        >
+                                                                            <FileText className="size-4 shrink-0" />
+                                                                            <span className="max-w-[180px] truncate">
+                                                                                {item.attachment_name ??
+                                                                                    'Download document'}
+                                                                            </span>
+                                                                            <Download className="ml-1 size-3.5 shrink-0 opacity-70" />
+                                                                        </a>
+                                                                    )}
+                                                                </span>
+                                                            )}
                                                             {item.message}
                                                         </p>
                                                         <span
@@ -403,6 +601,25 @@ export default function ChatIndex({
                                     })
                                 )}
 
+                                {isTyping && (
+                                    <div className="flex justify-start">
+                                        <div className="flex items-center gap-1 rounded-2xl rounded-bl-md border border-line bg-white px-4 py-3 shadow-sm">
+                                            <span
+                                                className="size-2 rounded-full bg-ink-muted animate-bounce"
+                                                style={{ animationDelay: '0ms' }}
+                                            />
+                                            <span
+                                                className="size-2 rounded-full bg-ink-muted animate-bounce"
+                                                style={{ animationDelay: '150ms' }}
+                                            />
+                                            <span
+                                                className="size-2 rounded-full bg-ink-muted animate-bounce"
+                                                style={{ animationDelay: '300ms' }}
+                                            />
+                                        </div>
+                                    </div>
+                                )}
+
                                 <div ref={messagesEndRef} />
                             </div>
 
@@ -413,13 +630,86 @@ export default function ChatIndex({
                                 }}
                                 className="shrink-0 border-t border-line bg-white px-4 py-3 sm:px-5"
                             >
+                                {attachment && (
+                                    <div className="mb-2 flex items-center gap-2.5 rounded-xl border border-line bg-(--color-bg-light) p-2 shadow-xs">
+                                        {attachmentPreview ? (
+                                            <img
+                                                src={attachmentPreview}
+                                                alt="Attachment preview"
+                                                className="size-12 rounded-lg border border-line object-cover"
+                                            />
+                                        ) : (
+                                            <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                                                <FileText className="size-5" />
+                                            </div>
+                                        )}
+                                        <div className="min-w-0 flex-1">
+                                            <p className="truncate text-xs font-semibold text-ink">
+                                                {attachment.name}
+                                            </p>
+                                            <p className="text-[10px] text-ink-muted">
+                                                {(
+                                                    attachment.size / 1024
+                                                ).toFixed(1)}{' '}
+                                                KB
+                                            </p>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            onClick={clearAttachment}
+                                            className="flex size-7 items-center justify-center rounded-lg text-ink-muted transition-colors hover:bg-cream hover:text-red-600"
+                                            aria-label="Remove attachment"
+                                            title="Remove attachment"
+                                        >
+                                            <X className="size-4" />
+                                        </button>
+                                    </div>
+                                )}
                                 <div className="flex items-end gap-2 rounded-2xl border border-line bg-(--color-bg-light) p-1.5 pr-2 transition-colors focus-within:border-primary/30 focus-within:ring-2 focus-within:ring-primary/10">
+                                    <input
+                                        ref={fileInputRef}
+                                        type="file"
+                                        onChange={(event) => {
+                                            const file =
+                                                event.target.files?.[0] ?? null;
+                                            if (file) {
+                                                setAttachment(file);
+                                            }
+                                        }}
+                                        className="hidden"
+                                        accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.txt"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            fileInputRef.current?.click()
+                                        }
+                                        aria-label="Attach file"
+                                        title="Attach image or document"
+                                        className="flex size-9 shrink-0 items-center justify-center rounded-full text-ink-muted transition-colors hover:bg-white hover:text-primary"
+                                    >
+                                        <Paperclip className="size-4" />
+                                    </button>
                                     <textarea
                                         ref={messageInputRef}
                                         value={message}
-                                        onChange={(event) =>
-                                            setMessage(event.target.value)
-                                        }
+                                        onChange={(event) => {
+                                            setMessage(event.target.value);
+
+                                            if (activeUserId === null) {
+                                                return;
+                                            }
+
+                                            sendTypingStatus(activeUserId, true);
+
+                                            if (typingTimeoutRef.current) {
+                                                clearTimeout(typingTimeoutRef.current);
+                                            }
+
+                                            typingTimeoutRef.current = setTimeout(() => {
+                                                sendTypingStatus(activeUserId, false);
+                                            }, 2000);
+                                        }}
                                         onKeyDown={handleKeyDown}
                                         placeholder={`Message ${activeUser.name}...`}
                                         rows={1}
@@ -430,7 +720,10 @@ export default function ChatIndex({
                                     />
                                     <button
                                         type="submit"
-                                        disabled={!message.trim() || isSending}
+                                        disabled={
+                                            (!message.trim() && !attachment) ||
+                                            isSending
+                                        }
                                         aria-label="Send message"
                                         className="flex size-9 shrink-0 items-center justify-center rounded-full bg-primary text-white transition-colors hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-40"
                                     >
@@ -445,6 +738,14 @@ export default function ChatIndex({
                         </>
                     ) : (
                         <div className="flex flex-1 flex-col items-center justify-center gap-3 px-6 text-center">
+                            <button
+                                type="button"
+                                onClick={() => setShowChatMobile(false)}
+                                className="inline-flex items-center gap-2 rounded-xl border border-line bg-white px-3.5 py-2 text-xs font-semibold text-primary shadow-xs transition-colors hover:bg-(--color-bg-light) md:hidden"
+                            >
+                                <ArrowLeft className="size-4" />
+                                Back to Staff List
+                            </button>
                             <span className="flex size-16 items-center justify-center rounded-full bg-primary/10 text-primary">
                                 <MessageSquare className="size-7" />
                             </span>

@@ -53,6 +53,7 @@ export default function ServicesIndex({
                 links={services.links}
                 columns={columns}
                 createHref={create.url()}
+                createLabel="Add Service"
                 editHref={(service) => edit.url({ service: service.id })}
                 deleteHref={(service) => destroy.url({ service: service.id })}
                 emptyMessage="No services found."

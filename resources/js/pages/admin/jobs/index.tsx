@@ -52,6 +52,7 @@ export default function JobsIndex({ jobs }: { jobs: PaginatedJobs }) {
                 links={jobs.links}
                 columns={columns}
                 createHref={create.url()}
+                createLabel="Create Job"
                 editHref={(job) => edit.url({ job: job.id })}
                 deleteHref={(job) => destroy.url({ job: job.id })}
                 emptyMessage="No jobs found."

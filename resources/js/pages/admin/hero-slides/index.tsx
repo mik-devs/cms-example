@@ -60,6 +60,7 @@ export default function HeroSlidesIndex({
                 links={heroSlides.links}
                 columns={columns}
                 createHref={create.url()}
+                createLabel="Add Slide"
                 editHref={(slide) => edit.url({ hero_slide: slide.id })}
                 deleteHref={(slide) => destroy.url({ hero_slide: slide.id })}
                 getItemLabel={(slide) => slide.title}

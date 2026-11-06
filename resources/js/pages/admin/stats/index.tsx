@@ -49,6 +49,7 @@ export default function StatsIndex({ stats }: { stats: PaginatedStats }) {
                 links={stats.links}
                 columns={columns}
                 createHref={create.url()}
+                createLabel="Add Stat"
                 editHref={(stat) => edit.url({ stat: stat.id })}
                 deleteHref={(stat) => destroy.url({ stat: stat.id })}
                 getItemLabel={(stat) => stat.label}

@@ -59,6 +59,7 @@ export default function BarangaysIndex({
                 links={barangays.links}
                 columns={columns}
                 createHref={create.url()}
+                createLabel="Add Barangay"
                 editHref={(barangay) => edit.url({ barangay: barangay.id })}
                 deleteHref={(barangay) =>
                     destroy.url({ barangay: barangay.id })

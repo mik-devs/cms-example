@@ -40,6 +40,7 @@ export default function MayorMessagesIndex({
                 links={mayorMessages.links}
                 columns={columns}
                 createHref={MayorMessageController.create.url()}
+                createLabel="Add Message"
                 editHref={(message) =>
                     MayorMessageController.edit.url(message.id)
                 }

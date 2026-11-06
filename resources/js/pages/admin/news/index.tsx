@@ -25,6 +25,7 @@ export default function NewsIndex({ news }: { news: PaginatedNews }) {
                 items={news.data}
                 links={news.links}
                 createHref={NewsController.create.url()}
+                createLabel="Create News"
                 editHref={(item) => NewsController.edit.url(item.id)}
                 deleteHref={(item) => NewsController.destroy.url(item.id)}
                 getItemLabel={(item) => item.title}

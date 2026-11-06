@@ -8,6 +8,7 @@ import {
     FileText,
     Gavel,
     Image,
+    KeyRound,
     Landmark,
     LayoutGrid,
     LogOut,
@@ -18,6 +19,7 @@ import {
     Newspaper,
     ScrollText,
     Settings,
+    ShieldCheck,
     Siren,
     Users,
     Video,
@@ -41,6 +43,7 @@ import type { NavItem } from '@/types';
 
 type AdminNavItem = NavItem & {
     permission?: string;
+    role?: string;
 };
 
 type AdminNavGroup = {
@@ -157,6 +160,18 @@ const navGroups: AdminNavGroup[] = [
         label: 'System',
         items: [
             {
+                title: 'Staff Users',
+                href: '/admin/users',
+                icon: ShieldCheck,
+                role: 'super_admin',
+            },
+            {
+                title: 'Roles & Permissions',
+                href: '/admin/roles',
+                icon: KeyRound,
+                role: 'super_admin',
+            },
+            {
                 title: 'Settings',
                 href: '/admin/settings',
                 icon: Settings,
@@ -257,9 +272,11 @@ export function AppSidebar() {
                 </SidebarGroup>
 
                 {navGroups.map((group) => {
+                    const roles = auth?.user?.roles ?? [];
                     const items = group.items.filter(
-                        ({ permission }) =>
-                            !permission || permissions.includes(permission),
+                        ({ permission, role: requiredRole }) =>
+                            (!permission || permissions.includes(permission)) &&
+                            (!requiredRole || roles.includes(requiredRole)),
                     );
 
                     if (items.length === 0) {

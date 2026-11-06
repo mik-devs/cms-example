@@ -24,7 +24,8 @@ class StoreMessageRequest extends FormRequest
     {
         return [
             'receiver_id' => ['required', 'integer', 'exists:users,id'],
-            'message' => ['required', 'string', 'max:2000'],
+            'message' => ['nullable', 'string', 'max:2000', 'required_without:attachment'],
+            'attachment' => ['nullable', 'file', 'max:10240'],
         ];
     }
 }

@@ -60,6 +60,7 @@ export default function TourismIndex({
                 links={tourismSpots.links}
                 columns={columns}
                 createHref={create.url()}
+                createLabel="Create Tourism Spot"
                 editHref={(spot) => edit.url({ tourism: spot.id })}
                 deleteHref={(spot) => destroy.url({ tourism: spot.id })}
                 getItemLabel={(spot) => spot.name}

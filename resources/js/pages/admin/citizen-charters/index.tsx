@@ -50,6 +50,7 @@ export default function CitizenChartersIndex({
                 links={citizenCharters.links}
                 columns={columns}
                 createHref={CitizenCharterController.create.url()}
+                createLabel="Upload Document"
                 editHref={(charter) =>
                     CitizenCharterController.edit.url(charter.id)
                 }

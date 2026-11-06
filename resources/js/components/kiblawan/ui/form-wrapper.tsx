@@ -29,21 +29,21 @@ export function FormWrapper({
     className,
 }: FormWrapperProps) {
     return (
-        <div className="mx-auto flex w-full max-w-[1400px] flex-col gap-8 p-6 md:p-8">
+        <div className="mx-auto flex w-full max-w-[1400px] flex-col gap-6 p-6 md:p-8">
+            {backHref && (
+                <Link
+                    href={backHref}
+                    className="inline-flex w-fit items-center gap-2 text-sm font-semibold text-ink-muted transition-colors hover:text-maroon"
+                >
+                    <ArrowLeft className="size-4" /> {backLabel}
+                </Link>
+            )}
+
             {/* THE PREMIUM BANNER */}
             <PageBanner
                 title={title}
                 subtitle={subtitle || `Manage ${title.toLowerCase()} details.`}
-            >
-                {backHref && (
-                    <Link
-                        href={backHref}
-                        className="inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white/80 backdrop-blur-sm transition-colors hover:text-gold"
-                    >
-                        <ArrowLeft className="size-4" /> {backLabel}
-                    </Link>
-                )}
-            </PageBanner>
+            />
 
             {/* THE FORM CONTENT */}
             <form

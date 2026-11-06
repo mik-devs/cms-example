@@ -4,7 +4,9 @@ use App\Events\MessageSent;
 use App\Models\Message;
 use App\Models\User;
 use Database\Seeders\RolePermissionSeeder;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia as Assert;
 
 beforeEach(function () {
@@ -48,7 +50,7 @@ it('renders the chat interface with staff and the active conversation', function
         ->assertInertia(fn (Assert $page) => $page
             ->component('admin/chat/index')
             ->where('activeUserId', $activeUser->id)
-            ->has('users', 2)
+            ->has('users', 6)
             ->has('messages', 2)
             ->where('messages.0.message', 'Good morning, HR.')
             ->where('messages.1.message', 'Good morning, Department.'));
@@ -92,4 +94,32 @@ it('validates the receiver and message before storing', function () {
         ->assertSessionHasErrors(['receiver_id', 'message']);
 
     $this->assertDatabaseCount('messages', 0);
+});
+
+it('stores a message with an attachment and broadcasts it', function () {
+    Storage::fake('public');
+    Event::fake([MessageSent::class]);
+
+    $sender = User::query()->where('email', 'dept@kiblawan.gov.ph')->firstOrFail();
+    $receiver = User::query()->where('email', 'hr@kiblawan.gov.ph')->firstOrFail();
+
+    $this->actingAs($sender)
+        ->post(route('admin.chat.store'), [
+            'receiver_id' => $receiver->id,
+            'message' => 'Here is the document',
+            'attachment' => UploadedFile::fake()->create('report.pdf', 1024, 'application/pdf'),
+        ])
+        ->assertRedirect();
+
+    $message = Message::query()->firstOrFail();
+    expect($message->attachment_name)->toBe('report.pdf')
+        ->and($message->attachment_path)->not->toBeNull();
+
+    Storage::disk('public')->assertExists($message->attachment_path);
+
+    Event::assertDispatched(
+        MessageSent::class,
+        fn (MessageSent $event): bool => $event->message->attachment_name === 'report.pdf'
+            && filled($event->message->attachment_path),
+    );
 });

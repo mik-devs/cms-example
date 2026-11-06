@@ -50,6 +50,7 @@ interface ResourceTableProps<T extends ResourceItem> {
     links: PaginationLink[];
     columns: ResourceTableColumn<T>[];
     createHref: string;
+    createLabel?: string;
     editHref: (item: T) => string;
     deleteHref: (item: T) => string;
     getItemLabel?: (item: T) => string;
@@ -150,6 +151,7 @@ export default function ResourceTable<T extends ResourceItem>({
     links,
     columns,
     createHref,
+    createLabel,
     editHref,
     deleteHref,
     getItemLabel,
@@ -160,7 +162,7 @@ export default function ResourceTable<T extends ResourceItem>({
             <PageBanner
                 title={title}
                 subtitle={description}
-                actionLabel={`Create ${title.slice(0, -1)}`}
+                actionLabel={createLabel ?? `Create ${title}`}
                 actionHref={createHref}
             />
 

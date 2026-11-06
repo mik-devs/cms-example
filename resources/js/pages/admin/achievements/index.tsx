@@ -63,6 +63,7 @@ export default function AchievementsIndex({
                 links={achievements.links}
                 columns={columns}
                 createHref={create.url()}
+                createLabel="Create Achievement"
                 editHref={(achievement) =>
                     edit.url({ achievement: achievement.id })
                 }

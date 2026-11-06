@@ -51,6 +51,7 @@ export default function AnnualReportsIndex({
                 links={annualReports.links}
                 columns={columns}
                 createHref={AnnualReportController.create.url()}
+                createLabel="Upload Report"
                 editHref={(report) =>
                     AnnualReportController.edit.url(report.id)
                 }

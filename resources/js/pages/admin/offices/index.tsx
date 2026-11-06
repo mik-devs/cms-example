@@ -38,6 +38,7 @@ export default function OfficesIndex({
                 links={offices.links}
                 columns={columns}
                 createHref={OfficeController.create.url()}
+                createLabel="Add Office"
                 editHref={(office) => OfficeController.edit.url(office.id)}
                 deleteHref={(office) => OfficeController.destroy.url(office.id)}
                 emptyMessage="No offices have been added yet."

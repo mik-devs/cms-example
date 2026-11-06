@@ -31,6 +31,7 @@ export default function OfficialsIndex({
                 links={officials.links}
                 columns={columns}
                 createHref={OfficialController.create.url()}
+                createLabel="Add Official"
                 editHref={(official) =>
                     OfficialController.edit.url(official.id)
                 }

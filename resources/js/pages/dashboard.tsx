@@ -1,4 +1,4 @@
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import {
     BriefcaseBusiness,
     Calendar as CalendarIcon,
@@ -7,6 +7,7 @@ import {
     MapPin,
     Newspaper,
     Plus,
+    ShieldCheck,
     TrendingUp,
     Users,
     Video,
@@ -132,6 +133,14 @@ export default function Dashboard({
     upcomingEvents = [],
     recentActivity = [],
 }: DashboardProps) {
+    const { auth } = usePage().props;
+    const permissions = (auth?.user?.permissions ?? []) as string[];
+    const roles = (auth?.user?.roles ?? []) as string[];
+    const isSuperAdmin = roles.includes('super_admin');
+
+    const hasPermission = (permission: string) =>
+        isSuperAdmin || permissions.includes(permission);
+
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
 
     const eventDates = useMemo(
@@ -178,28 +187,39 @@ export default function Dashboard({
             label: 'Create News',
             href: NewsController.create.url(),
             icon: Newspaper,
+            canAccess: hasPermission('manage news'),
         },
         {
             label: 'Add Job',
             href: JobController.create.url(),
             icon: BriefcaseBusiness,
+            canAccess: hasPermission('manage jobs'),
         },
         {
             label: 'Upload Tourism Spot',
             href: TourismController.create.url(),
             icon: MapPin,
+            canAccess: hasPermission('manage tourism'),
         },
         {
             label: 'Add Bid',
             href: BidController.create.url(),
             icon: Gavel,
+            canAccess:
+                hasPermission('manage bids') ||
+                hasPermission('manage transparency'),
         },
         {
             label: 'Add Official Video',
             href: createVideo.url(),
             icon: Video,
+            canAccess:
+                hasPermission('manage videos') ||
+                hasPermission('manage settings'),
         },
     ];
+
+    const availableActions = quickActions.filter((action) => action.canAccess);
 
     return (
         <>
@@ -361,27 +381,41 @@ export default function Dashboard({
                                 Create new content and manage portals
                             </p>
                         </div>
-                        <div className="flex flex-1 flex-col justify-start space-y-3">
-                            {quickActions.map((action) => (
-                                <Link
-                                    key={action.label}
-                                    href={action.href}
-                                    className="group flex items-center justify-between rounded-xl border border-line-soft bg-cream/50 p-4 transition-all duration-200 hover:-translate-y-1 hover:bg-cream hover:shadow-md"
-                                >
-                                    <div className="flex min-w-0 items-center gap-3">
-                                        <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-white text-maroon shadow-2xs transition-colors group-hover:bg-maroon group-hover:text-white">
-                                            <action.icon className="size-4.5" />
-                                        </span>
-                                        <span className="truncate text-sm font-semibold text-forest">
-                                            {action.label}
-                                        </span>
-                                    </div>
-                                    <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-white text-ink-muted shadow-2xs transition-all group-hover:bg-forest group-hover:text-white">
-                                        <Plus className="size-4" />
-                                    </div>
-                                </Link>
-                            ))}
-                        </div>
+                        {availableActions.length === 0 ? (
+                            <div className="flex flex-1 flex-col items-center justify-center py-8 text-center">
+                                <div className="flex size-12 items-center justify-center rounded-full bg-cream text-ink-muted">
+                                    <ShieldCheck className="size-6 text-ink-muted/60" />
+                                </div>
+                                <p className="mt-3 text-sm font-medium text-ink-muted">
+                                    No quick actions available.
+                                </p>
+                                <p className="mt-1 text-xs text-ink-muted/70">
+                                    You don't have publishing permissions.
+                                </p>
+                            </div>
+                        ) : (
+                            <div className="flex flex-1 flex-col justify-start space-y-3">
+                                {availableActions.map((action) => (
+                                    <Link
+                                        key={action.label}
+                                        href={action.href}
+                                        className="group flex items-center justify-between rounded-xl border border-line-soft bg-cream/50 p-4 transition-all duration-200 hover:-translate-y-1 hover:bg-cream hover:shadow-md"
+                                    >
+                                        <div className="flex min-w-0 items-center gap-3">
+                                            <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-white text-maroon shadow-2xs transition-colors group-hover:bg-maroon group-hover:text-white">
+                                                <action.icon className="size-4.5" />
+                                            </span>
+                                            <span className="truncate text-sm font-semibold text-forest">
+                                                {action.label}
+                                            </span>
+                                        </div>
+                                        <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-white text-ink-muted shadow-2xs transition-all group-hover:bg-forest group-hover:text-white">
+                                            <Plus className="size-4" />
+                                        </div>
+                                    </Link>
+                                ))}
+                            </div>
+                        )}
                     </div>
 
                     {/* 5. REFINED RECENT ACTIVITY */}

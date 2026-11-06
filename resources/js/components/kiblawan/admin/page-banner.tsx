@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Plus } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 
@@ -57,7 +57,13 @@ export function PageBanner({
                         asChild
                         className="bg-white text-primary hover:bg-cream"
                     >
-                        <Link href={actionHref}>{actionLabel}</Link>
+                        <Link
+                            href={actionHref}
+                            className="inline-flex items-center gap-2"
+                        >
+                            <Plus className="h-4 w-4" />
+                            {actionLabel}
+                        </Link>
                     </Button>
                 </div>
             ) : null}

@@ -60,6 +60,7 @@ export default function OfficialVideosIndex({
                 links={videos.links}
                 columns={columns}
                 createHref={create.url()}
+                createLabel="Upload Video"
                 editHref={(video) => edit.url({ video: video.id })}
                 deleteHref={(video) => destroy.url({ video: video.id })}
                 getItemLabel={(video) => video.title}

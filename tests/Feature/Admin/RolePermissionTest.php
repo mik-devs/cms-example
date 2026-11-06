@@ -28,7 +28,7 @@ it('seeds the configured roles, permissions, and department test users', functio
     ];
 
     $this->assertDatabaseCount('permissions', 15);
-    $this->assertDatabaseCount('roles', 6);
+    $this->assertDatabaseCount('roles', 10);
 
     expect(Role::findByName('super_admin', 'web')->permissions->pluck('name')->sort()->values()->all())
         ->toBe($allPermissions);
@@ -111,4 +111,151 @@ it('enforces hr and legislative role permissions on admin routes', function () {
     $this->get(route('admin.annual-reports.index'))->assertOk();
     $this->get(route('admin.chat.index'))->assertOk();
     $this->get(route('admin.news.index'))->assertForbidden();
+});
+
+it('allows super admin to view and edit role permissions and forbids non-super-admins', function () {
+    $this->withoutVite();
+    $this->seed(RolePermissionSeeder::class);
+
+    $superAdmin = User::factory()->create();
+    $superAdmin->assignRole('super_admin');
+
+    $regularUser = User::factory()->create();
+    $regularUser->assignRole('editor');
+
+    // Super admin can see roles index (excluding super_admin role)
+    $this->actingAs($superAdmin)
+        ->get(route('admin.roles.index'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('admin/roles/index')
+            ->has('roles', 9)
+            ->where('roles', fn ($roles) => collect($roles)->every(fn ($r) => $r['name'] !== 'super_admin')));
+
+    $editorRole = Role::findByName('editor', 'web');
+
+    // Super admin can view edit page
+    $this->actingAs($superAdmin)
+        ->get(route('admin.roles.edit', $editorRole))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('admin/roles/edit')
+            ->where('role.name', 'editor')
+            ->has('allPermissions', 15));
+
+    // Super admin updates permissions
+    $this->actingAs($superAdmin)
+        ->put(route('admin.roles.update', $editorRole), [
+            'permissions' => ['manage news', 'manage achievements', 'manage tourism'],
+        ])
+        ->assertRedirect(route('admin.roles.index'));
+
+    expect($editorRole->fresh()->permissions->pluck('name')->sort()->values()->all())
+        ->toBe(['manage achievements', 'manage news', 'manage tourism']);
+
+    // Non-super admin is forbidden
+    $this->actingAs($regularUser)
+        ->get(route('admin.roles.index'))
+        ->assertForbidden();
+
+    $this->actingAs($regularUser)
+        ->get(route('admin.roles.edit', $editorRole))
+        ->assertForbidden();
+
+    $this->actingAs($regularUser)
+        ->put(route('admin.roles.update', $editorRole), [
+            'permissions' => ['manage news'],
+        ])
+        ->assertForbidden();
+});
+
+it('protects super_admin role from being edited or updated even by super admin', function () {
+    $this->withoutVite();
+    $this->seed(RolePermissionSeeder::class);
+
+    $superAdmin = User::factory()->create();
+    $superAdmin->assignRole('super_admin');
+
+    $superAdminRole = Role::findByName('super_admin', 'web');
+
+    $this->actingAs($superAdmin)
+        ->get(route('admin.roles.edit', $superAdminRole))
+        ->assertForbidden();
+
+    $this->actingAs($superAdmin)
+        ->put(route('admin.roles.update', $superAdminRole), [
+            'permissions' => ['manage news'],
+        ])
+        ->assertForbidden();
+});
+
+it('allows super admin to create a custom role with permissions', function () {
+    $this->withoutVite();
+    $this->seed(RolePermissionSeeder::class);
+
+    $superAdmin = User::factory()->create();
+    $superAdmin->assignRole('super_admin');
+
+    $this->actingAs($superAdmin)
+        ->get(route('admin.roles.create'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('admin/roles/create')
+            ->has('allPermissions', 15)
+            ->has('permissionGroups'));
+
+    $this->actingAs($superAdmin)
+        ->post(route('admin.roles.store'), [
+            'name' => 'assessor',
+            'permissions' => ['manage news', 'manage transparency'],
+        ])
+        ->assertRedirect(route('admin.roles.index'));
+
+    $role = Role::query()->where('name', 'assessor')->firstOrFail();
+
+    expect($role->guard_name)->toBe('web')
+        ->and($role->permissions->pluck('name')->sort()->values()->all())
+        ->toBe(['manage news', 'manage transparency']);
+});
+
+it('validates the role name when storing a custom role', function () {
+    $this->withoutVite();
+    $this->seed(RolePermissionSeeder::class);
+
+    $superAdmin = User::factory()->create();
+    $superAdmin->assignRole('super_admin');
+
+    $this->actingAs($superAdmin)
+        ->from(route('admin.roles.create'))
+        ->post(route('admin.roles.store'), [
+            'name' => 'editor',
+        ])
+        ->assertRedirect(route('admin.roles.create'))
+        ->assertSessionHasErrors(['name']);
+});
+
+it('allows super admin to delete a custom role but protects super_admin', function () {
+    $this->withoutVite();
+    $this->seed(RolePermissionSeeder::class);
+
+    $superAdmin = User::factory()->create();
+    $superAdmin->assignRole('super_admin');
+
+    $customRole = Role::create(['name' => 'assessor', 'guard_name' => 'web']);
+
+    $this->actingAs($superAdmin)
+        ->delete(route('admin.roles.destroy', $customRole))
+        ->assertRedirect(route('admin.roles.index'));
+
+    $this->assertDatabaseMissing('roles', ['name' => 'assessor']);
+
+    $superAdminRole = Role::findByName('super_admin', 'web');
+
+    $this->actingAs($superAdmin)
+        ->from(route('admin.roles.index'))
+        ->delete(route('admin.roles.destroy', $superAdminRole))
+        ->assertRedirect(route('admin.roles.index'))
+        ->assertSessionHas('error', 'The Super Admin role cannot be deleted.');
+
+    $this->assertDatabaseHas('roles', ['name' => 'super_admin']);
 });

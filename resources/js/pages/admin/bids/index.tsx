@@ -43,6 +43,7 @@ export default function BidsIndex({ bids }: { bids: PaginatedBids }) {
                 links={bids.links}
                 columns={columns}
                 createHref={BidController.create.url()}
+                createLabel="Add Bid"
                 editHref={(bid) => BidController.edit.url(bid.id)}
                 deleteHref={(bid) => BidController.destroy.url(bid.id)}
                 emptyMessage="No bids have been added yet."
