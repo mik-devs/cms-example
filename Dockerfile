@@ -42,6 +42,7 @@ RUN php artisan storage:link || true
 
 # Expose ports
 EXPOSE 8000
+EXPOSE 8080
 
-# Start Laravel using PHP's built-in server
-CMD php -S 0.0.0.0:${PORT:-8000} -t public
+# Start Reverb in the background AND Laravel using PHP's built-in server
+CMD php artisan reverb:start --host=0.0.0.0 --port=8080 & php -S 0.0.0.0:${PORT:-8000} -t public
