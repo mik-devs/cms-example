@@ -1,26 +1,21 @@
 # Base Image
 FROM php:8.3-cli
 
-# Install system dependencies
+# Install system dependencies (Inalis ang mga dev libraries dahil si mlocati na ang bahala)
 RUN apt-get update && apt-get install -y \
     git \
     curl \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    libpq-dev \
     zip \
-    unzip
-
-# Install Node.js 20 (Required for Vite build)
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
-    && apt-get install -y nodejs
+    unzip \
+    nodejs \
+    npm
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install PHP extensions (PostgreSQL, MySQL, and others)
-RUN docker-php-ext-install pdo_pgsql pgsql pdo_mysql mbstring exif pcntl bcmath gd
+# Use MLocati's installer for PHP extensions (Fixes OOM crash)
+COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
+RUN install-php-extensions pdo_pgsql pgsql mbstring exif pcntl bcmath gd
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -40,6 +35,10 @@ RUN npm install && npm run build
 
 # Set permissions
 RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
+
+# Cache clear and storage link
+RUN php artisan optimize:clear || true
+RUN php artisan storage:link || true
 
 # Expose ports
 EXPOSE 8000
