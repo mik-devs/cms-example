@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use App\Models\Bid;
 use App\Models\JobPosting;
@@ -26,11 +27,13 @@ class DashboardController extends Controller
             ->orderBy('deadline')
             ->take(5)
             ->get()
-            ->map(fn (JobPosting $job) => [
-                'title' => $job->title,
-                'date' => $job->deadline?->toDateString(),
-                'type' => 'Job Deadline',
-            ]);
+            ->map(function (JobPosting $job): array {
+                return [
+                    'title' => $job->title,
+                    'date' => Carbon::parse($job->deadline)->toDateString(), // Tinanggal ang ?->
+                    'type' => 'Job Deadline',
+                ];
+            });
 
         $upcomingNews = News::query()
             ->whereNotNull('published_at')
@@ -38,11 +41,13 @@ class DashboardController extends Controller
             ->orderBy('published_at')
             ->take(5)
             ->get()
-            ->map(fn (News $news) => [
-                'title' => $news->title,
-                'date' => $news->published_at?->toDateString(),
-                'type' => 'News Publish',
-            ]);
+            ->map(function (News $news): array {
+                return [
+                    'title' => $news->title,
+                    'date' => Carbon::parse($news->published_at)->toDateString(), // Tinanggal ang ?->
+                    'type' => 'News Publish',
+                ];
+            });
 
         $upcomingEvents = $upcomingJobs
             ->concat($upcomingNews)
@@ -52,25 +57,31 @@ class DashboardController extends Controller
 
         $recentActivity = collect()
             ->concat(
-                News::query()->latest()->take(5)->get()->map(fn (News $item) => [
-                    'type' => 'News',
-                    'title' => $item->title,
-                    'created_at' => $item->created_at?->toDateTimeString(),
-                ]),
+                News::query()->latest()->take(5)->get()->map(function (News $item): array {
+                    return [
+                        'type' => 'News',
+                        'title' => $item->title,
+                        'created_at' => $item->created_at?->toDateTimeString(),
+                    ];
+                })
             )
             ->concat(
-                JobPosting::query()->latest()->take(5)->get()->map(fn (JobPosting $item) => [
-                    'type' => 'Job',
-                    'title' => $item->title,
-                    'created_at' => $item->created_at?->toDateTimeString(),
-                ]),
+                JobPosting::query()->latest()->take(5)->get()->map(function (JobPosting $item): array {
+                    return [
+                        'type' => 'Job',
+                        'title' => $item->title,
+                        'created_at' => $item->created_at?->toDateTimeString(),
+                    ];
+                })
             )
             ->concat(
-                TourismSpot::query()->latest()->take(5)->get()->map(fn (TourismSpot $item) => [
-                    'type' => 'Tourism',
-                    'title' => $item->name,
-                    'created_at' => $item->created_at?->toDateTimeString(),
-                ]),
+                TourismSpot::query()->latest()->take(5)->get()->map(function (TourismSpot $item): array {
+                    return [
+                        'type' => 'Tourism',
+                        'title' => $item->name,
+                        'created_at' => $item->created_at?->toDateTimeString(),
+                    ];
+                })
             )
             ->sortByDesc('created_at')
             ->take(5)

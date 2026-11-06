@@ -74,7 +74,6 @@ class HeroSlideController extends Controller
 
         if (
             $request->hasFile('image')
-            && $previousImage !== null
             && Storage::disk('public')->exists($previousImage)
             && ! Storage::disk('public')->delete($previousImage)
         ) {
@@ -90,7 +89,7 @@ class HeroSlideController extends Controller
         $heroSlide->delete();
 
         if (
-            $image !== null
+            $image
             && Storage::disk('public')->exists($image)
             && ! Storage::disk('public')->delete($image)
         ) {

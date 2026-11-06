@@ -26,6 +26,7 @@ class UserController extends Controller
                 ->orderBy('name')
                 ->get(),
             'roles' => Role::query()
+                ->where('name', '!=', 'super_admin')
                 ->orderBy('name')
                 ->get(['id', 'name']),
         ]);
@@ -35,6 +36,7 @@ class UserController extends Controller
     {
         return Inertia::render('admin/users/create', [
             'roles' => Role::query()
+                ->where('name', '!=', 'super_admin')
                 ->orderBy('name')
                 ->get(['id', 'name']),
         ]);
@@ -59,6 +61,7 @@ class UserController extends Controller
         return Inertia::render('admin/users/edit', [
             'user' => $user->loadMissing('roles:id,name'),
             'roles' => Role::query()
+                ->where('name', '!=', 'super_admin')
                 ->orderBy('name')
                 ->get(['id', 'name']),
         ]);

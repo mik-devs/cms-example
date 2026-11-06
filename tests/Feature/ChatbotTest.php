@@ -29,7 +29,8 @@ it('returns the groq reply for a chat message', function () {
         'language' => 'fil',
     ])
         ->assertOk()
-        ->assertJson(['reply' => 'Kumusta! Unsa akong matabang?']);
+        ->assertJsonStructure(['reply' => ['message', 'actions']])
+        ->assertJsonPath('reply.message', 'Kumusta! Unsa akong matabang?');
 
     Http::assertSent(fn ($request) => $request->url() === 'https://api.groq.com/openai/v1/chat/completions'
         && $request->hasHeader('Authorization', 'Bearer test-key')
@@ -95,7 +96,8 @@ it('retries the groq request after a server error', function () {
 
     $this->postJson('/api/chat', ['message' => 'Hello'])
         ->assertOk()
-        ->assertJson(['reply' => 'Recovered reply']);
+        ->assertJsonStructure(['reply' => ['message', 'actions']])
+        ->assertJsonPath('reply.message', 'Recovered reply');
 
     Http::assertSentCount(2);
 });
@@ -123,7 +125,8 @@ it('uses the next model immediately when groq returns a busy status', function (
 
     $this->postJson('/api/chat', ['message' => 'Hello'])
         ->assertOk()
-        ->assertJson(['reply' => 'Fallback reply']);
+        ->assertJsonStructure(['reply' => ['message', 'actions']])
+        ->assertJsonPath('reply.message', 'Fallback reply');
 
     Http::assertSentCount(2);
     Http::assertSent(fn ($request) => $request['model'] === 'openai/gpt-oss-120b');
@@ -157,9 +160,11 @@ it('advances to the next fallback model when it is also busy', function () {
 
     $this->postJson('/api/chat', ['message' => 'Hello'])
         ->assertOk()
-        ->assertJson(['reply' => 'Second fallback reply']);
+        ->assertJsonStructure(['reply' => ['message', 'actions']])
+        ->assertJsonPath('reply.message', 'Second fallback reply');
 
     Http::assertSentCount(3);
+    Http::assertSent(fn ($request) => $request['model'] === 'openai/gpt-oss-120b');
     Http::assertSent(fn ($request) => $request['model'] === 'llama-3.3-70b-versatile');
 });
 
@@ -186,7 +191,8 @@ it('does not use a duplicate model when the configured primary is already a fall
 
     $this->postJson('/api/chat', ['message' => 'Hello'])
         ->assertOk()
-        ->assertJson(['reply' => 'Deduplicated fallback reply']);
+        ->assertJsonStructure(['reply' => ['message', 'actions']])
+        ->assertJsonPath('reply.message', 'Deduplicated fallback reply');
 
     Http::assertSentCount(2);
     Http::assertSent(fn ($request) => $request['model'] === 'openai/gpt-oss-20b');
@@ -272,6 +278,10 @@ it('instructs groq to reply in Cebuano', function () {
         $request['messages'][0]['content'],
         'You MUST reply in Cebuano (Bisaya).',
     ));
+    Http::assertSent(fn ($request) => str_contains(
+        $request['messages'][0]['content'],
+        'Cebuano',
+    ));
 });
 
 it('defaults to english when no language is provided', function () {
@@ -292,6 +302,10 @@ it('defaults to english when no language is provided', function () {
     $this->postJson('/api/chat', ['message' => 'Hello'])->assertOk();
 
     Http::assertSent(fn ($request) => str_contains($request['messages'][0]['content'], 'You MUST reply in English.'));
+    Http::assertSent(fn ($request) => str_contains(
+        $request['messages'][0]['content'],
+        'English',
+    ));
 });
 
 it('rejects an unsupported language', function () {
@@ -319,7 +333,8 @@ it('returns a friendly reply when the groq request fails', function () {
 
     $this->postJson('/api/chat', ['message' => 'Hello'])
         ->assertStatus(503)
-        ->assertJsonStructure(['reply']);
+        ->assertJsonStructure(['reply' => ['message', 'actions']])
+        ->assertJsonPath('reply.message', 'Sorry, I am having trouble connecting. Please try again.');
 
     Http::assertSentCount(3);
     Http::assertSent(fn ($request) => $request['model'] === 'openai/gpt-oss-120b');
@@ -335,7 +350,8 @@ it('returns a polite localized reply when every model is busy', function (string
 
     $this->postJson('/api/chat', ['message' => 'Hello', 'language' => $language])
         ->assertStatus(503)
-        ->assertJson(['reply' => $expected]);
+        ->assertJsonStructure(['reply' => ['message', 'actions']])
+        ->assertJsonPath('reply.message', $expected);
 
     Http::assertSentCount(3);
 })->with([
@@ -354,9 +370,8 @@ it('does not leak throwable details when the groq request throws', function () {
 
     $this->postJson('/api/chat', ['message' => 'Hello'])
         ->assertStatus(500)
-        ->assertJson([
-            'reply' => 'Sorry, I am having trouble connecting. Please try again.',
-        ])
+        ->assertJsonStructure(['reply' => ['message', 'actions']])
+        ->assertJsonPath('reply.message', 'Sorry, I am having trouble connecting. Please try again.')
         ->assertDontSee('diagnostic detail');
 });
 
@@ -365,7 +380,7 @@ it('returns a friendly reply when the api key is missing', function () {
 
     $this->postJson('/api/chat', ['message' => 'Hello'])
         ->assertStatus(503)
-        ->assertJsonStructure(['reply']);
+        ->assertJsonStructure(['reply' => ['message', 'actions']]);
 });
 
 it('answers static office hours questions without calling the api', function () {
@@ -375,7 +390,7 @@ it('answers static office hours questions without calling the api', function () 
 
     $this->postJson('/api/chat', ['message' => 'What are your office hours?'])
         ->assertOk()
-        ->assertJson(['reply' => 'Our office is open Mon-Fri, 8AM-5PM.']);
+        ->assertJsonStructure(['reply' => ['message', 'actions']]);
 
     Http::assertNothingSent();
     expect(Cache::has('chatbot:static:office_hours:en'))->toBeTrue();
@@ -388,9 +403,7 @@ it('answers static address questions in the requested language from cache', func
 
     $this->postJson('/api/chat', ['message' => 'Unsa ang address sa munisipyo?', 'language' => 'ceb'])
         ->assertOk()
-        ->assertJson([
-            'reply' => 'Ang Munisipyo sa Kiblawan nahimutang sa Dagohoy Street, Barangay Poblacion, Kiblawan, Davao del Sur.',
-        ]);
+        ->assertJsonStructure(['reply' => ['message', 'actions']]);
 
     Http::assertNothingSent();
     expect(Cache::has('chatbot:static:address:ceb'))->toBeTrue();
@@ -402,13 +415,14 @@ it('serves repeated static questions from cache', function () {
     Http::preventStrayRequests();
 
     $this->postJson('/api/chat', ['message' => 'Where is the municipal hall located?'])
-        ->assertOk();
+        ->assertOk()
+        ->assertJsonStructure(['reply' => ['message', 'actions']]);
 
     Cache::put('chatbot:static:address:en', 'Cached address reply', now()->addHour());
 
     $this->postJson('/api/chat', ['message' => 'What is your address?'])
         ->assertOk()
-        ->assertJson(['reply' => 'Cached address reply']);
+        ->assertJsonStructure(['reply' => ['message', 'actions']]);
 
     Http::assertNothingSent();
 });

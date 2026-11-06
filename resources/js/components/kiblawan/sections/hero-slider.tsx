@@ -4,7 +4,7 @@ import { Link } from '@inertiajs/react';
 import { Container } from '@/components/kiblawan/ui/container';
 import { useCarousel } from '@/hooks/use-carousel';
 import { renderEmphasisTitle } from '@/lib/emphasis-title';
-import { cn } from '@/lib/utils';
+import { cn, isExternalUrl } from '@/lib/utils';
 import type { HeroSlide } from '@/types';
 
 export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
@@ -80,6 +80,17 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                                 )}
 
                                 {slide.cta_text && slide.cta_link && (
+                                isExternalUrl(slide.cta_link) ? (
+                                    <a
+                                        href={slide.cta_link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex w-fit items-center gap-2 rounded-full bg-gold px-7 py-3.5 text-sm font-extrabold tracking-wide text-primary-dark shadow-[0_10px_30px_rgba(0,0,0,0.25)] transition-all duration-300 ease-k-smooth hover:-translate-y-0.5 hover:bg-gold-soft hover:shadow-[0_14px_36px_rgba(0,0,0,0.3)]"
+                                    >
+                                        {slide.cta_text}
+                                        <span aria-hidden="true">→</span>
+                                    </a>
+                                ) : (
                                     <Link
                                         href={slide.cta_link}
                                         className="inline-flex w-fit items-center gap-2 rounded-full bg-gold px-7 py-3.5 text-sm font-extrabold tracking-wide text-primary-dark shadow-[0_10px_30px_rgba(0,0,0,0.25)] transition-all duration-300 ease-k-smooth hover:-translate-y-0.5 hover:bg-gold-soft hover:shadow-[0_14px_36px_rgba(0,0,0,0.3)]"
@@ -87,7 +98,8 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                                         {slide.cta_text}
                                         <span aria-hidden="true">→</span>
                                     </Link>
-                                )}
+                                )
+                            )}
                             </div>
                         </Container>
                     </div>

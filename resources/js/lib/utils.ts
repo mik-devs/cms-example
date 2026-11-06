@@ -10,3 +10,7 @@ export function cn(...inputs: ClassValue[]) {
 export function toUrl(url: NonNullable<InertiaLinkProps['href']>): string {
     return typeof url === 'string' ? url : url.url;
 }
+
+export function isExternalUrl(url: string): boolean {
+    return /^(http|https):\/\//i.test(url);
+}

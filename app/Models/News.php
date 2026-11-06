@@ -44,6 +44,10 @@ class News extends Model
         });
     }
 
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder<static> $query
+     * @return \Illuminate\Database\Eloquent\Builder<static>
+     */
     public function scopePublished(Builder $query): Builder
     {
         return $query
@@ -54,12 +58,15 @@ class News extends Model
             });
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<\App\Models\User, $this>
+     */
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    private static function uniqueSlug(string $title, ?int $ignoreId = null): string
+    protected static function uniqueSlug(string $title, ?int $ignoreId = null): string
     {
         $base = Str::slug($title) ?: 'news';
         $slug = $base;

@@ -23,6 +23,9 @@ class TourismSpotImage extends Model
         ];
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<\App\Models\TourismSpot, $this>
+     */
     public function tourismSpot(): BelongsTo
     {
         return $this->belongsTo(TourismSpot::class);

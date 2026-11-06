@@ -27,7 +27,11 @@ class RolePermissionSeeder extends Seeder
             'manage emergency',
             'manage achievements',
             'access internal chat',
-        ])->map(fn (string $name): Permission => Permission::findOrCreate($name, 'web'));
+        ])->map(function ($name) {
+            /** @var \Spatie\Permission\Models\Permission $permission */
+            $permission = \Spatie\Permission\Models\Permission::findOrCreate($name, 'web');
+            return $permission;
+        });
 
         $rolePermissions = [
             'super_admin' => $permissions,

@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use App\Models\Concerns\HasImageUrl;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property string|null $image_path
+ */
 class TourismSpot extends Model
 {
     use HasImageUrl;
@@ -34,6 +38,18 @@ class TourismSpot extends Model
         ];
     }
 
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder<static> $query
+     * @return \Illuminate\Database\Eloquent\Builder<static>
+     */
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->where('is_active', true);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<\App\Models\TourismSpotImage, $this>
+     */
     public function images(): HasMany
     {
         return $this->hasMany(TourismSpotImage::class)->orderBy('order');

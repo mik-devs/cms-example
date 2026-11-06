@@ -27,7 +27,15 @@ class MayorMessage extends Model
         ];
     }
 
-    public function scopePublished(Builder $query): Builder
+    /**
+     * @param Builder<static> $query
+     * @return static
+     */
+    /**
+ * @param \Illuminate\Database\Eloquent\Builder<static> $query
+ * @return \Illuminate\Database\Eloquent\Builder<static>
+ */
+public function scopePublished(Builder $query): Builder
     {
         return $query
             ->where(function (Builder $query): void {

@@ -6,7 +6,7 @@ export function renderEmphasisTitle(title: string, emphasis: string | null) {
   let wordsToHighlight: string[] = [];
   
   if (emphasis && emphasis.trim() !== '') {
-    wordsToHighlight = emphasis.split(',').map(w => w.trim()).filter(Boolean);
+    wordsToHighlight = emphasis.split('|').map(w => w.trim()).filter(Boolean);
   } else {
     // SMART FALLBACK: If no emphasis provided, highlight "Kiblawan" or the last word
     if (cleanTitle.toLowerCase().includes('kiblawan')) {

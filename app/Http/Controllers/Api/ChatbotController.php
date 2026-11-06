@@ -24,7 +24,7 @@ class ChatbotController extends Controller
 
     private const BUSY_REPLIES = [
         'en' => 'Our assistant is very busy right now. Please try again in a few minutes.',
-        'fil' => 'Masyadong abala ang aming assistant ngayon. Pakisubukan muli pagkalipas ng ilang minuto.',
+        'fil' => 'Masyadong abala ang aming assistant ngayon. Pakisubukan muli pagkalipas ng ilang minuto.', // Pinalitan ang 'tl' ng 'fil'
         'ceb' => 'Grabe ka-busy ang among assistant karon. Palihug sulayi pag-usab pila ka minuto.',
     ];
 
@@ -71,7 +71,7 @@ class ChatbotController extends Controller
         $fallbackReply = self::FALLBACK_REPLIES[$language];
 
         if ($staticReply = $this->staticReply($validated['message'], $language)) {
-            return response()->json(['reply' => $staticReply]);
+            return response()->json(['reply' => ['message' => $staticReply, 'actions' => []]]);
         }
 
         $apiKey = config('services.groq.api_key');
@@ -79,7 +79,7 @@ class ChatbotController extends Controller
         if (blank($apiKey) || $apiKey === 'your_api_key_here') {
             Log::warning('Groq chatbot API key is missing or still the placeholder value.');
 
-            return response()->json(['reply' => $fallbackReply], 503);
+            return response()->json(['reply' => ['message' => $fallbackReply, 'actions' => []]], 503);
         }
 
         // Primary + fallback models served by Groq
@@ -195,8 +195,13 @@ LANGUAGE RULE:
                     'Authorization' => "Bearer {$apiKey}",
                 ])
                     ->timeout(60)
-                    ->retry(3, 2000, function ($exception): bool {
-                        return ! in_array($exception->response?->status(), self::MODEL_SWITCH_STATUSES, true);
+                    ->retry(3, 2000, function (\Throwable $e): bool {
+                        if (! $e instanceof \Illuminate\Http\Client\RequestException) {
+                            return true; // Retry on network errors
+                        }
+                        $response = $e->response->status();
+
+                        return ! in_array($response, self::MODEL_SWITCH_STATUSES, true);
                     }, throw: false);
 
                 if (app()->isLocal()) {
@@ -228,14 +233,22 @@ LANGUAGE RULE:
                 Log::warning("Model {$model} failed with status {$response->status()}. Trying next...");
             }
 
-            if ($response === null || $response->failed()) {
+                        if ($response->failed()) {
                 Log::error('All Groq models failed', [
-                    'status' => $response?->status(),
-                    'body' => $response?->body(),
+                    'status' => $response->status(),
+                    'body' => $response->body(),
                 ]);
 
+                // Kung 404, 429, o 503 (Busy/Rate Limit), BUSY_REPLIES ang ibalik
+                if (in_array($response->status(), self::MODEL_SWITCH_STATUSES, true)) {
+                    return response()->json([
+                        'reply' => ['message' => self::BUSY_REPLIES[$language], 'actions' => []],
+                    ], 503);
+                }
+
+                // Kung 500 o ibang error, FALLBACK_REPLIES ang ibalik
                 return response()->json([
-                    'reply' => self::BUSY_REPLIES[$language],
+                    'reply' => ['message' => $fallbackReply, 'actions' => []],
                 ], 503);
             }
 
@@ -249,23 +262,33 @@ LANGUAGE RULE:
                 ]);
 
                 return response()->json([
-                    'reply' => $fallbackReply,
+                    'reply' => ['message' => $fallbackReply, 'actions' => []],
                 ], 500);
             }
-        } catch (Throwable $exception) {
-            $exceptionMessage = $exception->getMessage();
+        } catch (\Illuminate\Http\Client\RequestException $e) {
+            $eMessage = $e->getMessage();
             if (is_string($apiKey) && $apiKey !== '') {
-                $exceptionMessage = str_replace($apiKey, '[REDACTED]', $exceptionMessage);
+                $eMessage = str_replace($apiKey, '[REDACTED]', $eMessage);
             }
 
             Log::error('Groq API request failed', [
                 'model' => $usedModel ?? 'unknown',
-                'exception' => $exception::class,
-                'message' => $exceptionMessage,
+                'exception' => $e::class,
+                'message' => $eMessage,
             ]);
 
             return response()->json([
-                'reply' => $fallbackReply,
+                'reply' => ['message' => $fallbackReply, 'actions' => []],
+            ], 500);
+        } catch (\Throwable $e) {
+            // IDINAGDAG ITO PARA SA GENERAL ERRORS
+            Log::error('Unexpected error in chatbot', [
+                'exception' => $e::class,
+                'message' => $e->getMessage(),
+            ]);
+
+            return response()->json([
+                'reply' => ['message' => $fallbackReply, 'actions' => []],
             ], 500);
         }
 

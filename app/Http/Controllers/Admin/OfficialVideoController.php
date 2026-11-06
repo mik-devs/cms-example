@@ -74,7 +74,6 @@ class OfficialVideoController extends Controller
 
         if (
             $request->hasFile('video_file')
-            && $previousVideo !== null
             && Storage::disk('public')->exists($previousVideo)
             && ! Storage::disk('public')->delete($previousVideo)
         ) {
@@ -90,7 +89,7 @@ class OfficialVideoController extends Controller
         $video->delete();
 
         if (
-            $videoFile !== null
+            $videoFile
             && Storage::disk('public')->exists($videoFile)
             && ! Storage::disk('public')->delete($videoFile)
         ) {
